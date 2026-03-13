@@ -1,0 +1,68 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2024-09-18 12:17:30.889126",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "lab_commission",
+  "practitioner",
+  "month_income",
+  "lab_exp",
+  "net_lab_profit",
+  "doct_comm",
+  "hosp_comm"
+ ],
+ "fields": [
+  {
+   "fieldname": "lab_commission",
+   "fieldtype": "HTML",
+   "label": "Lab Commission"
+  },
+  {
+   "fieldname": "practitioner",
+   "fieldtype": "Link",
+   "label": "Doctors Name",
+   "options": "Healthcare Practitioner"
+  },
+  {
+   "fieldname": "month_income",
+   "fieldtype": "Currency",
+   "label": "Month Income"
+  },
+  {
+   "fieldname": "lab_exp",
+   "fieldtype": "Currency",
+   "label": "LAB EXP %"
+  },
+  {
+   "fieldname": "net_lab_profit",
+   "fieldtype": "Currency",
+   "label": "Net Lab Profit"
+  },
+  {
+   "fieldname": "doct_comm",
+   "fieldtype": "Currency",
+   "label": "Doct Comm"
+  },
+  {
+   "fieldname": "hosp_comm",
+   "fieldtype": "Currency",
+   "label": "Hosp Comm"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2024-10-06 08:56:16.072773",
+ "modified_by": "Administrator",
+ "module": "Prime",
+ "name": "Lab Commission",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

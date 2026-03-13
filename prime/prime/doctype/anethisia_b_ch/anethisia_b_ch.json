@@ -1,0 +1,43 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2024-08-08 14:39:46.947205",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "reversal",
+  "intraoperative_events",
+  "postoperative_plan"
+ ],
+ "fields": [
+  {
+   "fieldname": "reversal",
+   "fieldtype": "Small Text",
+   "label": "Reversal"
+  },
+  {
+   "fieldname": "intraoperative_events",
+   "fieldtype": "Small Text",
+   "label": "Intraoperative Events"
+  },
+  {
+   "fieldname": "postoperative_plan",
+   "fieldtype": "Small Text",
+   "label": "Postoperative Plan"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2024-08-08 14:39:46.947205",
+ "modified_by": "Administrator",
+ "module": "Prime",
+ "name": "Anethisia b ch",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

@@ -1,0 +1,31 @@
+{
+ "add_total_row": 0,
+ "columns": [],
+ "creation": "2025-07-27 11:53:01.652262",
+ "disable_prepared_report": 0,
+ "disabled": 0,
+ "docstatus": 0,
+ "doctype": "Report",
+ "filters": [],
+ "idx": 0,
+ "is_standard": "Yes",
+ "letter_head": "logo",
+ "modified": "2025-07-27 11:53:01.652262",
+ "modified_by": "Administrator",
+ "module": "Prime",
+ "name": "Family Members Report",
+ "owner": "Administrator",
+ "prepared_report": 0,
+ "query": "select \ncard_number as \"Card Number\",\nfamily_head_person as \"Family Head\",\ncompany as \"Company\",\ntitle_in_company as \"Title\",\ncontact_number as \"Contact Number\",\ntotal as Total,\n\"\" as \"\"\nfrom `tabMembership Registration`",
+ "ref_doctype": "Membership Registration",
+ "report_name": "Family Members Report",
+ "report_type": "Query Report",
+ "roles": [
+  {
+   "role": "System Manager"
+  },
+  {
+   "role": "All"
+  }
+ ]
+}

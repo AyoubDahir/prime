@@ -1,0 +1,184 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "DVTS-.#####",
+ "creation": "2025-11-08 11:25:07.522349",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "title_form",
+  "department",
+  "column_break_k34fq",
+  "purpose",
+  "doctor_information_section",
+  "full_name",
+  "column_break_unu2q",
+  "specialty",
+  "proposed_topic_section",
+  "topic_title",
+  "column_break_htw7e",
+  "topic_description",
+  "video_format",
+  "preferred_video_type",
+  "preferred_recording_time",
+  "preferred_days",
+  "column_break_ysjnn",
+  "additional_comments__suggestions",
+  "submission_instructions",
+  "amended_from"
+ ],
+ "fields": [
+  {
+   "fieldname": "department",
+   "fieldtype": "Link",
+   "label": "Department",
+   "options": "Department"
+  },
+  {
+   "fieldname": "purpose",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Purpose"
+  },
+  {
+   "fieldname": "doctor_information_section",
+   "fieldtype": "Section Break",
+   "label": "Doctor Information"
+  },
+  {
+   "fieldname": "full_name",
+   "fieldtype": "Link",
+   "label": "Full Name",
+   "options": "Healthcare Practitioner"
+  },
+  {
+   "fieldname": "specialty",
+   "fieldtype": "Data",
+   "label": "Specialty"
+  },
+  {
+   "fieldname": "proposed_topic_section",
+   "fieldtype": "Section Break",
+   "label": "Proposed Topic"
+  },
+  {
+   "fieldname": "topic_title",
+   "fieldtype": "Data",
+   "label": "Topic Title"
+  },
+  {
+   "fieldname": "topic_description",
+   "fieldtype": "Small Text",
+   "label": "Topic Description"
+  },
+  {
+   "fieldname": "video_format",
+   "fieldtype": "Section Break",
+   "label": "Video Format & Recording Preference"
+  },
+  {
+   "fieldname": "preferred_video_type",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Preferred Video Type",
+   "options": "\nHealth Awareness Video\nDoctor\u2019s Advice / Short Talk\nCase Explanation / Patient Story (Confidentiality maintained)\nOther"
+  },
+  {
+   "fieldname": "preferred_recording_time",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Preferred Recording Time",
+   "options": "\nMorning\nAfternoon\nEvening"
+  },
+  {
+   "fieldname": "preferred_days",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Preferred Day(s)",
+   "options": "\nSaturday\nSunday\nMonday\nTuesday\nWednesday\nThursday\nFriday"
+  },
+  {
+   "fieldname": "additional_comments__suggestions",
+   "fieldtype": "Small Text",
+   "label": "Additional Comments / Suggestions"
+  },
+  {
+   "default": "Please complete this form and submit it to the Marketing Department\nEmail: marketing@royalhospital.so\nWhatsApp: +252 617963931",
+   "fieldname": "submission_instructions",
+   "fieldtype": "Small Text",
+   "label": "Submission Instructions",
+   "read_only": 1
+  },
+  {
+   "fieldname": "title_form",
+   "fieldtype": "Section Break",
+   "label": "ROYAL HOSPITAL \u2013 Doctor Video Topic Submission Form"
+  },
+  {
+   "fieldname": "column_break_k34fq",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_unu2q",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_htw7e",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_ysjnn",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Doctor Video Topic Submission Form",
+   "print_hide": 1,
+   "read_only": 1
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "is_submittable": 1,
+ "links": [],
+ "modified": "2025-11-18 10:52:22.109765",
+ "modified_by": "Administrator",
+ "module": "Prime",
+ "name": "Doctor Video Topic Submission Form",
+ "naming_rule": "Expression (old style)",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "All",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "full_name"
+}

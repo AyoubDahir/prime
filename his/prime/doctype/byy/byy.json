@@ -1,0 +1,32 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2024-05-19 14:53:23.563473",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "byyy"
+ ],
+ "fields": [
+  {
+   "fieldname": "byyy",
+   "fieldtype": "Link",
+   "label": "byyy",
+   "options": "By"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2024-05-19 14:54:41.084454",
+ "modified_by": "Administrator",
+ "module": "Prime",
+ "name": "byy",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

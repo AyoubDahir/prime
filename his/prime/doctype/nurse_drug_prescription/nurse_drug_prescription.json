@@ -1,0 +1,138 @@
+{
+ "actions": [],
+ "allow_copy": 1,
+ "creation": "2023-04-02 15:59:31.774533",
+ "default_view": "List",
+ "doctype": "DocType",
+ "document_type": "Document",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "from",
+  "doc",
+  "drug_code",
+  "drug_name",
+  "qty",
+  "comment",
+  "user",
+  "user_name",
+  "time",
+  "remain",
+  "dosage",
+  "root_type",
+  "period",
+  "frequency"
+ ],
+ "fields": [
+  {
+   "fieldname": "from",
+   "fieldtype": "Select",
+   "hidden": 1,
+   "label": "From",
+   "options": "Doctor Plan\nExtra",
+   "read_only": 1
+  },
+  {
+   "columns": 1,
+   "fieldname": "qty",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "QTY"
+  },
+  {
+   "columns": 1,
+   "fieldname": "comment",
+   "fieldtype": "Small Text",
+   "ignore_xss_filter": 1,
+   "in_list_view": 1,
+   "label": "Comment"
+  },
+  {
+   "columns": 1,
+   "default": "User",
+   "fieldname": "user",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "User",
+   "options": "User"
+  },
+  {
+   "fieldname": "remain",
+   "fieldtype": "Float",
+   "label": "Remain"
+  },
+  {
+   "columns": 2,
+   "fieldname": "drug_name",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "in_list_view": 1,
+   "label": "Drug Name"
+  },
+  {
+   "default": "Item",
+   "fieldname": "doc",
+   "fieldtype": "Link",
+   "hidden": 1,
+   "label": "Doc",
+   "options": "DocType",
+   "read_only": 1
+  },
+  {
+   "fieldname": "drug_code",
+   "fieldtype": "Dynamic Link",
+   "in_list_view": 1,
+   "label": "Drug Code",
+   "options": "doc"
+  },
+  {
+   "fieldname": "dosage",
+   "fieldtype": "Link",
+   "label": "Dosage",
+   "options": "Dosage Form"
+  },
+  {
+   "fieldname": "root_type",
+   "fieldtype": "Data",
+   "label": "Root Type"
+  },
+  {
+   "fieldname": "period",
+   "fieldtype": "Link",
+   "label": "Period",
+   "options": "Prescription Duration"
+  },
+  {
+   "columns": 1,
+   "fetch_from": "user.full_name",
+   "fieldname": "user_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "User Name"
+  },
+  {
+   "default": "Now",
+   "fieldname": "time",
+   "fieldtype": "Time",
+   "label": "Time"
+  },
+  {
+   "fieldname": "frequency",
+   "fieldtype": "Link",
+   "label": "Frequency",
+   "options": "Prescription Dosage"
+  }
+ ],
+ "istable": 1,
+ "links": [],
+ "modified": "2024-11-18 10:50:37.594410",
+ "modified_by": "Administrator",
+ "module": "Prime",
+ "name": "Nurse Drug Prescription",
+ "owner": "Administrator",
+ "permissions": [],
+ "restrict_to_domain": "Healthcare",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

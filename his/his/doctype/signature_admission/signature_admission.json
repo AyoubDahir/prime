@@ -1,0 +1,52 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "USSIEN ABDIRZAK HAS",
+ "creation": "2024-07-21 09:45:49.078194",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "responsible_name",
+  "relation",
+  "responsible_phone",
+  "signature"
+ ],
+ "fields": [
+  {
+   "fieldname": "responsible_name",
+   "fieldtype": "Data",
+   "label": "Responsible Name"
+  },
+  {
+   "fieldname": "responsible_phone",
+   "fieldtype": "Data",
+   "label": "Responsible Phone"
+  },
+  {
+   "default": "........................",
+   "fieldname": "signature",
+   "fieldtype": "HTML",
+   "label": "Signature",
+   "options": "......................................"
+  },
+  {
+   "fieldname": "relation",
+   "fieldtype": "Data",
+   "label": "Relation"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2024-07-31 13:19:18.892401",
+ "modified_by": "Administrator",
+ "module": "Prime",
+ "name": "Signature Admission",
+ "naming_rule": "Expression (old style)",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

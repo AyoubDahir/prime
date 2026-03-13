@@ -1,0 +1,159 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "MEM-REG-.#####",
+ "creation": "2025-07-23 08:21:20.531968",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "section_break_09x3f",
+  "personal_details_column",
+  "family_head_person",
+  "contact_number",
+  "card_number",
+  "work_details_column",
+  "company",
+  "title_in_company",
+  "discount_level",
+  "status",
+  "section_break_fa48q",
+  "register_all",
+  "section_break_tsvig",
+  "family_members",
+  "total"
+ ],
+ "fields": [
+  {
+   "fieldname": "section_break_09x3f",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "personal_details_column",
+   "fieldtype": "Column Break",
+   "label": "Personal Details"
+  },
+  {
+   "fieldname": "family_head_person",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Family Head Person"
+  },
+  {
+   "fieldname": "contact_number",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Contact Number"
+  },
+  {
+   "fieldname": "card_number",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Card Number",
+   "read_only": 1
+  },
+  {
+   "fieldname": "work_details_column",
+   "fieldtype": "Column Break",
+   "label": "Work Details"
+  },
+  {
+   "fieldname": "company",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Company"
+  },
+  {
+   "fieldname": "title_in_company",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Title in Company"
+  },
+  {
+   "fieldname": "section_break_fa48q",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "register_all",
+   "fieldtype": "Button",
+   "label": "Register All"
+  },
+  {
+   "fieldname": "section_break_tsvig",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "family_members",
+   "fieldtype": "Table",
+   "label": "Family Members",
+   "options": "Family Members",
+   "reqd": 1
+  },
+  {
+   "fieldname": "total",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "Total",
+   "read_only": 1
+  },
+  {
+   "default": "30",
+   "fieldname": "discount_level",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Discount Level",
+   "options": "15\n20\n25\n30\n50\n70",
+   "reqd": 1
+  },
+  {
+   "default": "Active",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "label": "Status",
+   "options": "Active\nInactive"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2025-09-15 10:36:30.215354",
+ "modified_by": "Administrator",
+ "module": "Prime",
+ "name": "Membership Registration",
+ "naming_rule": "Expression (old style)",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "All",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

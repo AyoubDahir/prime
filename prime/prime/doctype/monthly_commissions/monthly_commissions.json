@@ -1,0 +1,270 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "field:month",
+ "creation": "2024-09-14 10:07:26.975358",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "month",
+  "section_break_ufpma",
+  "lab_supplies",
+  "percentage_value",
+  "calculated_value",
+  "column_break_bo1hg",
+  "electricy",
+  "ep",
+  "et",
+  "column_break_idcnf",
+  "rent",
+  "rp",
+  "rt",
+  "column_break_xga6e",
+  "lab_staff",
+  "lp",
+  "lt",
+  "column_break_jxkuj",
+  "operations_staff",
+  "op",
+  "ot",
+  "column_break_xddqa",
+  "cleaning_exp",
+  "cp",
+  "ct",
+  "column_break_0uwee",
+  "jan_lab_exp",
+  "month_lab_total_income",
+  "month_lab_exp",
+  "amended_from",
+  "lab_commission_section",
+  "lab_comm",
+  "appointment_commission_section",
+  "app_comm",
+  "total_salary_section",
+  "total_salary"
+ ],
+ "fields": [
+  {
+   "fieldname": "lab_supplies",
+   "fieldtype": "Currency",
+   "label": "LAB Supplies"
+  },
+  {
+   "fieldname": "percentage_value",
+   "fieldtype": "Percent",
+   "label": "Percentage"
+  },
+  {
+   "fieldname": "calculated_value",
+   "fieldtype": "Currency",
+   "label": "Total"
+  },
+  {
+   "fieldname": "column_break_bo1hg",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "electricy",
+   "fieldtype": "Currency",
+   "label": "ELECTRICY"
+  },
+  {
+   "fieldname": "ep",
+   "fieldtype": "Percent",
+   "label": "Percentage"
+  },
+  {
+   "fieldname": "et",
+   "fieldtype": "Currency",
+   "label": "Total"
+  },
+  {
+   "fieldname": "column_break_idcnf",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "rent",
+   "fieldtype": "Currency",
+   "label": "RENT"
+  },
+  {
+   "fieldname": "rp",
+   "fieldtype": "Percent",
+   "label": "Percentage"
+  },
+  {
+   "fieldname": "rt",
+   "fieldtype": "Data",
+   "label": "Total"
+  },
+  {
+   "fieldname": "column_break_xga6e",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "lab_staff",
+   "fieldtype": "Currency",
+   "label": "Lab STAFF"
+  },
+  {
+   "fieldname": "lp",
+   "fieldtype": "Percent",
+   "label": "Percentage"
+  },
+  {
+   "fieldname": "lt",
+   "fieldtype": "Currency",
+   "label": "Total"
+  },
+  {
+   "fieldname": "column_break_jxkuj",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "operations_staff",
+   "fieldtype": "Currency",
+   "label": "Operations Staff"
+  },
+  {
+   "fieldname": "op",
+   "fieldtype": "Percent",
+   "label": "Percentage"
+  },
+  {
+   "fieldname": "ot",
+   "fieldtype": "Currency",
+   "label": "Total"
+  },
+  {
+   "fieldname": "column_break_xddqa",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "cleaning_exp",
+   "fieldtype": "Currency",
+   "label": "Cleaning Exp"
+  },
+  {
+   "fieldname": "cp",
+   "fieldtype": "Percent",
+   "label": "Percentage"
+  },
+  {
+   "fieldname": "ct",
+   "fieldtype": "Currency",
+   "label": "Total"
+  },
+  {
+   "fieldname": "column_break_0uwee",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "jan_lab_exp",
+   "fieldtype": "Currency",
+   "label": "Monthly LAB EXP"
+  },
+  {
+   "fieldname": "month_lab_total_income",
+   "fieldtype": "Currency",
+   "label": "Monthly LAB TOTAL INCOME"
+  },
+  {
+   "fieldname": "month_lab_exp",
+   "fieldtype": "Percent",
+   "label": "Monthly LAB EXP %"
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Monthly Commissions",
+   "print_hide": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "appointment_commission_section",
+   "fieldtype": "Section Break",
+   "label": "APPOINTMENT COMMISSION"
+  },
+  {
+   "fieldname": "app_comm",
+   "fieldtype": "Table",
+   "options": "APPOINTMENT COMMISSION"
+  },
+  {
+   "fieldname": "lab_commission_section",
+   "fieldtype": "Section Break",
+   "label": "Lab Commission"
+  },
+  {
+   "fieldname": "lab_comm",
+   "fieldtype": "Table",
+   "options": "Lab Commission"
+  },
+  {
+   "fieldname": "total_salary_section",
+   "fieldtype": "Section Break",
+   "label": "Total Salary"
+  },
+  {
+   "fieldname": "total_salary",
+   "fieldtype": "Table",
+   "options": "Total Salary"
+  },
+  {
+   "fieldname": "month",
+   "fieldtype": "Link",
+   "label": "Month",
+   "options": "Month",
+   "unique": 1
+  },
+  {
+   "fieldname": "section_break_ufpma",
+   "fieldtype": "Section Break"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "is_submittable": 1,
+ "links": [],
+ "modified": "2024-10-06 08:24:27.479604",
+ "modified_by": "Administrator",
+ "module": "Prime",
+ "name": "Monthly Commissions",
+ "name_case": "UPPER CASE",
+ "naming_rule": "By fieldname",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "All",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "month",
+ "track_changes": 1
+}

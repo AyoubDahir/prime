@@ -1,0 +1,18 @@
+# Copyright (c) 2023, Rasiin Tech and contributors
+# For license information, please see license.txt
+
+import frappe
+from prime.api.icu import set_so_values_from_db
+from prime.api.icu import enqueue_sales_orders
+from frappe.model.document import Document
+
+class ICU(Document):
+	# pass
+	def before_validate(self):
+		set_so_values_from_db(self)
+
+	def on_update(self):
+		enqueue_sales_orders(self)
+	
+	def on_update_after_submit(self):
+		enqueue_sales_orders(self)

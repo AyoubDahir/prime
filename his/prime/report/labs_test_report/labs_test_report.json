@@ -1,0 +1,43 @@
+{
+ "add_total_row": 1,
+ "columns": [],
+ "creation": "2025-01-15 15:03:59.353879",
+ "disable_prepared_report": 0,
+ "disabled": 0,
+ "docstatus": 0,
+ "doctype": "Report",
+ "filters": [
+  {
+   "fieldname": "Start_date",
+   "fieldtype": "Date",
+   "label": "Start Date",
+   "mandatory": 1,
+   "wildcard_filter": 0
+  },
+  {
+   "fieldname": "End_date",
+   "fieldtype": "Date",
+   "label": "End Date",
+   "mandatory": 1,
+   "wildcard_filter": 0
+  }
+ ],
+ "idx": 0,
+ "is_standard": "Yes",
+ "letter_head": "logo",
+ "modified": "2025-01-30 19:24:54.762869",
+ "modified_by": "Administrator",
+ "module": "Prime",
+ "name": "Labs Test report",
+ "owner": "Administrator",
+ "prepared_report": 0,
+ "query": "SELECT \n    c.patient_name as \"Patient Name:Data:250\",\n    c.patient_age as \"Age:Data:200\",\n    pt.age_type as \"Tyoe:Data:100\",\n    pt.sex  as \"Sex:Data:100\",\n    p.lab_test_name AS \"Test Name:Data:250\",\n\n    p.result_value  AS \"Result:Data:200\"\n\n    \nFROM \n    `tabLab Result` c\nJOIN \n    `tabNormal Test Result` p ON c.name = p.parent\nJOIN \n    `tabPatient` pt ON c.patient = pt.name  -- Assuming `patient_name` links to `tabPatient`\n    \nWHERE \n    \n   c.date BETWEEN %(Start_date)s AND %(End_date)s \n    AND c.docstatus = 1\n",
+ "ref_doctype": "Lab Result",
+ "report_name": "Labs Test report",
+ "report_type": "Query Report",
+ "roles": [
+  {
+   "role": "Laboratory User"
+  }
+ ]
+}

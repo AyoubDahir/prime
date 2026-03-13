@@ -1,0 +1,114 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2024-02-19 12:59:35.984035",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "patient",
+  "a",
+  "column_break_uoxu3",
+  "date_of_admission",
+  "room",
+  "bed",
+  "price",
+  "section_break_8qplw",
+  "signature_admission"
+ ],
+ "fields": [
+  {
+   "fieldname": "column_break_uoxu3",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "Today",
+   "fieldname": "date_of_admission",
+   "fieldtype": "Date",
+   "in_standard_filter": 1,
+   "label": "Date of Admission"
+  },
+  {
+   "fieldname": "section_break_8qplw",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "room",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Room",
+   "options": "Healthcare Service Unit Type"
+  },
+  {
+   "fieldname": "bed",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Bed",
+   "options": "Healthcare Service Unit"
+  },
+  {
+   "fieldname": "patient",
+   "fieldtype": "Link",
+   "in_standard_filter": 1,
+   "label": "Patient",
+   "options": "Patient"
+  },
+  {
+   "fieldname": "signature_admission",
+   "fieldtype": "Table",
+   "label": "Signature Admission",
+   "options": "Signature Admission"
+  },
+  {
+   "fetch_from": "patient.patient_name",
+   "fieldname": "a",
+   "fieldtype": "Data",
+   "label": "Patien Name"
+  },
+  {
+   "fieldname": "price",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Price"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2024-08-07 13:25:55.963385",
+ "modified_by": "Administrator",
+ "module": "Prime",
+ "name": "Admision Note",
+ "name_case": "UPPER CASE",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Nurse",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "a"
+}
