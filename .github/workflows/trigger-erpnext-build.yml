@@ -23,7 +23,7 @@ jobs:
           set -euo pipefail
           payload='{"event_type":"app-updated","client_payload":{"app":"prime","repo":"${{ github.repository }}","sha":"${{ github.sha }}"}}'
           status=$(curl -sS -o /tmp/dispatch-response.txt -w "%{http_code}" -X POST \
-            -H "Authorization: token ${{ secrets.ARGOCD_REPO_PAT }}" \
+            -H "Authorization: token ${{ secrets.ARGOCD_REPO_PAT || secrets.ARGOCD_REPO_PATT }}" \
             -H "Accept: application/vnd.github.v3+json" \
             https://api.github.com/repos/AyoubDahir/argocd/dispatches \
             -d "${payload}")
