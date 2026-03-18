@@ -36,6 +36,8 @@ def _register_patient_from_mobile(
     full_name=None,
     mobile=None,
     sex=None,
+    p_age=None,
+    age_type=None,
 ):
     mobile = _normalize_mobile(mobile)
     if not mobile:
@@ -48,6 +50,18 @@ def _register_patient_from_mobile(
         ).strip()
     if not patient_name:
         frappe.throw("first_name or full_name is required for patient self-registration")
+    if p_age in (None, ""):
+        frappe.throw("p_age is required for patient self-registration")
+    try:
+        p_age = int(p_age)
+    except Exception:
+        frappe.throw("p_age must be a valid number")
+    if p_age < 0:
+        frappe.throw("p_age cannot be negative")
+
+    age_type = (age_type or "").strip().title()
+    if age_type not in ("Year", "Month", "Day"):
+        frappe.throw("age_type must be one of: Year, Month, Day")
 
     existing_patient = frappe.db.get_value("Patient", {"mobile": mobile}, "name")
     if existing_patient:
@@ -59,6 +73,8 @@ def _register_patient_from_mobile(
             "patient_name": patient_name,
             "mobile": mobile,
             "sex": sex or "Male",
+            "p_age": p_age,
+            "age_type": age_type,
         }
     )
     patient.insert(ignore_permissions=True)
@@ -72,6 +88,8 @@ def register_patient_from_mobile(
     full_name=None,
     mobile=None,
     sex=None,
+    p_age=None,
+    age_type=None,
 ):
     return _register_patient_from_mobile(
         first_name=first_name,
@@ -79,6 +97,8 @@ def register_patient_from_mobile(
         full_name=full_name,
         mobile=mobile,
         sex=sex,
+        p_age=p_age,
+        age_type=age_type,
     )
 
 
@@ -97,6 +117,8 @@ def create_que_from_mobile(
     full_name=None,
     mobile=None,
     sex=None,
+    p_age=None,
+    age_type=None,
 ):
     if not practitioner:
         frappe.throw("practitioner is required")
@@ -110,6 +132,8 @@ def create_que_from_mobile(
             full_name=full_name,
             mobile=mobile,
             sex=sex,
+            p_age=p_age,
+            age_type=age_type,
         )
         patient = registered["patient"]
     elif not frappe.db.exists("Patient", patient):
@@ -122,6 +146,8 @@ def create_que_from_mobile(
                 full_name=full_name,
                 mobile=mobile or patient,
                 sex=sex,
+                p_age=p_age,
+                age_type=age_type,
             )
             patient = registered["patient"]
         else:

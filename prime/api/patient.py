@@ -3,6 +3,10 @@ from datetime import datetime # from python std library
 from frappe.utils import add_to_date
 
 def age_todate(doc, method=None):
+    if doc.p_age is None:
+        frappe.throw("Age is mandatory")
+    if not doc.age_type:
+        frappe.throw("Age type is mandatory")
     if doc.p_age < 0 :
         frappe.throw("Age Can not be Negative ")
     if doc.age_type=="Year":
