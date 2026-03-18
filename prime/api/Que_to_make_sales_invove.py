@@ -8,11 +8,12 @@ def make_invoice(doc, method=None):
 
 
 	pos_profile = get_pos_profile(frappe.defaults.get_user_default("company"))
+	pos_profile_name = pos_profile.name if pos_profile else None
 	d= frappe.get_doc('Healthcare Practitioner', doc.practitioner)
 	pat= frappe.get_doc('Patient', doc.patient)
-	mode_of_payment = frappe.db.get_value('POS Payment Method', {"parent": pos_profile.name},  'mode_of_payment')
+	mode_of_payment = doc.mode_of_payment or frappe.db.get_value('POS Payment Method', {"parent": pos_profile_name},  'mode_of_payment') if pos_profile_name else frappe.db.get_value("Mode of Payment", {}, "name")
 	abbr = frappe.db.get_value("Company", frappe.defaults.get_user_default("company"), "abbr")
-	cost_center = frappe.db.get_value("POS Profile", pos_profile.name, "write_off_cost_center")
+	cost_center = frappe.db.get_value("POS Profile", pos_profile_name, "write_off_cost_center") if pos_profile_name else None
 	if doc.que_type != 'Refer' and doc.status != "Closed":
 		if not doc.is_free and  not doc.follow_up and   doc.que_type !="Renew" and doc.que_type !="Revisit":
 			is_insurance = doc.is_insurance
@@ -35,6 +36,10 @@ def make_invoice(doc, method=None):
 			else:
 				customer= frappe.db.get_value("Patient" , doc.patient, "customer")
 
+			payments = []
+			if paid_amount and mode_of_payment:
+				payments = [{"mode_of_payment": mode_of_payment, "amount": paid_amount}]
+
 			sales_doc = frappe.get_doc({
 				"doctype" : "Sales Invoice",
 				"patient" : doc.patient,
@@ -50,7 +55,7 @@ def make_invoice(doc, method=None):
 				"is_free" : doc.is_free,
 				"source_order": "OPD",
 				"cost_center": cost_center,
-				"pos_profile" : pos_profile.name,
+				"pos_profile" : pos_profile_name,
 				"discount_amount" : doc.discount,
 				# "posting_date" : frappe.utils.getdate(),
 				"posting_date" : frappe.utils.getdate(),
@@ -64,15 +69,7 @@ def make_invoice(doc, method=None):
 				
 							"doctype": "Sales Invoice Item"
 				}],
-					"payments" : [
-					{
-					"mode_of_payment" : doc.mode_of_payment,
-					"amount" : paid_amount 
-				},
-
-				
-				
-				],
+					"payments" : payments,
 			
 			})
 			sales_doc.insert(ignore_permissions=1)

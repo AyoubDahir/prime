@@ -38,19 +38,21 @@ def _get_default_company():
 
 
 def _get_default_mode_of_payment(company):
-    if not company:
-        return None
-    try:
-        pos_profile = get_pos_profile(company)
-        if not pos_profile:
-            return None
-        return frappe.db.get_value(
-            "POS Payment Method",
-            {"parent": pos_profile.name},
-            "mode_of_payment",
-        )
-    except Exception:
-        return None
+    if company:
+        try:
+            pos_profile = get_pos_profile(company)
+            if pos_profile:
+                mop = frappe.db.get_value(
+                    "POS Payment Method",
+                    {"parent": pos_profile.name},
+                    "mode_of_payment",
+                )
+                if mop:
+                    return mop
+        except Exception:
+            pass
+    # Fallback when POS Profile is not configured.
+    return frappe.db.get_value("Mode of Payment", {}, "name")
 
 
 def _ensure_doctor_type_exists(doc_type_name):
