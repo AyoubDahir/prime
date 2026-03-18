@@ -1,6 +1,36 @@
 import frappe
 from erpnext.stock.get_item_details import get_pos_profile
 from prime.api.get_mode_of_payments import mode_of_payments
+
+
+def _sanitize_sales_invoice_defaults():
+	"""Clear invalid eval defaults that break Sales Invoice creation."""
+	frappe.db.sql(
+		"""
+		UPDATE `tabDocField`
+		SET `default` = ''
+		WHERE parent IN ('Sales Invoice', 'Sales Invoice Item')
+		  AND LOWER(TRIM(IFNULL(`default`, ''))) = 'return'
+		"""
+	)
+	frappe.db.sql(
+		"""
+		UPDATE `tabCustom Field`
+		SET `default` = ''
+		WHERE dt IN ('Sales Invoice', 'Sales Invoice Item')
+		  AND LOWER(TRIM(IFNULL(`default`, ''))) = 'return'
+		"""
+	)
+	frappe.db.sql(
+		"""
+		UPDATE `tabProperty Setter`
+		SET value = ''
+		WHERE doc_type IN ('Sales Invoice', 'Sales Invoice Item')
+		  AND LOWER(TRIM(IFNULL(value, ''))) = 'return'
+		"""
+	)
+
+
 @frappe.whitelist()
 def make_invoice(doc, method=None):
 	is_employee = doc.is_employee
@@ -40,6 +70,7 @@ def make_invoice(doc, method=None):
 			if paid_amount and mode_of_payment:
 				payments = [{"mode_of_payment": mode_of_payment, "amount": paid_amount}]
 
+			_sanitize_sales_invoice_defaults()
 			sales_doc = frappe.get_doc({
 				"doctype" : "Sales Invoice",
 				"patient" : doc.patient,
