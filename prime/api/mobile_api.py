@@ -220,25 +220,32 @@ def create_que_from_mobile(
 
     practitioner_doc = frappe.get_doc("Healthcare Practitioner", practitioner)
     patient_doc = frappe.get_doc("Patient", patient)
-    customer = frappe.db.get_value("Patient", patient, "customer")
-    doctor_amount = practitioner_doc.op_consulting_charge or 0
+    customer = frappe.db.get_value("Patient", patient, "customer") or patient_doc.get("customer")
+    doctor_amount = flt(practitioner_doc.get("op_consulting_charge") or 0)
 
     paid_amount = frappe.utils.flt(paid_amount or 0)
     if paid_amount > 0 and not mode_of_payment:
         mode_of_payment = _get_default_mode_of_payment(_get_default_company())
 
+    patient_name = patient_doc.get("patient_name") or patient_doc.get("first_name") or patient
+    patient_mobile = _normalize_mobile(patient_doc.get("mobile") or patient_doc.get("phone") or "")
+    patient_gender = patient_doc.get("sex") or patient_doc.get("gender") or "Male"
+    patient_age = patient_doc.get("p_age") or patient_doc.get("age") or 0
+    practitioner_name = practitioner_doc.get("practitioner_name") or practitioner
+    practitioner_department = department or practitioner_doc.get("department")
+
     que = frappe.get_doc(
         {
             "doctype": "Que",
             "patient": patient,
-            "patient_name": patient_doc.patient_name,
-            "mobile": patient_doc.mobile,
-            "gender": patient_doc.sex,
-            "age": patient_doc.p_age or patient_doc.age,
+            "patient_name": patient_name,
+            "mobile": patient_mobile,
+            "gender": patient_gender,
+            "age": patient_age,
             "customer": customer,
             "practitioner": practitioner,
-            "practitioner_name": practitioner_doc.practitioner_name,
-            "department": department or practitioner_doc.department,
+            "practitioner_name": practitioner_name,
+            "department": practitioner_department,
             "doctor_amount": doctor_amount,
             "date": queue_date,
             "time": queue_time,
@@ -254,7 +261,13 @@ def create_que_from_mobile(
         }
     )
 
-    que.insert(ignore_permissions=True)
+    try:
+        que.insert(ignore_permissions=True)
+    except Exception:
+        frappe.log_error(frappe.get_traceback(), "create_que_from_mobile failed")
+        frappe.throw(
+            "Unable to create queue from mobile. Check patient/practitioner data and required Que fields."
+        )
 
     return {
         "created": True,
