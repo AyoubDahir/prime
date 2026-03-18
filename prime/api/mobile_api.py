@@ -2,6 +2,10 @@ import frappe
 from erpnext.stock.get_item_details import get_pos_profile
 
 
+def _normalize_mobile(mobile):
+    return (mobile or "").strip()
+
+
 def _get_default_company():
     return (
         frappe.defaults.get_user_default("company")
@@ -26,26 +30,103 @@ def _get_default_mode_of_payment(company):
         return None
 
 
+def _register_patient_from_mobile(
+    first_name=None,
+    last_name=None,
+    full_name=None,
+    mobile=None,
+    sex=None,
+):
+    mobile = _normalize_mobile(mobile)
+    if not mobile:
+        frappe.throw("mobile is required for patient self-registration")
+
+    patient_name = (full_name or "").strip()
+    if not patient_name:
+        patient_name = " ".join(
+            [p for p in [(first_name or "").strip(), (last_name or "").strip()] if p]
+        ).strip()
+    if not patient_name:
+        frappe.throw("first_name or full_name is required for patient self-registration")
+
+    existing_patient = frappe.db.get_value("Patient", {"mobile": mobile}, "name")
+    if existing_patient:
+        return {"created": False, "patient": existing_patient}
+
+    patient = frappe.get_doc(
+        {
+            "doctype": "Patient",
+            "patient_name": patient_name,
+            "mobile": mobile,
+            "sex": sex or "Male",
+        }
+    )
+    patient.insert(ignore_permissions=True)
+    return {"created": True, "patient": patient.name}
+
+
+@frappe.whitelist()
+def register_patient_from_mobile(
+    first_name=None,
+    last_name=None,
+    full_name=None,
+    mobile=None,
+    sex=None,
+):
+    return _register_patient_from_mobile(
+        first_name=first_name,
+        last_name=last_name,
+        full_name=full_name,
+        mobile=mobile,
+        sex=sex,
+    )
+
+
 @frappe.whitelist()
 def create_que_from_mobile(
-    patient,
     practitioner,
+    patient=None,
     appointment_date=None,
     appointment_time=None,
     department=None,
     reference_id=None,
     paid_amount=0,
     mode_of_payment=None,
+    first_name=None,
+    last_name=None,
+    full_name=None,
+    mobile=None,
+    sex=None,
 ):
-    if not patient:
-        frappe.throw("patient is required")
     if not practitioner:
         frappe.throw("practitioner is required")
     if not reference_id:
         frappe.throw("reference_id is required")
 
-    if not frappe.db.exists("Patient", patient):
-        frappe.throw(f"Patient not found: {patient}")
+    if not patient:
+        registered = _register_patient_from_mobile(
+            first_name=first_name,
+            last_name=last_name,
+            full_name=full_name,
+            mobile=mobile,
+            sex=sex,
+        )
+        patient = registered["patient"]
+    elif not frappe.db.exists("Patient", patient):
+        # If caller sends non-existing patient id but includes registration payload,
+        # auto-register and continue queue flow.
+        if mobile or first_name or full_name:
+            registered = _register_patient_from_mobile(
+                first_name=first_name,
+                last_name=last_name,
+                full_name=full_name,
+                mobile=mobile or patient,
+                sex=sex,
+            )
+            patient = registered["patient"]
+        else:
+            frappe.throw(f"Patient not found: {patient}")
+
     if not frappe.db.exists("Healthcare Practitioner", practitioner):
         frappe.throw(f"Practitioner not found: {practitioner}")
 
