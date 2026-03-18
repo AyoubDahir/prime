@@ -1,0 +1,27 @@
+name: Trigger ERPNext Rebuild (prime)
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '**/*.py'
+      - '**/*.json'
+      - '**/*.js'
+      - '**/*.css'
+      - '**/*.html'
+      - '**/*.jinja'
+      - '**/*.md'
+  workflow_dispatch:
+
+jobs:
+  trigger:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger argocd build with Prime commit SHA
+        run: |
+          curl -X POST \
+            -H "Authorization: token ${{ secrets.ARGOCD_REPO_PAT }}" \
+            -H "Accept: application/vnd.github.v3+json" \
+            https://api.github.com/repos/AyoubDahir/argocd/dispatches \
+            -d '{"event_type":"app-updated","client_payload":{"app":"prime","repo":"${{ github.repository }}","sha":"${{ github.sha }}"}}'
+          echo "Triggered ERPNext rebuild (prime @ ${{ github.sha }})"
