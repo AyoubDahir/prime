@@ -5,7 +5,28 @@ from frappe.utils import flt
 
 
 def _normalize_mobile(mobile):
-    return (mobile or "").strip()
+    raw = (mobile or "").strip()
+    digits = "".join(ch for ch in raw if ch.isdigit())
+    if not digits:
+        return ""
+    if digits.startswith("00"):
+        digits = digits[2:]
+    if digits.startswith("252"):
+        return digits
+    if digits.startswith("0"):
+        return "252" + digits[1:]
+    return digits
+
+
+def _mobile_candidates(mobile):
+    normalized = _normalize_mobile(mobile)
+    if not normalized:
+        return []
+    candidates = {normalized}
+    if normalized.startswith("252") and len(normalized) > 3:
+        candidates.add("0" + normalized[3:])
+    candidates.add("+" + normalized)
+    return list(candidates)
 
 
 def _get_default_company():
@@ -73,7 +94,17 @@ def _register_patient_from_mobile(
     if age_type not in ("Year", "Month", "Day"):
         frappe.throw("age_type must be one of: Year, Month, Day")
 
-    existing_patient = frappe.db.get_value("Patient", {"mobile": mobile}, "name")
+    existing_patient = None
+    candidates = _mobile_candidates(mobile)
+    if candidates:
+        existing = frappe.get_all(
+            "Patient",
+            filters={"mobile": ["in", candidates]},
+            fields=["name"],
+            limit_page_length=1,
+        )
+        if existing:
+            existing_patient = existing[0].name
     if existing_patient:
         return {"created": False, "patient": existing_patient}
 

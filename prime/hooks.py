@@ -169,6 +169,7 @@ doc_events = {
         
     },
     "Patient": {
+            "before_validate": ["prime.api.patient.enforce_unique_mobile"],
             "before_save": ["prime.api.make_uppercase.make_uppercase", "prime.api.patient.age_todate"]
             
     },

@@ -2,6 +2,39 @@ import frappe
 from datetime import datetime # from python std library
 from frappe.utils import add_to_date
 
+
+def _normalize_mobile(mobile):
+    raw = (mobile or "").strip()
+    digits = "".join(ch for ch in raw if ch.isdigit())
+    if not digits:
+        return ""
+    if digits.startswith("00"):
+        digits = digits[2:]
+    if digits.startswith("252"):
+        return digits
+    if digits.startswith("0"):
+        return "252" + digits[1:]
+    return digits
+
+
+def enforce_unique_mobile(doc, method=None):
+    normalized = _normalize_mobile(doc.get("mobile"))
+    if not normalized:
+        return
+
+    doc.mobile = normalized
+    if "mobile_no" in doc.meta.get_valid_columns():
+        doc.mobile_no = normalized
+
+    duplicate = frappe.db.get_value(
+        "Patient",
+        {"mobile": normalized, "name": ["!=", doc.name or ""]},
+        "name",
+    )
+    if duplicate:
+        frappe.throw(f"Patient with mobile {normalized} already exists: {duplicate}")
+
+
 def age_todate(doc, method=None):
     if doc.p_age is None:
         frappe.throw("Age is mandatory")
