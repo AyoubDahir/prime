@@ -1,10 +1,6 @@
 import frappe
 from datetime import datetime # from python std library
 from frappe.utils import add_to_date
-from erpnext.stock.get_item_details import get_pos_profile
-from erpnext.accounts.doctype.sales_invoice.sales_invoice import (
-    set_account_for_mode_of_payment,
-)
 
 def age_todate(doc, method=None):
     if doc.p_age < 0 :
