@@ -1,5 +1,7 @@
 import frappe
 from erpnext.stock.get_item_details import get_pos_profile
+from erpnext.accounts.doctype.payment_entry.payment_entry import get_payment_entry
+from frappe.utils import flt
 
 
 def _normalize_mobile(mobile):
@@ -228,6 +230,98 @@ def create_que_from_mobile(
         "que": que.name,
         "invoice": que.sales_invoice,
         "reference_id": reference_id,
+    }
+
+
+@frappe.whitelist()
+def get_unpaid_sales_invoices_for_mobile(patient, limit=100):
+    if not patient:
+        frappe.throw("patient is required")
+
+    try:
+        limit = int(limit)
+    except Exception:
+        limit = 100
+    if limit <= 0:
+        limit = 100
+
+    invoices = frappe.get_all(
+        "Sales Invoice",
+        filters={
+            "patient": patient,
+            "docstatus": 1,
+            "outstanding_amount": [">", 0],
+        },
+        fields=[
+            "name",
+            "posting_date",
+            "due_date",
+            "status",
+            "currency",
+            "grand_total",
+            "outstanding_amount",
+        ],
+        order_by="posting_date desc",
+        limit_page_length=limit,
+    )
+    return invoices
+
+
+@frappe.whitelist()
+def mark_sales_invoice_paid_from_mobile(
+    invoice,
+    amount=None,
+    mode_of_payment=None,
+    reference_id=None,
+    provider_txn_id=None,
+):
+    if not invoice:
+        frappe.throw("invoice is required")
+    if not frappe.db.exists("Sales Invoice", invoice):
+        frappe.throw(f"Sales Invoice not found: {invoice}")
+
+    inv = frappe.get_doc("Sales Invoice", invoice)
+    if inv.docstatus != 1:
+        frappe.throw("Only submitted sales invoices can be paid from mobile")
+
+    outstanding = flt(inv.outstanding_amount or 0)
+    if outstanding <= 0:
+        return {
+            "paid": True,
+            "invoice": inv.name,
+            "outstanding_amount": 0,
+            "status": inv.status,
+            "payment_entry": None,
+        }
+
+    paid_amount = flt(amount) if amount is not None else outstanding
+    if paid_amount <= 0:
+        frappe.throw("amount must be greater than zero")
+    if paid_amount > outstanding:
+        paid_amount = outstanding
+
+    pe = get_payment_entry("Sales Invoice", inv.name, party_amount=paid_amount)
+    if mode_of_payment:
+        pe.mode_of_payment = mode_of_payment
+    elif not pe.mode_of_payment:
+        pe.mode_of_payment = _get_default_mode_of_payment(inv.company or _get_default_company())
+
+    if reference_id or provider_txn_id:
+        pe.reference_no = provider_txn_id or reference_id
+        pe.reference_date = frappe.utils.nowdate()
+    pe.remarks = f"Mobile payment for {inv.name} (ref: {reference_id or ''})".strip()
+    pe.paid_amount = paid_amount
+    pe.received_amount = paid_amount
+    pe.insert(ignore_permissions=True)
+    pe.submit()
+
+    inv.reload()
+    return {
+        "paid": flt(inv.outstanding_amount or 0) <= 0,
+        "invoice": inv.name,
+        "outstanding_amount": inv.outstanding_amount,
+        "status": inv.status,
+        "payment_entry": pe.name,
     }
 
 
