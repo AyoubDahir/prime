@@ -10,7 +10,7 @@ def _sanitize_sales_invoice_defaults():
 		UPDATE `tabDocField`
 		SET `default` = ''
 		WHERE parent IN ('Sales Invoice', 'Sales Invoice Item')
-		  AND LOWER(TRIM(IFNULL(`default`, ''))) = 'return'
+		  AND LOWER(IFNULL(`default`, '')) LIKE '%return%'
 		"""
 	)
 	frappe.db.sql(
@@ -18,7 +18,7 @@ def _sanitize_sales_invoice_defaults():
 		UPDATE `tabCustom Field`
 		SET `default` = ''
 		WHERE dt IN ('Sales Invoice', 'Sales Invoice Item')
-		  AND LOWER(TRIM(IFNULL(`default`, ''))) = 'return'
+		  AND LOWER(IFNULL(`default`, '')) LIKE '%return%'
 		"""
 	)
 	frappe.db.sql(
@@ -26,7 +26,7 @@ def _sanitize_sales_invoice_defaults():
 		UPDATE `tabProperty Setter`
 		SET value = ''
 		WHERE doc_type IN ('Sales Invoice', 'Sales Invoice Item')
-		  AND LOWER(TRIM(IFNULL(value, ''))) = 'return'
+		  AND LOWER(IFNULL(value, '')) LIKE '%return%'
 		"""
 	)
 
