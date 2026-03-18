@@ -468,7 +468,7 @@
    "read_only": 1
   },
   {
-   "fetch_from": "patient.is_membership",
+   "fetch_from": "",
    "fetch_if_empty": 1,
    "fieldname": "is_membership",
    "fieldtype": "Data",
@@ -477,7 +477,7 @@
   },
   {
    "depends_on": "is_membership",
-   "fetch_from": "patient.percentage",
+   "fetch_from": "",
    "fetch_if_empty": 1,
    "fieldname": "discount_level",
    "fieldtype": "Percent",
