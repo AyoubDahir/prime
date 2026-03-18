@@ -20,9 +20,16 @@ jobs:
     steps:
       - name: Trigger argocd build with Prime commit SHA
         run: |
-          curl -X POST \
+          set -euo pipefail
+          payload='{"event_type":"app-updated","client_payload":{"app":"prime","repo":"${{ github.repository }}","sha":"${{ github.sha }}"}}'
+          status=$(curl -sS -o /tmp/dispatch-response.txt -w "%{http_code}" -X POST \
             -H "Authorization: token ${{ secrets.ARGOCD_REPO_PAT }}" \
             -H "Accept: application/vnd.github.v3+json" \
             https://api.github.com/repos/AyoubDahir/argocd/dispatches \
-            -d '{"event_type":"app-updated","client_payload":{"app":"prime","repo":"${{ github.repository }}","sha":"${{ github.sha }}"}}'
-          echo "Triggered ERPNext rebuild (prime @ ${{ github.sha }})"
+            -d "${payload}")
+          if [ "${status}" != "204" ]; then
+            echo "Dispatch failed with HTTP ${status}"
+            cat /tmp/dispatch-response.txt || true
+            exit 1
+          fi
+          echo "Triggered ERPNext rebuild (prime @ ${{ github.sha }}) with HTTP ${status}"
