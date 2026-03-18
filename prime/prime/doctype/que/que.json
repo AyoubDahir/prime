@@ -437,7 +437,7 @@
    "read_only": 1
   },
   {
-   "fetch_from": "patient.companys",
+   "fetch_from": "patient.customer",
    "fieldname": "company",
    "fieldtype": "Data",
    "label": "Company",

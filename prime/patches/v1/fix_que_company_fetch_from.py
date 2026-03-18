@@ -17,7 +17,7 @@ def execute():
                     doctype,
                     row.name,
                     "fetch_from",
-                    "",
+                    "patient.customer",
                     update_modified=False,
                 )
 
