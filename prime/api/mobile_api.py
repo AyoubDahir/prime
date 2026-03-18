@@ -254,6 +254,7 @@ def create_que_from_mobile(
             "gender": patient_gender,
             "age": patient_age,
             "customer": customer,
+            "bill_to": customer,
             "practitioner": practitioner,
             "practitioner_name": practitioner_name,
             "department": practitioner_department,
