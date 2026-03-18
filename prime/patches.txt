@@ -1,1 +1,2 @@
 prime.patches.v1.ensure_doctor_type_seed
+prime.patches.v1.fix_healthcare_practitioner_doc_type_link
