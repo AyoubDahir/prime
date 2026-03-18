@@ -43,13 +43,21 @@ def _register_patient_from_mobile(
     if not mobile:
         frappe.throw("mobile is required for patient self-registration")
 
+    normalized_first_name = (first_name or "").strip()
+    normalized_last_name = (last_name or "").strip()
+
     patient_name = (full_name or "").strip()
     if not patient_name:
-        patient_name = " ".join(
-            [p for p in [(first_name or "").strip(), (last_name or "").strip()] if p]
-        ).strip()
+        patient_name = " ".join([p for p in [normalized_first_name, normalized_last_name] if p]).strip()
     if not patient_name:
         frappe.throw("first_name or full_name is required for patient self-registration")
+    if not normalized_first_name:
+        name_parts = patient_name.split(" ", 1)
+        normalized_first_name = name_parts[0].strip()
+        if not normalized_last_name and len(name_parts) > 1:
+            normalized_last_name = name_parts[1].strip()
+    if not normalized_last_name:
+        normalized_last_name = "Unknown"
     if p_age in (None, ""):
         frappe.throw("p_age is required for patient self-registration")
     try:
@@ -70,6 +78,8 @@ def _register_patient_from_mobile(
     patient = frappe.get_doc(
         {
             "doctype": "Patient",
+            "first_name": normalized_first_name,
+            "last_name": normalized_last_name,
             "patient_name": patient_name,
             "mobile": mobile,
             "sex": sex or "Male",
