@@ -4,6 +4,7 @@ on:
   push:
     branches: [main]
     paths:
+      - '.github/workflows/trigger-erpnext-build.yml'
       - '**/*.py'
       - '**/*.json'
       - '**/*.js'
