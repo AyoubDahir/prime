@@ -53,6 +53,16 @@ def _get_default_mode_of_payment(company):
         return None
 
 
+def _ensure_doctor_type_exists(doc_type_name):
+    value = (doc_type_name or "").strip()
+    if not value:
+        return
+    if frappe.db.exists("Doctor Type", value):
+        return
+    doc = frappe.get_doc({"doctype": "Doctor Type", "do_type": value})
+    doc.insert(ignore_permissions=True)
+
+
 def _register_patient_from_mobile(
     first_name=None,
     last_name=None,
@@ -219,6 +229,7 @@ def create_que_from_mobile(
         }
 
     practitioner_doc = frappe.get_doc("Healthcare Practitioner", practitioner)
+    _ensure_doctor_type_exists(practitioner_doc.get("doc_type") or "Doctor")
     patient_doc = frappe.get_doc("Patient", patient)
     customer = frappe.db.get_value("Patient", patient, "customer") or patient_doc.get("customer")
     doctor_amount = flt(practitioner_doc.get("op_consulting_charge") or 0)
