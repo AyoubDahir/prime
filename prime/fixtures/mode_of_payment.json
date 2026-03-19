@@ -1,0 +1,9 @@
+[
+  {
+    "doctype": "Mode of Payment",
+    "name": "Waafi",
+    "mode_of_payment": "Waafi",
+    "type": "Bank",
+    "enabled": 1
+  }
+]

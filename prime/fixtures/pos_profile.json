@@ -1,0 +1,14 @@
+[
+  {
+    "doctype": "POS Profile",
+    "name": "Mobile",
+    "disabled": 0,
+    "payments": [
+      {
+        "doctype": "POS Payment Method",
+        "mode_of_payment": "Waafi",
+        "default": 1
+      }
+    ]
+  }
+]

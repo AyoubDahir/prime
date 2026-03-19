@@ -9,6 +9,13 @@ app_email = "prime"
 app_license = "MIT"
 required_apps = ["erpnext","healthcare"]
 
+# Fixtures
+# --------
+fixtures = [
+    {"dt": "Mode of Payment", "filters": [["name", "in", ["Waafi"]]]},
+    {"dt": "POS Profile", "filters": [["name", "in", ["Mobile"]]]},
+]
+
 # Includes in <head>
 # ------------------
 
