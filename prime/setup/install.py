@@ -19,6 +19,10 @@ cost_center = frappe.db.get_value('Company', company, 'round_off_cost_center')
 
 
 def after_install():
+    cleanup_problematic_property_setters()
+    fix_source_order_field()
+    create_mobile_pos_profile()
+    
     make_custom_fields()
     make_custom_roles()
 
@@ -661,3 +665,74 @@ def uom_creations():
     
             uom_creation.save()
             frappe.db.commit()
+
+
+def cleanup_problematic_property_setters():
+    """Remove Property Setters that cause issues with Sales Invoice creation"""
+    print("Cleaning up problematic Property Setters...")
+    # Remove is_virtual Property Setter on Sales Invoice status field
+    # This causes SyntaxError in frappe.safe_eval when creating invoices
+    frappe.db.delete("Property Setter", {
+        "doc_type": "Sales Invoice",
+        "property": "is_virtual"
+    })
+    frappe.db.commit()
+    print("Done")
+
+
+def fix_source_order_field():
+    """Fix source_order custom field to be Select instead of Link"""
+    print("Fixing source_order custom field...")
+    if frappe.db.exists("Custom Field", {"dt": "Sales Invoice", "fieldname": "source_order"}):
+        frappe.db.set_value(
+            "Custom Field",
+            {"dt": "Sales Invoice", "fieldname": "source_order"},
+            {
+                "fieldtype": "Select",
+                "options": "OPD\nIPD\nPACKAGE\nLAB\nPHARMACY"
+            }
+        )
+        frappe.db.commit()
+    print("Done")
+
+
+def create_mobile_pos_profile():
+    """Create Waafi Mode of Payment and Mobile POS Profile for mobile app payments"""
+    print("Creating Mobile POS Profile for Waafi payments...")
+    
+    # Create Waafi Mode of Payment
+    if not frappe.db.exists("Mode of Payment", "Waafi"):
+        waafi_mop = frappe.get_doc({
+            "doctype": "Mode of Payment",
+            "mode_of_payment": "Waafi",
+            "type": "Bank",
+            "enabled": 1
+        })
+        waafi_mop.insert(ignore_permissions=True)
+        print("Created Mode of Payment: Waafi")
+    
+    # Create Mobile POS Profile
+    if not frappe.db.exists("POS Profile", "Mobile"):
+        # Get company settings
+        company = frappe.defaults.get_global_default("company")
+        if company:
+            warehouse = frappe.db.get_single_value('Stock Settings', 'default_warehouse')
+            price_list = frappe.db.get_value("Price List", {"selling": 1}, "name")
+            
+            mobile_pos = frappe.get_doc({
+                "doctype": "POS Profile",
+                "name": "Mobile",
+                "company": company,
+                "warehouse": warehouse,
+                "selling_price_list": price_list,
+                "currency": frappe.db.get_value("Company", company, "default_currency") or "USD",
+                "payments": [{
+                    "mode_of_payment": "Waafi",
+                    "default": 1
+                }]
+            })
+            mobile_pos.insert(ignore_permissions=True)
+            print("Created POS Profile: Mobile")
+    
+    frappe.db.commit()
+    print("Done")
