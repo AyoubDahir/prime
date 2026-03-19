@@ -277,6 +277,8 @@ def create_que_from_mobile(
 
     try:
         que.insert(ignore_permissions=True)
+        # Reload to avoid TimestampMismatchError if hooks modified the document
+        que.reload()
         que.submit()
     except Exception:
         frappe.log_error(frappe.get_traceback(), "create_que_from_mobile failed")
