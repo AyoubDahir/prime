@@ -277,6 +277,7 @@ def create_que_from_mobile(
 
     try:
         que.insert(ignore_permissions=True)
+        que.submit()
     except Exception:
         frappe.log_error(frappe.get_traceback(), "create_que_from_mobile failed")
         frappe.throw(
