@@ -5,6 +5,9 @@ from datetime import datetime
 
 def make_sample_collection(doc, method=None , items = None):
     pos_profile = get_pos_profile(doc.company)
+    if not pos_profile:
+        # No POS Profile configured, skip sample collection for non-POS invoices
+        return
     mode_of_payment = frappe.db.get_value('POS Payment Method', {"parent": pos_profile.name},  'mode_of_payment')
     default_account = frappe.db.get_value('Mode of Payment Account', {"parent": mode_of_payment},  'default_account')
     # for i in  doc.payments:
