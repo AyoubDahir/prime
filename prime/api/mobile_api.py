@@ -365,12 +365,35 @@ def mark_sales_invoice_paid_from_mobile(
 
     outstanding = flt(inv.outstanding_amount or 0)
     if outstanding <= 0:
+        # Invoice already paid (e.g. via POS inline payment in Que.after_insert).
+        # Look up an existing Payment Entry that references this invoice.
+        existing_pe = frappe.db.get_value(
+            "Payment Entry Reference",
+            {"reference_doctype": "Sales Invoice", "reference_name": inv.name},
+            "parent",
+        )
+        if not existing_pe:
+            # POS invoice — no separate Payment Entry exists yet. Create one now
+            # so it appears in the accounting Payment Entry list.
+            try:
+                pe = get_payment_entry("Sales Invoice", inv.name, party_amount=flt(inv.grand_total))
+                pe.mode_of_payment = mode_of_payment or "Waafi"
+                pe.reference_no = provider_txn_id or reference_id or inv.name
+                pe.reference_date = frappe.utils.nowdate()
+                pe.remarks = f"Mobile payment for {inv.name} (ref: {reference_id or ''})".strip()
+                pe.paid_amount = flt(inv.grand_total)
+                pe.received_amount = flt(inv.grand_total)
+                pe.insert(ignore_permissions=True)
+                pe.submit()
+                existing_pe = pe.name
+            except Exception:
+                frappe.log_error(frappe.get_traceback(), "Mobile Payment Entry creation failed")
         return {
             "paid": True,
             "invoice": inv.name,
             "outstanding_amount": 0,
             "status": inv.status,
-            "payment_entry": None,
+            "payment_entry": existing_pe,
         }
 
     paid_amount = flt(amount) if amount is not None else outstanding
