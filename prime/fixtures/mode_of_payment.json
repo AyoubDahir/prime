@@ -4,6 +4,13 @@
     "name": "Waafi",
     "mode_of_payment": "Waafi",
     "type": "Bank",
-    "enabled": 1
+    "enabled": 1,
+    "accounts": [
+      {
+        "doctype": "Mode of Payment Account",
+        "company": "alihsan Medical Center",
+        "default_account": "Waafi - AC"
+      }
+    ]
   }
 ]
