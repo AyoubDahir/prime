@@ -13,7 +13,6 @@ required_apps = ["erpnext","healthcare"]
 # --------
 fixtures = [
     {"dt": "Mode of Payment", "filters": [["name", "in", ["Waafi"]]]},
-    {"dt": "POS Profile", "filters": [["name", "in", ["Mobile"]]]},
 ]
 
 # Includes in <head>
