@@ -671,7 +671,20 @@ def after_migrate():
     """Run cleanup fixes on every bench migrate"""
     cleanup_problematic_property_setters()
     fix_source_order_field()
+    enable_sales_invoice_workflow()
     create_mobile_pos_profile()
+
+
+def enable_sales_invoice_workflow():
+    """Re-enable the Sales Invoice Discount Approval workflow.
+    The get_allowed_discount function is now defined via monkey_patches/workflow.py."""
+    print("Enabling Sales Invoice Discount Approval workflow...")
+    if frappe.db.exists("Workflow", "Sales Invoice Discount Approval"):
+        frappe.db.set_value("Workflow", "Sales Invoice Discount Approval", "is_active", 1)
+        frappe.db.commit()
+        print("Enabled")
+    else:
+        print("Workflow not found")
 
 
 def cleanup_problematic_property_setters():
