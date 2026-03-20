@@ -667,6 +667,13 @@ def uom_creations():
             frappe.db.commit()
 
 
+def after_migrate():
+    """Run cleanup fixes on every bench migrate"""
+    cleanup_problematic_property_setters()
+    fix_source_order_field()
+    create_mobile_pos_profile()
+
+
 def cleanup_problematic_property_setters():
     """Remove Property Setters that cause issues with Sales Invoice creation"""
     print("Cleaning up problematic Property Setters...")

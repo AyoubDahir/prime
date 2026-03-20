@@ -93,6 +93,7 @@ website_route_rules = [
 
 # before_install = "prime.install.before_install"
 after_install = "prime.setup.install.after_install"
+after_migrate = "prime.setup.install.after_migrate"
 
 # Uninstallation
 # ------------
