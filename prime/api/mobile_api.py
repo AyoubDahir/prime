@@ -291,6 +291,10 @@ def create_que_from_mobile(
         "que": que.name,
         "invoice": que.sales_invoice,
         "reference_id": reference_id,
+        "patient": patient,
+        "patient_name": patient_name,
+        "practitioner": practitioner,
+        "practitioner_name": practitioner_name,
     }
 
 
