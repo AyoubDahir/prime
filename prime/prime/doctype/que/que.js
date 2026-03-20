@@ -24,6 +24,53 @@ frappe.ui.form.on('Que', {
 
 
 	refresh: function(frm) {
+        // ── QR Patient Card Scan (new) ─────────────────────────────────────────
+        // Only show for new records (before patient is set) and for Cashier role
+        if (frm.is_new() && (frappe.user_roles.includes('Cashier') || frappe.user_roles.includes('Main Cashier') || frappe.user_roles.includes('System Manager'))) {
+            frm.add_custom_button(__('📷 Scan Patient Card'), function () {
+                let d = new frappe.ui.Dialog({
+                    title: 'Scan Patient QR Card',
+                    fields: [
+                        {
+                            fieldtype: 'HTML',
+                            options: `<p style="color:#555;margin-bottom:8px">
+                                Place cursor in the box below and scan the patient's QR card with a scanner,
+                                or type the Patient ID manually.
+                            </p>`
+                        },
+                        {
+                            label: 'Patient ID / QR Code',
+                            fieldname: 'scanned_patient',
+                            fieldtype: 'Data',
+                            reqd: 1,
+                            description: 'USB scanner will auto-submit after reading'
+                        }
+                    ],
+                    primary_action_label: 'Load Patient',
+                    primary_action(values) {
+                        const pid = (values.scanned_patient || '').trim();
+                        if (!pid) return;
+                        frappe.db.exists('Patient', pid).then(exists => {
+                            if (exists) {
+                                frm.set_value('patient', pid);
+                                d.hide();
+                                frappe.show_alert({ message: `Patient ${pid} loaded`, indicator: 'green' });
+                            } else {
+                                frappe.show_alert({ message: `Patient "${pid}" not found`, indicator: 'red' });
+                            }
+                        });
+                    }
+                });
+                d.show();
+                // Auto-submit when scanner sends Enter into the field
+                setTimeout(() => {
+                    d.fields_dict.scanned_patient.$input.on('keydown', function(e) {
+                        if (e.key === 'Enter') { d.get_primary_btn().trigger('click'); }
+                    }).focus();
+                }, 200);
+            });
+        }
+        // ── END QR scan ────────────────────────────────────────────────────────
 
                 frm.set_query('practitioner',  function() {
             return {

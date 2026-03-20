@@ -223,11 +223,35 @@ def create_que_from_mobile(
         as_dict=True,
     )
     if existing:
+        # Also ensure the invoice is paid — the first webhook may have created the
+        # Que but failed to create the Payment Entry. Retry it here so a second
+        # webhook call (or reconciliation poll) completes the financial posting.
+        payment_entry = None
+        if existing.sales_invoice:
+            try:
+                pay_result = mark_sales_invoice_paid_from_mobile(
+                    invoice=existing.sales_invoice,
+                    mode_of_payment="Waafi",
+                    reference_id=reference_id,
+                )
+                payment_entry = pay_result.get("payment_entry")
+            except Exception:
+                frappe.log_error(
+                    frappe.get_traceback(),
+                    "create_que_from_mobile: idempotency payment_entry retry failed",
+                )
+        existing_patient = frappe.db.get_value("Que", existing.name, "patient")
+        existing_practitioner = frappe.db.get_value("Que", existing.name, "practitioner")
         return {
             "created": False,
             "que": existing.name,
             "invoice": existing.sales_invoice,
             "reference_id": reference_id,
+            "patient": existing_patient,
+            "patient_name": frappe.db.get_value("Patient", existing_patient, "patient_name") if existing_patient else None,
+            "practitioner": existing_practitioner,
+            "practitioner_name": frappe.db.get_value("Healthcare Practitioner", existing_practitioner, "practitioner_name") if existing_practitioner else None,
+            "payment_entry": payment_entry,
         }
 
     practitioner_doc = frappe.get_doc("Healthcare Practitioner", practitioner)

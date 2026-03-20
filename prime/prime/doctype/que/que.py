@@ -19,14 +19,7 @@ class Que(Document):
 	def after_insert(self):
 		if self.que_type != 'Refer' and not self.is_free and  not self.follow_up and   self.que_type !="Renew" and self.que_type !="Revisit" and self.doctor_amount>0:
 			# create_que_order_bill(self)
-			try:
-				make_invoice(self)
-			except Exception:
-				# Mobile flow should not fail queue creation if invoice defaults are broken.
-				if (self.reference or "").startswith("MOBILE:"):
-					frappe.log_error(frappe.get_traceback(), "mobile_queue_make_invoice_failed")
-				else:
-					raise
+			make_invoice(self)
 		
 		# pass
 		if self.que_type=="New Patient" or self.que_type== "Refer":

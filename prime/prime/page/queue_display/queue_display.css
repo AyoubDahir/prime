@@ -1,0 +1,128 @@
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+.qd-root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background: #0a1628;
+  color: #fff;
+  font-family: 'Segoe UI', Arial, sans-serif;
+}
+
+/* ── HEADER ── */
+.qd-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 40px;
+  background: linear-gradient(90deg, #0d2240 0%, #1a3a6e 100%);
+  border-bottom: 3px solid #2a6dd9;
+}
+.qd-header-left { display: flex; align-items: center; gap: 14px; }
+.qd-logo { font-size: 2rem; color: #e85454; }
+.qd-hospital-name { font-size: 1.6rem; font-weight: 700; letter-spacing: 1px; color: #e8f0fe; }
+.qd-title { font-size: 1.4rem; font-weight: 600; color: #90b8f8; letter-spacing: 2px; text-transform: uppercase; }
+.qd-header-right { display: flex; flex-direction: column; align-items: flex-end; gap: 2px; }
+.qd-date { font-size: 0.95rem; color: #90b8f8; }
+.qd-time { font-size: 1.5rem; font-weight: 700; color: #fff; letter-spacing: 2px; }
+
+/* ── BODY ── */
+.qd-body {
+  flex: 1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+  padding: 30px 40px;
+  align-content: flex-start;
+}
+.qd-loading { color: #90b8f8; font-size: 1.2rem; margin: auto; }
+
+/* ── DOCTOR CARD ── */
+.qd-card {
+  background: #0f2040;
+  border: 1px solid #1e3a6e;
+  border-radius: 16px;
+  flex: 1 1 340px;
+  max-width: 420px;
+  overflow: hidden;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.4);
+  display: flex;
+  flex-direction: column;
+}
+.qd-card-header {
+  background: linear-gradient(135deg, #1a3a6e, #2a5298);
+  padding: 16px 24px;
+  border-bottom: 1px solid #2a6dd9;
+}
+.qd-card-dept {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: #90b8f8;
+  margin-bottom: 4px;
+}
+.qd-card-doctor {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #e8f0fe;
+}
+
+.qd-card-body { padding: 20px 24px; flex: 1; }
+
+/* Now Serving */
+.qd-now-label {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  color: #90b8f8;
+  margin-bottom: 6px;
+}
+.qd-now-token {
+  font-size: 5rem;
+  font-weight: 900;
+  line-height: 1;
+  color: #fff;
+  letter-spacing: -2px;
+}
+.qd-now-token.pulse {
+  animation: token-pulse 1.2s ease-in-out 3;
+}
+@keyframes token-pulse {
+  0%   { color: #fff; text-shadow: none; }
+  50%  { color: #4caf8a; text-shadow: 0 0 30px #4caf8a, 0 0 60px #4caf8a; }
+  100% { color: #fff; text-shadow: none; }
+}
+.qd-now-empty {
+  font-size: 1.5rem;
+  color: #3a5080;
+  font-style: italic;
+}
+
+/* Divider */
+.qd-divider {
+  border: none;
+  border-top: 1px solid #1e3a6e;
+  margin: 16px 0;
+}
+
+/* Next & Waiting */
+.qd-meta-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.qd-meta-item { display: flex; flex-direction: column; }
+.qd-meta-label { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 2px; color: #5a7aaa; }
+.qd-meta-value { font-size: 1.5rem; font-weight: 700; color: #e8f0fe; }
+.qd-meta-value.waiting-count { color: #f0a04a; }
+
+/* ── FOOTER ── */
+.qd-footer {
+  padding: 14px 40px;
+  background: #071020;
+  border-top: 1px solid #1e3a6e;
+  text-align: center;
+  font-size: 0.9rem;
+  color: #5a7aaa;
+  letter-spacing: 0.5px;
+}

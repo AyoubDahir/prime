@@ -1,0 +1,33 @@
+<div class="qrc-root">
+  <div class="qrc-header">
+    <h2>QR Check-in</h2>
+    <p class="qrc-sub">Scan patient's mobile QR pass <strong>OR</strong> create a new queue manually below</p>
+  </div>
+
+  <!-- ─── QR SCAN PANEL ─── -->
+  <div class="qrc-scan-panel">
+    <label class="qrc-scan-label">Scan / Paste QR Reference</label>
+    <div class="qrc-scan-row">
+      <input
+        id="qrc-input"
+        type="text"
+        class="qrc-scan-input"
+        placeholder="Scan QR or type reference ID..."
+        autocomplete="off"
+      />
+      <button class="btn btn-primary qrc-scan-btn" id="qrc-scan-btn">Look Up</button>
+    </div>
+    <div id="qrc-result" class="qrc-result" style="display:none"></div>
+  </div>
+
+  <div class="qrc-divider">
+    <span>OR — create a new queue the usual way</span>
+  </div>
+
+  <!-- ─── MANUAL QUE BUTTON ─── -->
+  <div class="qrc-manual">
+    <button class="btn btn-default qrc-manual-btn" id="qrc-manual-btn">
+      ➕ &nbsp;Create New Queue Manually
+    </button>
+  </div>
+</div>

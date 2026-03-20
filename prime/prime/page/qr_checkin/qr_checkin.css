@@ -1,0 +1,94 @@
+.qrc-root {
+  max-width: 680px;
+  margin: 40px auto;
+  font-family: 'Segoe UI', Arial, sans-serif;
+}
+
+.qrc-header { text-align: center; margin-bottom: 32px; }
+.qrc-header h2 { font-size: 1.8rem; font-weight: 700; color: #1a3a6e; }
+.qrc-sub { color: #666; margin-top: 6px; font-size: 0.95rem; }
+
+/* ── SCAN PANEL ── */
+.qrc-scan-panel {
+  background: #f0f5ff;
+  border: 2px solid #2a6dd9;
+  border-radius: 12px;
+  padding: 28px 32px;
+}
+.qrc-scan-label {
+  display: block;
+  font-weight: 600;
+  color: #1a3a6e;
+  margin-bottom: 12px;
+  font-size: 1rem;
+}
+.qrc-scan-row { display: flex; gap: 12px; }
+.qrc-scan-input {
+  flex: 1;
+  padding: 12px 16px;
+  font-size: 1.1rem;
+  border: 2px solid #b0c8f8;
+  border-radius: 8px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+.qrc-scan-input:focus { border-color: #2a6dd9; }
+.qrc-scan-btn { padding: 12px 28px; font-size: 1rem; border-radius: 8px; }
+
+/* ── RESULT CARD ── */
+.qrc-result {
+  margin-top: 20px;
+  border-radius: 10px;
+  padding: 20px 24px;
+}
+.qrc-result.found {
+  background: #e8f5e9;
+  border: 2px solid #43a047;
+}
+.qrc-result.not-found {
+  background: #fff3e0;
+  border: 2px solid #fb8c00;
+}
+.qrc-result-title {
+  font-size: 1rem;
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+.qrc-result.found .qrc-result-title { color: #2e7d32; }
+.qrc-result.not-found .qrc-result-title { color: #e65100; }
+
+.qrc-info-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px 24px;
+  margin-bottom: 16px;
+}
+.qrc-info-item { display: flex; flex-direction: column; }
+.qrc-info-label { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1px; color: #666; }
+.qrc-info-value { font-size: 1rem; font-weight: 600; color: #222; }
+.qrc-token-big { font-size: 2.5rem; font-weight: 900; color: #1a3a6e; }
+
+.qrc-action-row { display: flex; gap: 12px; margin-top: 4px; }
+
+/* ── DIVIDER ── */
+.qrc-divider {
+  text-align: center;
+  margin: 32px 0 24px;
+  position: relative;
+  color: #999;
+  font-size: 0.9rem;
+}
+.qrc-divider::before, .qrc-divider::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  width: 38%;
+  height: 1px;
+  background: #ddd;
+}
+.qrc-divider::before { left: 0; }
+.qrc-divider::after  { right: 0; }
+
+/* ── MANUAL ── */
+.qrc-manual { text-align: center; }
+.qrc-manual-btn { font-size: 1rem; padding: 12px 32px; border-radius: 8px; }
