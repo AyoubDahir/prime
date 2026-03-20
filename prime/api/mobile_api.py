@@ -286,6 +286,19 @@ def create_que_from_mobile(
             "Unable to create queue from mobile. Check patient/practitioner data and required Que fields."
         )
 
+    # Auto-pay the invoice since Waafi payment is already confirmed
+    payment_entry = None
+    if que.sales_invoice:
+        try:
+            pay_result = mark_sales_invoice_paid_from_mobile(
+                invoice=que.sales_invoice,
+                mode_of_payment="Waafi",
+                reference_id=reference_id,
+            )
+            payment_entry = pay_result.get("payment_entry")
+        except Exception:
+            frappe.log_error(frappe.get_traceback(), "create_que_from_mobile: payment_entry failed")
+
     return {
         "created": True,
         "que": que.name,
@@ -295,6 +308,7 @@ def create_que_from_mobile(
         "patient_name": patient_name,
         "practitioner": practitioner,
         "practitioner_name": practitioner_name,
+        "payment_entry": payment_entry,
     }
 
 
