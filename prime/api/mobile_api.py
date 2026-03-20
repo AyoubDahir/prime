@@ -293,8 +293,8 @@ def create_que_from_mobile(
             "follow_up": 0,
             "is_package": 0,
             "is_insurance": 0,
-            "paid_amount": paid_amount,
-            "mode_of_payment": mode_of_payment,
+            "paid_amount": 0,
+            "mode_of_payment": None,
             "reference": ref_tag,
         }
     )
@@ -310,7 +310,10 @@ def create_que_from_mobile(
             "Unable to create queue from mobile. Check patient/practitioner data and required Que fields."
         )
 
-    # Auto-pay the invoice since Waafi payment is already confirmed
+    # Auto-pay the invoice since Waafi payment is already confirmed.
+    # Que is created with paid_amount=0 so make_invoice produces an unpaid SI,
+    # allowing a proper Payment Entry to be created here. After PE is confirmed,
+    # update the Que's display fields to reflect the actual payment.
     payment_entry = None
     if que.sales_invoice:
         try:
@@ -320,6 +323,12 @@ def create_que_from_mobile(
                 reference_id=reference_id,
             )
             payment_entry = pay_result.get("payment_entry")
+            if payment_entry:
+                frappe.db.set_value(
+                    "Que", que.name,
+                    {"paid_amount": doctor_amount, "mode_of_payment": "Waafi"},
+                    update_modified=False,
+                )
         except Exception:
             frappe.log_error(frappe.get_traceback(), "create_que_from_mobile: payment_entry failed")
 
