@@ -1,5 +1,5 @@
 frappe.pages["queue-display"].on_page_load = function (wrapper) {
-	frappe.ui.make_app_page({
+	var page = frappe.ui.make_app_page({
 		parent: wrapper,
 		title: "Queue Display",
 		single_column: true,
@@ -8,11 +8,8 @@ frappe.pages["queue-display"].on_page_load = function (wrapper) {
 	$(wrapper).find(".page-head").hide();
 	$("body").css("background", "#0a0a0a");
 
-	var $body = $(wrapper).find(".page-content, .layout-main-section, .page-body").first();
-	if (!$body.length) $body = $(wrapper);
-
 	var $container = $('<div id="qd-root" style="padding:20px;color:#fff;font-family:sans-serif;"></div>');
-	$body.append($container);
+	$(page.body).append($container);
 
 	function render(data) {
 		if (!data || !data.length) {

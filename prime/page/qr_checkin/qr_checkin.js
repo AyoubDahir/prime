@@ -1,16 +1,12 @@
 frappe.pages["qr-checkin"].on_page_load = function (wrapper) {
-	frappe.ui.make_app_page({
+	var page = frappe.ui.make_app_page({
 		parent: wrapper,
 		title: "QR Check-in",
 		single_column: true,
 	});
 
-	var $body = $(wrapper).find(".page-content, .layout-main-section, .page-body").first();
-	if (!$body.length) $body = $(wrapper);
-
-	$body.css({ "max-width": "600px", margin: "30px auto", padding: "0 20px" });
-
-	$body.append(`
+	$(page.body).css({ "max-width": "600px", margin: "30px auto", padding: "0 20px" });
+	$(page.body).append(`
 		<p style="color:#888;margin-bottom:20px;">Scan patient mobile QR or enter reference ID manually.</p>
 		<div style="display:flex;gap:10px;margin-bottom:24px;">
 			<input id="qci-input" type="text" class="form-control"
@@ -21,9 +17,9 @@ frappe.pages["qr-checkin"].on_page_load = function (wrapper) {
 		<div id="qci-result"></div>
 	`);
 
-	var $input = $body.find("#qci-input");
-	var $btn = $body.find("#qci-btn");
-	var $result = $body.find("#qci-result");
+	var $input = $(page.body).find("#qci-input");
+	var $btn   = $(page.body).find("#qci-btn");
+	var $result = $(page.body).find("#qci-result");
 
 	$input.focus();
 
