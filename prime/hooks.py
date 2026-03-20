@@ -19,8 +19,8 @@ fixtures = [
 # ------------------
 
 # include js, css files in header of desk.html
-app_include_css = ["/assets/prime/css/prime.css"]
-app_include_js = ["/assets/prime/js/prime.js"]
+app_include_css = ["/assets/prime/css/his.css"]
+app_include_js = ["/assets/prime/js/his.js"]
 
 
 # include js, css files in header of web template
