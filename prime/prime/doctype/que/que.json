@@ -156,6 +156,7 @@
    "read_only": 1
   },
   {
+   "allow_on_submit": 1,
    "fieldname": "status",
    "fieldtype": "Select",
    "hidden": 1,
@@ -218,6 +219,7 @@
    "read_only": 1
   },
   {
+   "allow_on_submit": 1,
    "fieldname": "patient_encounter",
    "fieldtype": "Link",
    "in_list_view": 1,
@@ -241,6 +243,7 @@
    "read_only": 1
   },
   {
+   "allow_on_submit": 1,
    "default": "Waiting",
    "fieldname": "que_steps",
    "fieldtype": "Select",
