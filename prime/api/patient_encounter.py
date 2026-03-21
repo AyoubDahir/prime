@@ -238,13 +238,15 @@ def close_que_after_save_pe(doc , method = None):
         if doc.que:
             if frappe.db.exists("Que" , doc.que):
                 old_que = frappe.get_doc("Que" , doc.que)
-                old_que.status = "Closed" 
+                old_que.que_steps = "Called"
+                old_que.status = "Closed"
                 old_que.patient_encounter = doc.name
                 old_que.save()
 
         if doc.revisit:
             if frappe.db.exists("Revisit" , doc.revisit):
                 old_que = frappe.get_doc("Revisit" , doc.revisit)
-                old_que.status = "Closed" 
+                old_que.que_steps = "Called"
+                old_que.status = "Closed"
                 old_que.patient_encounter = doc.name
                 old_que.save()
