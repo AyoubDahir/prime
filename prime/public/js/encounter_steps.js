@@ -206,8 +206,8 @@ d.show();
     },
     patient: function(frm){
         frappe.call({
-            method: "prime.api.p_history.get_history", //dotted path to server method
-            args : {"patient" : frm.doc.patient , heading : 0},
+            method: "prime.dashboard_and_history.p_history.get_p_histy", //dotted path to server method
+            args : {"patient" : frm.doc.patient},
             //  args : {"load_a" : currdate , to_date : to_date},
             callback: function(r) {
                 $('#history').html(r.message)
@@ -224,7 +224,7 @@ d.show();
         setTimeout(() => {
             if(frm.doc.patient){
             frappe.call({
-				method: "prime.api.p_history.get_history", //dotted path to server method
+				method: "prime.dashboard_and_history.p_history.get_p_histy", //dotted path to server method
 				args : {"patient" : frm.doc.patient},
 				//  args : {"load_a" : currdate , to_date : to_date},
 				callback: function(r) {
@@ -251,7 +251,7 @@ d.show();
 	refresh(frm) {
         if(frm.doc.patient){
         frappe.call({
-            method: "prime.api.p_history.get_history", //dotted path to server method
+            method: "prime.dashboard_and_history.p_history.get_p_histy", //dotted path to server method
             args : {"patient" : frm.doc.patient},
             //  args : {"load_a" : currdate , to_date : to_date},
             callback: function(r) {
@@ -293,7 +293,7 @@ d.show();
           frm.add_custom_button('Open History', () => {
             if(frm.doc.patient){
             frappe.call({
-				method: "prime.api.p_history.get_history", //dotted path to server method
+				method: "prime.dashboard_and_history.p_history.get_p_histy", //dotted path to server method
 				args : {"patient" : frm.doc.patient},
 				//  args : {"load_a" : currdate , to_date : to_date},
 				callback: function(r) {
