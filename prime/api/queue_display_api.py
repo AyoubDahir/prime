@@ -102,6 +102,94 @@ def call_next_token(practitioner):
 
 
 @frappe.whitelist(allow_guest=False)
+def get_queue_status(que_name):
+    """Return queue position for a specific Que — used by mobile app after booking."""
+    if not que_name:
+        frappe.throw("que_name is required")
+
+    row = frappe.db.get_value(
+        "Que",
+        que_name,
+        ["name", "token_no", "patient_name", "practitioner", "practitioner_name",
+         "department", "status", "que_steps", "date"],
+        as_dict=True,
+    )
+    if not row:
+        return {"found": False}
+
+    waiting_ahead = frappe.db.count(
+        "Que",
+        {
+            "practitioner": row.practitioner,
+            "date": row.date,
+            "status": "Open",
+            "que_steps": "Waiting",
+            "token_no": ["<", row.token_no],
+        },
+    )
+
+    return {
+        "found": True,
+        "que": row.name,
+        "token_no": row.token_no,
+        "patient_name": row.patient_name,
+        "practitioner_name": row.practitioner_name,
+        "department": row.department,
+        "status": row.status,
+        "que_steps": row.que_steps,
+        "patients_ahead": waiting_ahead,
+    }
+
+
+@frappe.whitelist(allow_guest=False)
+def get_invoice_for_dispensing(invoice_name):
+    """Return invoice + medicine items for pharmacist QR scan dispensing."""
+    si = frappe.db.get_value(
+        "Sales Invoice",
+        invoice_name,
+        ["name", "patient", "customer", "outstanding_amount", "docstatus", "is_dispensed"],
+        as_dict=True,
+    )
+    if not si:
+        return {"found": False}
+
+    if si.docstatus != 1:
+        return {"found": False, "error": "Invoice is not submitted"}
+
+    if si.outstanding_amount > 0:
+        return {"found": True, "paid": False, "invoice": si.name, "patient": si.customer}
+
+    patient_name = frappe.db.get_value("Patient", si.patient, "patient_name") if si.patient else si.customer
+
+    items = frappe.db.get_all(
+        "Sales Invoice Item",
+        filters={"parent": invoice_name},
+        fields=["item_code", "item_name", "qty", "description"],
+    )
+
+    return {
+        "found": True,
+        "paid": True,
+        "already_dispensed": bool(si.is_dispensed),
+        "invoice": si.name,
+        "patient": patient_name,
+        "items": items,
+    }
+
+
+@frappe.whitelist(allow_guest=False)
+def mark_invoice_dispensed(invoice_name):
+    """Mark a Sales Invoice as dispensed (medicines handed to patient)."""
+    si = frappe.get_doc("Sales Invoice", invoice_name)
+    if si.docstatus != 1:
+        frappe.throw("Invoice must be submitted before dispensing")
+    if si.outstanding_amount > 0:
+        frappe.throw("Invoice has not been paid yet")
+    frappe.db.set_value("Sales Invoice", invoice_name, "is_dispensed", 1)
+    return {"success": True}
+
+
+@frappe.whitelist(allow_guest=False)
 def checkin_by_qr(reference_id):
     """Look up a Que by its MOBILE:reference_id (pre-arrival QR pass check-in)."""
     if not reference_id:

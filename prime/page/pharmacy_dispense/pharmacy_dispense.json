@@ -1,0 +1,22 @@
+{
+ "creation": "2026-03-23 00:00:00.000000",
+ "doctype": "Page",
+ "modified": "2026-03-23 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Prime",
+ "name": "pharmacy-dispense",
+ "page_name": "pharmacy-dispense",
+ "roles": [
+  {
+   "role": "System Manager"
+  },
+  {
+   "role": "Pharmacist"
+  },
+  {
+   "role": "Main Cashier"
+  }
+ ],
+ "standard": "Yes",
+ "title": "Pharmacy Dispense"
+}
