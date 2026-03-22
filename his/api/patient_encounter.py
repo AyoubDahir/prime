@@ -2,6 +2,7 @@ import frappe
 from frappe import _
 from frappe.utils import getdate
 from frappe.model.mapper import map_doc
+from prime.api.make_invoice import make_sales_invoice
 
 
 def set_so_values_from_db(doc, method=None):
@@ -101,6 +102,19 @@ def create_sales_orders(doc):
         #     sales_order.status = "To Bill"
         sales_order.save()
         sales_order.submit()
+
+        # Auto-create unpaid Sales Invoice so patient can pay from mobile
+        # or cashier can collect at the counter -- whichever comes first
+        try:
+            si = make_sales_invoice(sales_order.name)
+            si.sales_team = []
+            si.is_pos = 0
+            si.patient = doc.patient
+            si.flags.ignore_permissions = True
+            si.save()
+            si.submit()
+        except Exception:
+            frappe.log_error(frappe.get_traceback(), 'Auto-invoice from Patient Encounter failed')
 
         if so_name != sales_order.name:
             doc.db_set(so_type, sales_order.name, update_modified=False, notify=True)
