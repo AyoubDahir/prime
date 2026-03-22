@@ -117,7 +117,7 @@ def add_drug_items(so, doc):
         so_item.item_code = row.drug_code
         so_item.item_name = row.drug_code
         so_item.qty = row.qty
-        so_item.frequency = row.frequency
+        so_item.frequency = row.period
         so_item.route = row.root_type
         # so_item.warehouse = doc.warehouse
         so_item.description = row.drug_name
