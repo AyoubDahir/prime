@@ -673,6 +673,53 @@ def after_migrate():
     fix_source_order_field()
     enable_sales_invoice_workflow()
     create_mobile_pos_profile()
+    ensure_is_dispensed_field()
+    ensure_pharmacy_dispense_page()
+
+
+def ensure_is_dispensed_field():
+    """Ensure is_dispensed custom field exists on Sales Invoice."""
+    if frappe.db.exists("Custom Field", "Sales Invoice-is_dispensed"):
+        return
+    from frappe.custom.doctype.custom_field.custom_field import create_custom_fields
+    create_custom_fields({
+        "Sales Invoice": [
+            {
+                "fieldname": "is_dispensed",
+                "fieldtype": "Check",
+                "label": "Dispensed",
+                "insert_after": "patient",
+                "allow_on_submit": 1,
+                "default": "0",
+            }
+        ]
+    })
+    frappe.db.commit()
+    print("is_dispensed custom field created")
+
+
+def ensure_pharmacy_dispense_page():
+    """Ensure the pharmacy-dispense page is registered in the database."""
+    if frappe.db.exists("Page", "pharmacy-dispense"):
+        return
+    now = frappe.utils.now()
+    frappe.db.sql(
+        """INSERT INTO tabPage
+           (name, creation, modified, modified_by, owner, docstatus, title, module, page_name, standard)
+           VALUES ('pharmacy-dispense', %s, %s, 'Administrator', 'Administrator', 0,
+                   'Pharmacy Dispense', 'Prime', 'pharmacy-dispense', 'Yes')""",
+        (now, now),
+    )
+    for i, role in enumerate(["System Manager", "Pharmacy", "Main Cashier"], 1):
+        frappe.db.sql(
+            """INSERT INTO `tabHas Role`
+               (name, creation, modified, modified_by, owner, docstatus, idx, role, parent, parentfield, parenttype)
+               VALUES (%s, %s, %s, 'Administrator', 'Administrator', 0, %s, %s,
+                       'pharmacy-dispense', 'roles', 'Page')""",
+            (f"pd-role-{i}", now, now, i, role),
+        )
+    frappe.db.commit()
+    print("pharmacy-dispense page registered")
 
 
 def enable_sales_invoice_workflow():
