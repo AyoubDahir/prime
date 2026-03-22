@@ -1,6 +1,38 @@
 {
  "custom_fields": [
   {
+   "allow_in_quick_entry": 0,
+   "allow_on_submit": 0,
+   "bold": 0,
+   "columns": 1,
+   "dt": "Drug Prescription",
+   "fieldname": "route",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "insert_after": "qty",
+   "label": "Route",
+   "name": "Drug Prescription-route",
+   "owner": "Administrator",
+   "modified_by": "Administrator",
+   "reqd": 0
+  },
+  {
+   "allow_in_quick_entry": 0,
+   "allow_on_submit": 0,
+   "bold": 0,
+   "columns": 1,
+   "dt": "Drug Prescription",
+   "fieldname": "instraction",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "insert_after": "route",
+   "label": "Instruction",
+   "name": "Drug Prescription-instraction",
+   "owner": "Administrator",
+   "modified_by": "Administrator",
+   "reqd": 0
+  },
+  {
    "_assign": null,
    "_comments": null,
    "_liked_by": null,

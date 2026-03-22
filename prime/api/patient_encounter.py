@@ -114,8 +114,8 @@ def add_drug_items(so, doc):
             so_item.qty = row.qty
             so_item.dosage = row.period
             so_item.frequency = row.period
-            so_item.route = row.route
-            so_item.instraction = row.instraction
+            so_item.route = row.get("route")
+            so_item.instraction = row.get("instraction")
             # so_item.giving = row.giving
             
             if row.dosage:
