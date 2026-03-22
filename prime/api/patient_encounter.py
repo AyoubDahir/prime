@@ -81,6 +81,7 @@ def create_sales_orders(doc):
         if not sales_order.items and not sales_order.name:
             continue
 
+        sales_order.sales_team = []
         sales_order.flags.ignore_links = 1
         sales_order.flags.ignore_validate_update_after_submit = 1
         sales_order.flags.ignore_permissions = 1
