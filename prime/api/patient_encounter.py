@@ -86,6 +86,7 @@ def create_sales_orders(doc):
         sales_order.flags.ignore_links = 1
         sales_order.flags.ignore_validate_update_after_submit = 1
         sales_order.flags.ignore_permissions = 1
+        sales_order.flags.ignore_mandatory = 1
      
 
         if sales_order.name:
