@@ -311,9 +311,8 @@ def create_que_from_mobile(
         )
 
     # Auto-pay the invoice since Waafi payment is already confirmed.
-    # Que is created with paid_amount=0 so make_invoice produces an unpaid SI,
-    # allowing a proper Payment Entry to be created here. After PE is confirmed,
-    # update the Que's display fields to reflect the actual payment.
+    # Reload after submit so we pick up sales_invoice set by the after_submit hook.
+    que = frappe.get_doc("Que", que.name)
     payment_entry = None
     if que.sales_invoice:
         try:
@@ -376,6 +375,13 @@ def get_unpaid_sales_invoices_for_mobile(patient, limit=100):
         order_by="posting_date desc",
         limit_page_length=limit,
     )
+    for inv in invoices:
+        inv["items"] = frappe.get_all(
+            "Sales Invoice Item",
+            filters={"parent": inv["name"]},
+            fields=["item_name", "qty", "rate", "amount"],
+            order_by="idx",
+        )
     return invoices
 
 
