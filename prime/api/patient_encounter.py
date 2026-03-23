@@ -191,13 +191,13 @@ def add_service_items(so, doc):
                 continue
             if child_table=="procedure_prescription":
                 child= frappe.get_doc('Clinical Procedure Template', item)
-                for i in child._aneasthesia_prescription:
+                for i in (child.get("_aneasthesia_prescription") or []):
                     so_item = find_or_create_item(i, so, doc , from_templae=True)
                     so_item.item_code = i.aneasthesia
                     so_item.rate=i.amount
                     so_item.qty = 1
 
-                for i in child.lab_prescription:
+                for i in (child.get("lab_prescription") or []):
                     so_item = find_or_create_item(i, so, doc , from_templae=True)
                     so_item.item_code = i.lab_test_code
                     so_item.qty = 1
