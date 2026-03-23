@@ -467,6 +467,47 @@ def mark_sales_invoice_paid_from_mobile(
 
 
 @frappe.whitelist()
+def get_paid_sales_invoices_for_mobile(patient, limit=100):
+    if not patient:
+        frappe.throw("patient is required")
+
+    try:
+        limit = int(limit)
+    except Exception:
+        limit = 100
+    if limit <= 0:
+        limit = 100
+
+    invoices = frappe.get_all(
+        "Sales Invoice",
+        filters={
+            "patient": patient,
+            "docstatus": 1,
+            "outstanding_amount": 0,
+        },
+        fields=[
+            "name",
+            "posting_date",
+            "due_date",
+            "status",
+            "currency",
+            "grand_total",
+            "outstanding_amount",
+        ],
+        order_by="posting_date desc",
+        limit_page_length=limit,
+    )
+    for inv in invoices:
+        inv["items"] = frappe.get_all(
+            "Sales Invoice Item",
+            filters={"parent": inv["name"]},
+            fields=["item_name", "qty", "rate", "amount"],
+            order_by="idx",
+        )
+    return invoices
+
+
+@frappe.whitelist()
 def get_lab_reports_for_mobile(patient, limit=50):
     if not patient:
         frappe.throw("patient is required")
