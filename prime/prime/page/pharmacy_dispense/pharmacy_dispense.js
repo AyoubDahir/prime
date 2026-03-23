@@ -1,10 +1,8 @@
 frappe.pages['pharmacy-dispense'].on_page_load = function (wrapper) {
     frappe.ui.make_app_page({ parent: wrapper, title: 'Pharmacy Dispense', single_column: true });
 
-    frappe.require(['/assets/prime/css/pharmacy_dispense.css'], function() {
-        $(frappe.render_template('pharmacy_dispense', {})).appendTo($(wrapper).find('.page-content'));
-        new PharmacyDispense(wrapper);
-    });
+    $(frappe.render_template('pharmacy_dispense', {})).appendTo($(wrapper).find('.page-content'));
+    new PharmacyDispense(wrapper);
 };
 
 var PharmacyDispense = function(wrapper) {
