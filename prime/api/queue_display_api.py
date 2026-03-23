@@ -281,19 +281,12 @@ def send_called_sms(doc, method=None):
     if not mobile:
         return
 
-    patient_name = doc.patient_name or ""
-    message = (
-        f"Salam {patient_name},\n\n"
-        "Waqtigii ballantaadu waa la gaadhay. Fadlan si degdeg ah ugu gudub dhakhtarka.\n\n"
-        "Fadlan ogow: haddii aadan waqtigan ku iman, waxaa la siin doonaa fursadda bukaanka kugu xiga.\n\n"
-        "Mahadsanid,\nAl-Ihsan Hospital"
-    )
-
     try:
-        frappe.call(
-            "frappe.core.doctype.sms_settings.sms_settings.send_sms",
-            receiver_list=[mobile],
-            msg=message
+        import requests as _requests
+        _requests.post(
+            "http://alihsan-java-backend.alihsan.svc.cluster.local:5000/api/internal/queue/called-sms",
+            json={"mobile": mobile, "patientName": doc.patient_name or ""},
+            timeout=5
         )
     except Exception:
         frappe.log_error(frappe.get_traceback(), "Queue Called SMS Failed")
