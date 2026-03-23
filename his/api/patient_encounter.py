@@ -126,7 +126,7 @@ def create_sales_orders(doc):
 
 def add_drug_items(so, doc):
     for child in ("drug_prescription"):
-        for row in doc.get("drug_prescription"):
+        for row in (doc.get("drug_prescription") or []):
             so_item = find_or_create_item(row, so, doc)
             so_item.item_code = row.drug_code
             so_item.item_name = row.drug_name
@@ -185,7 +185,7 @@ def add_visit_charge(so, doc):
 def add_service_items(so, doc):
     items=[]
     for child_table in ("lab_test_prescription", "procedure_prescription" , "radiology_prescription", "services_prescription"):
-        for row in doc.get(child_table):
+        for row in (doc.get(child_table) or []):
             item, is_billable = get_item_and_is_billable(row)
             if not item or not is_billable:
                 continue
