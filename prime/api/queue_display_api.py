@@ -265,13 +265,13 @@ def checkin_by_qr(reference_id):
 
 
 def send_called_sms(doc, method=None):
-    """Send Somali SMS to patient the moment Que status changes to Called."""
-    if doc.status != "Called":
+    """Send Somali SMS to patient the moment Que que_steps changes to Called."""
+    if doc.que_steps != "Called":
         return
 
-    # Only fire when status just changed to Called (not on every save)
+    # Only fire when que_steps just changed to Called (not on every save)
     before = doc.get_doc_before_save()
-    if before and before.status == "Called":
+    if before and before.que_steps == "Called":
         return
 
     if not doc.patient:
