@@ -1,0 +1,21 @@
+<div class="phd-root">
+  <div class="phd-header">
+    <h2>Pharmacy Dispense</h2>
+    <p class="phd-sub">Scan or type the invoice ID to view medicines and dispense</p>
+  </div>
+
+  <div class="phd-scan-panel">
+    <label class="phd-scan-label">Invoice ID</label>
+    <div class="phd-scan-row">
+      <input
+        id="phd-input"
+        type="text"
+        class="phd-scan-input"
+        placeholder="Scan QR or type invoice ID..."
+        autocomplete="off"
+      />
+      <button class="btn btn-primary phd-lookup-btn" id="phd-lookup-btn">Look Up</button>
+    </div>
+    <div id="phd-result" class="phd-result" style="display:none"></div>
+  </div>
+</div>
