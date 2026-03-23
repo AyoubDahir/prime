@@ -63,14 +63,14 @@ def create_sales_orders(doc):
             # frappe.msgprint("ok")
             add_drug_items(sales_order, doc)
             sales_order.so_type = "Pharmacy"
-            sales_order.user = frappe.session.user
+            sales_order.user = "ayoub"
             sales_order.full_name = frappe.db.get_value("User", frappe.session.user, "full_name")
 
         elif so_type == "services_so":
             add_visit_charge(sales_order, doc)
             add_service_items(sales_order, doc)
             sales_order.so_type = "Cashiers"
-            sales_order.user = frappe.session.user
+            sales_order.user = "ayoub"
             sales_order.full_name = frappe.db.get_value("User", frappe.session.user, "full_name")
 
         sales_order.items = [
