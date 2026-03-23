@@ -262,3 +262,38 @@ def checkin_by_qr(reference_id):
         "que_steps": row.que_steps,
         "patients_ahead": waiting_ahead,
     }
+
+
+def send_called_sms(doc, method=None):
+    """Send Somali SMS to patient the moment Que status changes to Called."""
+    if doc.status != "Called":
+        return
+
+    # Only fire when status just changed to Called (not on every save)
+    before = doc.get_doc_before_save()
+    if before and before.status == "Called":
+        return
+
+    if not doc.patient:
+        return
+
+    mobile = frappe.db.get_value("Patient", doc.patient, "mobile")
+    if not mobile:
+        return
+
+    patient_name = doc.patient_name or ""
+    message = (
+        f"Salam {patient_name},\n\n"
+        "Waqtigii ballantaadu waa la gaadhay. Fadlan si degdeg ah ugu gudub dhakhtarka.\n\n"
+        "Fadlan ogow: haddii aadan waqtigan ku iman, waxaa la siin doonaa fursadda bukaanka kugu xiga.\n\n"
+        "Mahadsanid,\nAl-Ihsan Hospital"
+    )
+
+    try:
+        frappe.call(
+            "frappe.core.doctype.sms_settings.sms_settings.send_sms",
+            receiver_list=[mobile],
+            msg=message
+        )
+    except Exception:
+        frappe.log_error(frappe.get_traceback(), "Queue Called SMS Failed")

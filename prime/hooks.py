@@ -13,6 +13,7 @@ required_apps = ["erpnext","healthcare"]
 # --------
 fixtures = [
     {"dt": "Mode of Payment", "filters": [["name", "in", ["Waafi"]]]},
+    {"dt": "Sales Type", "filters": [["name", "in", ["Pharmacy", "Cashiers"]]]},
 ]
 
 # Includes in <head>
@@ -134,6 +135,9 @@ override_doctype_class = {
 # Hook on document methods and events
 
 doc_events = {
+    "Que": {
+        "on_update": "prime.api.queue_display_api.send_called_sms",
+    },
     "Patient Encounter": {
         "before_validate": "prime.api.patient_encounter.set_so_values_from_db",
         "on_update": "prime.api.patient_encounter.enqueue_sales_orders",
