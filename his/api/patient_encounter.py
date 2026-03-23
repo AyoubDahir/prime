@@ -110,8 +110,11 @@ def create_sales_orders(doc):
             si = make_sales_invoice(sales_order.name)
             si.sales_team = []
             si.is_pos = 0
+            si.update_stock = 0
             si.patient = doc.patient
             si.flags.ignore_permissions = True
+            si.flags.ignore_links = True
+            si.flags.ignore_mandatory = True
             si.save()
             si.submit()
         except Exception:

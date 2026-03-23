@@ -179,12 +179,46 @@ def get_invoice_for_dispensing(invoice_name):
 
 @frappe.whitelist(allow_guest=False)
 def mark_invoice_dispensed(invoice_name):
-    """Mark a Sales Invoice as dispensed (medicines handed to patient)."""
+    """Mark a Sales Invoice as dispensed and deduct stock from pharmacy warehouse."""
     si = frappe.get_doc("Sales Invoice", invoice_name)
     if si.docstatus != 1:
         frappe.throw("Invoice must be submitted before dispensing")
     if si.outstanding_amount > 0:
         frappe.throw("Invoice has not been paid yet")
+
+    # Deduct stock: create a Material Issue Stock Entry for each stock item
+    stock_items = []
+    for item in si.items:
+        if not frappe.db.get_value("Item", item.item_code, "is_stock_item"):
+            continue
+        # Determine warehouse: use item's default warehouse for this company
+        warehouse = frappe.db.get_value(
+            "Item Default",
+            {"parent": item.item_code, "company": si.company},
+            "default_warehouse",
+        ) or item.warehouse
+        if not warehouse:
+            frappe.throw(
+                "No warehouse found for item {0}. Please set a default warehouse on the item.".format(item.item_code)
+            )
+        stock_items.append({"item_code": item.item_code, "qty": item.qty, "warehouse": warehouse})
+
+    if stock_items:
+        se = frappe.new_doc("Stock Entry")
+        se.stock_entry_type = "Material Issue"
+        se.purpose = "Material Issue"
+        se.company = si.company
+        se.remarks = "Pharmacy dispense for Invoice {0}".format(invoice_name)
+        for row in stock_items:
+            se.append("items", {
+                "item_code": row["item_code"],
+                "qty": row["qty"],
+                "s_warehouse": row["warehouse"],
+            })
+        se.flags.ignore_permissions = True
+        se.save()
+        se.submit()
+
     frappe.db.set_value("Sales Invoice", invoice_name, "is_dispensed", 1)
     return {"success": True}
 
