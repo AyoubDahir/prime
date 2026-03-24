@@ -136,20 +136,39 @@ body.st-launchpad-visible {
     background: #0b1120 !important;
 }
 
-/* Workspace home: fit all icons on one screen without scrolling */
+/* Workspace home: fill full screen, icons spread to use all available space */
+
+/* Lock page-body to viewport minus Frappe navbar (~56px) */
+body.st-launchpad-visible .page-body {
+    height: calc(100vh - 56px) !important;
+    overflow: hidden !important;
+}
+/* Make launchpad fill that space exactly */
+body.st-launchpad-visible .st-launchpad {
+    height: 100% !important;
+    min-height: unset !important;
+    overflow: hidden !important;
+}
+
+/* Hide wasted title/breadcrumb space */
 body.st-launchpad-visible .st-lp-breadcrumb,
 body.st-launchpad-visible .st-lp-title {
     display: none !important;
 }
+
+/* Reduce top padding */
 body.st-launchpad-visible .st-lp-content {
-    padding: 16px 32px 0 !important;
-    overflow: hidden !important;
+    padding: 12px 32px 0 !important;
 }
+
+/* Grid: spread rows evenly to fill all available height */
 body.st-launchpad-visible .st-lp-grid {
-    gap: 14px 16px !important;
+    gap: 8px 16px !important;
     margin-bottom: 0 !important;
-    align-content: start !important;
+    align-content: space-evenly !important;
 }
+
+/* Slightly smaller tiles to ensure fit */
 body.st-launchpad-visible .st-lp-tile {
     width: 76px !important;
     height: 76px !important;
@@ -161,11 +180,11 @@ body.st-launchpad-visible .st-lp-tile-label {
     font-size: 0.7rem !important;
     margin-top: 6px !important;
 }
-body.st-launchpad-visible .st-lp-footer {
-    padding: 10px 0 12px !important;
-}
 body.st-launchpad-visible .st-lp-tile-wrap {
     max-width: 110px !important;
+}
+body.st-launchpad-visible .st-lp-footer {
+    padding: 8px 0 10px !important;
 }
 
 /* Fix: link-btn (X clear button) overlaps text in child table link fields */
