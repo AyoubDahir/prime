@@ -105,7 +105,22 @@ def create_sales_orders(doc):
         sales_order.submit()
 
         # Auto-create unpaid Sales Invoice so patient can pay from mobile
-        # or cashier can collect at the counter — whichever comes first
+        # or cashier can collect at the counter — whichever comes first.
+        # Guard against duplicates: on_update fires on save (draft) and
+        # on_update_after_submit fires on submit — both call this function,
+        # so we must skip if a non-cancelled SI already exists for this SO.
+        existing_si = frappe.db.sql(
+            """
+            SELECT si.name FROM `tabSales Invoice` si
+            INNER JOIN `tabSales Invoice Item` sii ON sii.parent = si.name
+            WHERE sii.sales_order = %s AND si.docstatus != 2
+            LIMIT 1
+            """,
+            sales_order.name,
+        )
+        if existing_si:
+            continue
+
         try:
             si = make_sales_invoice(sales_order.name)
             si.sales_team = []

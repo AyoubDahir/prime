@@ -33,6 +33,12 @@ def _sanitize_sales_invoice_defaults():
 
 @frappe.whitelist()
 def make_invoice(doc, method=None):
+	# Guard against duplicate invoices: reload from DB to get the latest
+	# sales_invoice value (it may have been set by a concurrent call).
+	current_si = frappe.db.get_value("Que", doc.name, "sales_invoice") if doc.name else None
+	if current_si:
+		return
+
 	is_employee = doc.is_employee
 	employee = doc.employee
 
