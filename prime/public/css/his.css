@@ -131,9 +131,41 @@
     border-radius: 0 !important;
   }
 
-/* Fix: workspace home white gap at bottom - match body bg to launchpad dark color */
+/* Workspace home: body bg matches launchpad, no white gap */
 body.st-launchpad-visible {
     background: #0b1120 !important;
+}
+
+/* Workspace home: fit all icons on one screen without scrolling */
+body.st-launchpad-visible .st-lp-breadcrumb,
+body.st-launchpad-visible .st-lp-title {
+    display: none !important;
+}
+body.st-launchpad-visible .st-lp-content {
+    padding: 16px 32px 0 !important;
+    overflow: hidden !important;
+}
+body.st-launchpad-visible .st-lp-grid {
+    gap: 14px 16px !important;
+    margin-bottom: 0 !important;
+    align-content: start !important;
+}
+body.st-launchpad-visible .st-lp-tile {
+    width: 76px !important;
+    height: 76px !important;
+}
+body.st-launchpad-visible .st-lp-tile-icon {
+    font-size: 1.5rem !important;
+}
+body.st-launchpad-visible .st-lp-tile-label {
+    font-size: 0.7rem !important;
+    margin-top: 6px !important;
+}
+body.st-launchpad-visible .st-lp-footer {
+    padding: 10px 0 12px !important;
+}
+body.st-launchpad-visible .st-lp-tile-wrap {
+    max-width: 110px !important;
 }
 
 /* Fix: link-btn (X clear button) overlaps text in child table link fields */
