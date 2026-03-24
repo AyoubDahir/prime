@@ -508,6 +508,50 @@ def get_paid_sales_invoices_for_mobile(patient, limit=100):
 
 
 @frappe.whitelist()
+def get_drug_prescriptions_for_mobile(patient, limit=50):
+    if not patient:
+        frappe.throw("patient is required")
+
+    try:
+        limit = int(limit)
+    except Exception:
+        limit = 50
+    if limit <= 0:
+        limit = 50
+
+    encounters = frappe.get_all(
+        "Patient Encounter",
+        filters={"patient": patient, "docstatus": ["!=", 2]},
+        fields=["name", "encounter_date", "practitioner", "practitioner_name"],
+        order_by="encounter_date desc",
+        limit_page_length=limit,
+    )
+
+    if not encounters:
+        return []
+
+    result = []
+    for enc in encounters:
+        drugs = frappe.get_all(
+            "Drug Prescription",
+            filters={"parent": enc["name"], "parenttype": "Patient Encounter"},
+            fields=["drug_code", "drug_name", "qty", "dosage", "period", "route", "instraction"],
+            order_by="idx",
+        )
+        if not drugs:
+            continue
+        result.append({
+            "encounter": enc["name"],
+            "date": str(enc["encounter_date"]) if enc["encounter_date"] else None,
+            "practitioner": enc["practitioner"],
+            "practitioner_name": enc["practitioner_name"],
+            "drugs": drugs,
+        })
+
+    return result
+
+
+@frappe.whitelist()
 def get_lab_reports_for_mobile(patient, limit=50):
     if not patient:
         frappe.throw("patient is required")
