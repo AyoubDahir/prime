@@ -1,0 +1,222 @@
+[
+  {
+    "doctype": "Workspace",
+    "name": "OPD",
+    "label": "OPD",
+    "module": "Prime",
+    "category": "Modules",
+    "color": "#29CD42",
+    "icon": null,
+    "is_hidden": 0
+  },
+  {
+    "doctype": "Workspace",
+    "name": "Tools",
+    "label": "Tools",
+    "module": "Prime",
+    "category": "Modules",
+    "color": null,
+    "icon": null,
+    "is_hidden": 0
+  },
+  {
+    "doctype": "Workspace",
+    "name": "Cashier",
+    "label": "Cashier",
+    "module": "Prime",
+    "category": "Modules",
+    "color": "#B4CD29",
+    "icon": null,
+    "is_hidden": 0
+  },
+  {
+    "doctype": "Workspace",
+    "name": "Finance",
+    "label": "Finance",
+    "module": "Prime",
+    "category": "Modules",
+    "color": "#29CD42",
+    "icon": null,
+    "is_hidden": 0
+  },
+  {
+    "doctype": "Workspace",
+    "name": "Developer",
+    "label": "Developer",
+    "module": "Prime",
+    "category": "Modules",
+    "color": "#ED6396",
+    "icon": null,
+    "is_hidden": 0
+  },
+  {
+    "doctype": "Workspace",
+    "name": "Laboratory",
+    "label": "Laboratory",
+    "module": "Prime",
+    "category": "Modules",
+    "color": "#4F9DD9",
+    "icon": null,
+    "is_hidden": 0
+  },
+  {
+    "doctype": "Workspace",
+    "name": "Home",
+    "label": "Home",
+    "module": "Setup",
+    "category": "Modules",
+    "color": "#6366f1",
+    "icon": "fa-home",
+    "is_hidden": 0
+  },
+  {
+    "doctype": "Workspace",
+    "name": "Accounting",
+    "label": "Accounting",
+    "module": "Accounts",
+    "category": "Modules",
+    "color": "#8b5cf6",
+    "icon": "fa-money-check-alt",
+    "is_hidden": 0
+  },
+  {
+    "doctype": "Workspace",
+    "name": "Recruitment",
+    "label": "Recruitment",
+    "module": "HR",
+    "category": "Modules",
+    "color": "#ec4899",
+    "icon": "fa-folder",
+    "is_hidden": 0
+  },
+  {
+    "doctype": "Workspace",
+    "name": "Assets",
+    "label": "Assets",
+    "module": "Assets",
+    "category": "Modules",
+    "color": "#6366f1",
+    "icon": "fa-building",
+    "is_hidden": 0
+  },
+  {
+    "doctype": "Workspace",
+    "name": "Employee Lifecycle",
+    "label": "Employee Lifecycle",
+    "module": "HR",
+    "category": "Modules",
+    "color": "#3b82f6",
+    "icon": "fa-folder",
+    "is_hidden": 0
+  },
+  {
+    "doctype": "Workspace",
+    "name": "Stock",
+    "label": "Stock",
+    "module": "Stock",
+    "category": "Modules",
+    "color": "#06b6d4",
+    "icon": "fa-warehouse",
+    "is_hidden": 0
+  },
+  {
+    "doctype": "Workspace",
+    "name": "Performance",
+    "label": "Performance",
+    "module": "HR",
+    "category": "Modules",
+    "color": "#6366f1",
+    "icon": "fa-folder",
+    "is_hidden": 0
+  },
+  {
+    "doctype": "Workspace",
+    "name": "Shift & Attendance",
+    "label": "Shift & Attendance",
+    "module": "HR",
+    "category": "Modules",
+    "color": "#8b5cf6",
+    "icon": "fa-folder",
+    "is_hidden": 0
+  },
+  {
+    "doctype": "Workspace",
+    "name": "HR",
+    "label": "HR",
+    "module": "HR",
+    "category": "Modules",
+    "color": "#ec4899",
+    "icon": "fa-folder",
+    "is_hidden": 0
+  },
+  {
+    "doctype": "Workspace",
+    "name": "Quality",
+    "label": "Quality",
+    "module": "Quality Management",
+    "category": "Modules",
+    "color": "#f59e0b",
+    "icon": "fa-clipboard-check",
+    "is_hidden": 0
+  },
+  {
+    "doctype": "Workspace",
+    "name": "CRM",
+    "label": "CRM",
+    "module": "CRM",
+    "category": "Modules",
+    "color": "#8b5cf6",
+    "icon": "fa-bullseye",
+    "is_hidden": 0
+  },
+  {
+    "doctype": "Workspace",
+    "name": "Salary Payout",
+    "label": "Salary Payout",
+    "module": "Payroll",
+    "category": "Modules",
+    "color": "#f59e0b",
+    "icon": "fa-folder",
+    "is_hidden": 0
+  },
+  {
+    "doctype": "Workspace",
+    "name": "Leaves",
+    "label": "Leaves",
+    "module": "HR",
+    "category": "Modules",
+    "color": "#8b5cf6",
+    "icon": "fa-folder",
+    "is_hidden": 0
+  },
+  {
+    "doctype": "Workspace",
+    "name": "Support",
+    "label": "Support",
+    "module": "Support",
+    "category": "Modules",
+    "color": "#ec4899",
+    "icon": "fa-headset",
+    "is_hidden": 0
+  },
+  {
+    "doctype": "Workspace",
+    "name": "Loans",
+    "label": "Loans",
+    "module": "Loan Management",
+    "category": "Modules",
+    "color": "#14b8a6",
+    "icon": "fa-hand-holding-usd",
+    "is_hidden": 0
+  },
+  {
+    "doctype": "Workspace",
+    "name": "Payroll",
+    "label": "Payroll",
+    "module": "Payroll",
+    "category": "Modules",
+    "color": "#f59e0b",
+    "icon": "fa-file-invoice-dollar",
+    "is_hidden": 0
+  }
+]
