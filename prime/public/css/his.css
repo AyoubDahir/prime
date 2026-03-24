@@ -130,3 +130,12 @@
     min-height: 100% !important;
     border-radius: 0 !important;
   }
+
+/* Fix: link-btn (X clear button) overlaps text in child table link fields */
+.control-input {
+    position: relative;
+}
+.link-btn {
+    right: 2px !important;
+    left: auto !important;
+}
