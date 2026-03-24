@@ -131,6 +131,11 @@
     border-radius: 0 !important;
   }
 
+/* Fix: workspace home white gap at bottom - match body bg to launchpad dark color */
+body.st-launchpad-visible {
+    background: #0b1120 !important;
+}
+
 /* Fix: link-btn (X clear button) overlaps text in child table link fields */
 .control-input {
     position: relative;
