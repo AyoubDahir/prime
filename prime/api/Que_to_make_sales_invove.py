@@ -29,6 +29,11 @@ def _sanitize_sales_invoice_defaults():
 		  AND LOWER(IFNULL(value, '')) LIKE '%return%'
 		"""
 	)
+	# Clear Redis DocType cache so the sanitized defaults are actually used.
+	# Without this, Frappe serves the corrupt 'Return' default from cache
+	# and safe_eval() raises SyntaxError even after the DB is cleaned.
+	frappe.clear_cache(doctype="Sales Invoice")
+	frappe.clear_cache(doctype="Sales Invoice Item")
 
 
 @frappe.whitelist()
