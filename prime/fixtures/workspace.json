@@ -2,6 +2,7 @@
   {
     "doctype": "Workspace",
     "name": "OPD",
+    "title": "OPD",
     "label": "OPD",
     "module": "Prime",
     "category": "Modules",
@@ -12,6 +13,7 @@
   {
     "doctype": "Workspace",
     "name": "Tools",
+    "title": "Tools",
     "label": "Tools",
     "module": "Prime",
     "category": "Modules",
@@ -22,6 +24,7 @@
   {
     "doctype": "Workspace",
     "name": "Cashier",
+    "title": "Cashier",
     "label": "Cashier",
     "module": "Prime",
     "category": "Modules",
@@ -32,6 +35,7 @@
   {
     "doctype": "Workspace",
     "name": "Finance",
+    "title": "Finance",
     "label": "Finance",
     "module": "Prime",
     "category": "Modules",
@@ -42,6 +46,7 @@
   {
     "doctype": "Workspace",
     "name": "Developer",
+    "title": "Developer",
     "label": "Developer",
     "module": "Prime",
     "category": "Modules",
@@ -52,6 +57,7 @@
   {
     "doctype": "Workspace",
     "name": "Laboratory",
+    "title": "Laboratory",
     "label": "Laboratory",
     "module": "Prime",
     "category": "Modules",
@@ -62,6 +68,7 @@
   {
     "doctype": "Workspace",
     "name": "Home",
+    "title": "Home",
     "label": "Home",
     "module": "Setup",
     "category": "Modules",
@@ -72,6 +79,7 @@
   {
     "doctype": "Workspace",
     "name": "Accounting",
+    "title": "Accounting",
     "label": "Accounting",
     "module": "Accounts",
     "category": "Modules",
@@ -82,6 +90,7 @@
   {
     "doctype": "Workspace",
     "name": "Recruitment",
+    "title": "Recruitment",
     "label": "Recruitment",
     "module": "HR",
     "category": "Modules",
@@ -92,6 +101,7 @@
   {
     "doctype": "Workspace",
     "name": "Assets",
+    "title": "Assets",
     "label": "Assets",
     "module": "Assets",
     "category": "Modules",
@@ -102,6 +112,7 @@
   {
     "doctype": "Workspace",
     "name": "Employee Lifecycle",
+    "title": "Employee Lifecycle",
     "label": "Employee Lifecycle",
     "module": "HR",
     "category": "Modules",
@@ -112,6 +123,7 @@
   {
     "doctype": "Workspace",
     "name": "Stock",
+    "title": "Stock",
     "label": "Stock",
     "module": "Stock",
     "category": "Modules",
@@ -122,6 +134,7 @@
   {
     "doctype": "Workspace",
     "name": "Performance",
+    "title": "Performance",
     "label": "Performance",
     "module": "HR",
     "category": "Modules",
@@ -132,6 +145,7 @@
   {
     "doctype": "Workspace",
     "name": "Shift & Attendance",
+    "title": "Shift & Attendance",
     "label": "Shift & Attendance",
     "module": "HR",
     "category": "Modules",
@@ -142,6 +156,7 @@
   {
     "doctype": "Workspace",
     "name": "HR",
+    "title": "HR",
     "label": "HR",
     "module": "HR",
     "category": "Modules",
@@ -152,6 +167,7 @@
   {
     "doctype": "Workspace",
     "name": "Quality",
+    "title": "Quality",
     "label": "Quality",
     "module": "Quality Management",
     "category": "Modules",
@@ -162,6 +178,7 @@
   {
     "doctype": "Workspace",
     "name": "CRM",
+    "title": "CRM",
     "label": "CRM",
     "module": "CRM",
     "category": "Modules",
@@ -172,6 +189,7 @@
   {
     "doctype": "Workspace",
     "name": "Salary Payout",
+    "title": "Salary Payout",
     "label": "Salary Payout",
     "module": "Payroll",
     "category": "Modules",
@@ -182,6 +200,7 @@
   {
     "doctype": "Workspace",
     "name": "Leaves",
+    "title": "Leaves",
     "label": "Leaves",
     "module": "HR",
     "category": "Modules",
@@ -192,6 +211,7 @@
   {
     "doctype": "Workspace",
     "name": "Support",
+    "title": "Support",
     "label": "Support",
     "module": "Support",
     "category": "Modules",
@@ -202,6 +222,7 @@
   {
     "doctype": "Workspace",
     "name": "Loans",
+    "title": "Loans",
     "label": "Loans",
     "module": "Loan Management",
     "category": "Modules",
@@ -212,6 +233,7 @@
   {
     "doctype": "Workspace",
     "name": "Payroll",
+    "title": "Payroll",
     "label": "Payroll",
     "module": "Payroll",
     "category": "Modules",
