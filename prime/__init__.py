@@ -63,3 +63,31 @@ def _patch_frappe_sort_fields():
 
 
 _patch_frappe_sort_fields()
+
+
+def _patch_workspace_validate():
+	"""
+	Frappe update added validate() to Workspace that requires content to be a JSON list.
+	When bench migrate syncs workspace fixtures that have no 'content' field, the
+	in-memory document has content=None, causing json.loads(None) -> TypeError -> 500.
+	Fix: before validate, if content is falsy, load the existing DB value (preserves
+	real shortcuts). If no DB value, default to '[]' so new workspaces pass validation.
+	"""
+	try:
+		import frappe
+		from frappe.desk.doctype.workspace.workspace import Workspace
+
+		_original_ws_validate = Workspace.validate
+
+		def _patched_ws_validate(self):
+			if not self.content:
+				existing = frappe.db.get_value("Workspace", self.name, "content")
+				self.content = existing if existing else "[]"
+			_original_ws_validate(self)
+
+		Workspace.validate = _patched_ws_validate
+	except Exception:
+		pass
+
+
+_patch_workspace_validate()
