@@ -6,10 +6,14 @@ from datetime import date
 @frappe.whitelist()
 def create_lab_tests(doc , method = None):
 	# try:
-	
+
     if doc.invoiced == 1:
+        if not doc.reff_invoice:
+            return
         sam = frappe.get_doc('Sales Invoice', doc.reff_invoice)
     else:
+        if not doc.custom_reff_order:
+            return
         sam = frappe.get_doc('Sales Order', doc.custom_reff_order)
     lab_test_itmes = []
 

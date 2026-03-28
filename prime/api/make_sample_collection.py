@@ -167,12 +167,16 @@ def token_number(doc, method=None):
         doc.token_no_display = f"{next_token:03}"  # e.g., "001", "002", ...
 
         # Optional: Set lab_ref from the last sample collection (if needed)
-        last_doc = frappe.get_last_doc("Sample Collection")
-        if last_doc and last_doc.lab_ref:
-            try:
-                doc.lab_ref = int(last_doc.lab_ref) + 1
-            except (ValueError, TypeError):
-                doc.lab_ref = 1
+        try:
+            last_doc = frappe.get_last_doc("Sample Collection")
+            if last_doc and last_doc.lab_ref:
+                try:
+                    doc.lab_ref = int(last_doc.lab_ref) + 1
+                except (ValueError, TypeError):
+                    doc.lab_ref = 1
+        except frappe.DoesNotExistError:
+            # No Sample Collections exist yet — this is the very first one
+            doc.lab_ref = 1
 
 
 # # midkan by number kaliya waaye sida 1,2,3
