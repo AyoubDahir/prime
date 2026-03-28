@@ -139,6 +139,9 @@ doc_events = {
     "Que": {
         "on_update": "prime.api.queue_display_api.send_called_sms",
     },
+    "Lab Test": {
+        "on_submit": "prime.api.queue_display_api.send_lab_result_notification",
+    },
     "Patient Encounter": {
         "before_validate": "prime.api.patient_encounter.set_so_values_from_db",
         "on_update": "prime.api.patient_encounter.enqueue_sales_orders",

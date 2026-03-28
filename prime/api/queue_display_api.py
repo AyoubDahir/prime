@@ -290,3 +290,27 @@ def send_called_sms(doc, method=None):
         )
     except Exception:
         frappe.log_error(frappe.get_traceback(), "Queue Called SMS Failed")
+
+
+def send_lab_result_notification(doc, method=None):
+    """Send Somali SMS to patient when Lab Test is submitted (results ready)."""
+    if not doc.patient:
+        return
+
+    mobile = frappe.db.get_value("Patient", doc.patient, "mobile")
+    if not mobile:
+        return
+
+    try:
+        import requests as _requests
+        _requests.post(
+            "http://alihsan-java-backend.alihsan.svc.cluster.local:5000/api/internal/lab/result-ready",
+            json={
+                "mobile": mobile,
+                "patientName": doc.patient_name or "",
+                "labTestName": doc.lab_test_name or doc.name,
+            },
+            timeout=5
+        )
+    except Exception:
+        frappe.log_error(frappe.get_traceback(), "Lab Result SMS Failed")
