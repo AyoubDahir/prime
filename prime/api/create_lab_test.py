@@ -11,10 +11,19 @@ def create_lab_tests(doc , method = None):
         if not doc.reff_invoice:
             return
         sam = frappe.get_doc('Sales Invoice', doc.reff_invoice)
-    else:
-        if not doc.custom_reff_order:
-            return
+    elif doc.custom_reff_order:
         sam = frappe.get_doc('Sales Order', doc.custom_reff_order)
+    else:
+        # Manually created Sample Collection — no order/invoice reference.
+        # Build lab test items directly from doc.lab_test child table.
+        if not doc.lab_test:
+            return
+        class _Sam:
+            patient = doc.patient
+            ref_practitioner = doc.ref_practitioner or ""
+            name = ""
+            items = [type('I', (), {'item_code': row.lab_test})() for row in doc.lab_test]
+        sam = _Sam()
     lab_test_itmes = []
 
 	# token = get_next_token_number()
