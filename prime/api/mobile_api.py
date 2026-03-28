@@ -535,11 +535,15 @@ def get_drug_prescriptions_for_mobile(patient, limit=50):
         drugs = frappe.get_all(
             "Drug Prescription",
             filters={"parent": enc["name"], "parenttype": "Patient Encounter"},
-            fields=["drug_code", "drug_name", "qty", "dosage", "period", "route", "instraction"],
+            fields=["drug_code", "drug_name", "qty", "dosage", "period", "dosage_form"],
             order_by="idx",
         )
         if not drugs:
             continue
+        # Remap dosage_form → route so Java/Kotlin models stay unchanged
+        for d in drugs:
+            d["route"] = d.pop("dosage_form", None)
+            d["instraction"] = None
         result.append({
             "encounter": enc["name"],
             "date": str(enc["encounter_date"]) if enc["encounter_date"] else None,
