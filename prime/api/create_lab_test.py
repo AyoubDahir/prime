@@ -20,7 +20,7 @@ def create_lab_tests(doc , method = None):
             return
         class _Sam:
             patient = doc.patient
-            ref_practitioner = doc.ref_practitioner or ""
+            ref_practitioner = doc.practitioner or ""
             name = ""
             items = [type('I', (), {'item_code': row.lab_test})() for row in doc.lab_test]
         sam = _Sam()
