@@ -1,3 +1,10 @@
+function fix_primary_btn_color(frm) {
+	// Ensure primary-action button text is always white regardless of CSS cascade
+	setTimeout(function() {
+		frm.page.btn_primary.css('color', '#ffffff');
+	}, 300);
+}
+
 function setup_inline_payments(frm) {
 	var payments_field = frm.fields_dict.payments;
 	var is_pos_field = frm.fields_dict.is_pos;
@@ -22,6 +29,7 @@ function setup_inline_payments(frm) {
 frappe.ui.form.on('Sales Invoice', {
   refresh(frm) {
 		setup_inline_payments(frm);
+		fix_primary_btn_color(frm);
 
 		if (frm.doc.docstatus !== 0 || frm.doc.workflow_state != "Approved") return;
 
