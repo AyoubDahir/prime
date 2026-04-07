@@ -1,5 +1,28 @@
+function setup_inline_payments(frm) {
+	var payments_field = frm.fields_dict.payments;
+	var is_pos_field = frm.fields_dict.is_pos;
+	if (!payments_field || !is_pos_field) return;
+
+	var $payments = payments_field.$wrapper;
+	var $is_pos = is_pos_field.$wrapper;
+
+	// Move payments DOM element right after is_pos if not already there
+	if (!$is_pos.next().is($payments)) {
+		$is_pos.after($payments);
+	}
+
+	if (frm.doc.is_pos) {
+		$payments.show();
+		payments_field.grid.refresh();
+	} else {
+		$payments.hide();
+	}
+}
+
 frappe.ui.form.on('Sales Invoice', {
   refresh(frm) {
+		setup_inline_payments(frm);
+
 		if (frm.doc.docstatus !== 0 || frm.doc.workflow_state != "Approved") return;
 
 		const editable_fields = ['is_pos', 'payments'];
@@ -8,6 +31,9 @@ frappe.ui.form.on('Sales Invoice', {
 				if (editable_fields.includes(field.df.fieldname)) return;
 				frm.set_df_property(field.df.fieldname, "read_only", 1);
 			});
+	},
+  is_pos(frm) {
+		setup_inline_payments(frm);
 	},
     on_submit: function(frm) {
        
