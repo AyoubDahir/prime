@@ -1,8 +1,10 @@
 function fix_primary_btn_color(frm) {
-	// Ensure primary-action button text is always white regardless of CSS cascade
+	// Frappe desk CSS has color:#000 !important on btn-primary.
+	// Only inline style with !important can override it.
 	setTimeout(function() {
-		frm.page.btn_primary.css('color', '#ffffff');
-	}, 300);
+		var btn = frm.page.btn_primary[0];
+		if (btn) btn.style.setProperty('color', '#ffffff', 'important');
+	}, 500);
 }
 
 function setup_inline_payments(frm) {
