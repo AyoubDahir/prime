@@ -190,6 +190,12 @@ body.st-launchpad-visible .st-lp-footer {
     padding: 6px 0 8px !important;
 }
 
+/* Fix: primary-action button text should always be white */
+.page-head .primary-action,
+.page-head .primary-action span {
+    color: #fff !important;
+}
+
 /* Fix: link-btn (X clear button) overlaps text in child table link fields */
 .control-input {
     position: relative;
