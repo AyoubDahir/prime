@@ -22,6 +22,7 @@
     "parentfield": "states",
     "parenttype": "Workflow",
     "state": "Draft",
+    "style": "Warning",
     "update_field": null,
     "update_value": null
    },
@@ -35,6 +36,7 @@
     "parentfield": "states",
     "parenttype": "Workflow",
     "state": "Discount Approval Pending",
+    "style": "Warning",
     "update_field": null,
     "update_value": null
    },
@@ -48,6 +50,7 @@
     "parentfield": "states",
     "parenttype": "Workflow",
     "state": "Discount Rejected",
+    "style": "Danger",
     "update_field": null,
     "update_value": null
    },
@@ -61,6 +64,7 @@
     "parentfield": "states",
     "parenttype": "Workflow",
     "state": "Approved",
+    "style": "Success",
     "update_field": null,
     "update_value": null
    },
@@ -74,6 +78,7 @@
     "parentfield": "states",
     "parenttype": "Workflow",
     "state": "Submitted",
+    "style": "Primary",
     "update_field": null,
     "update_value": null
    }
