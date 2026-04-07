@@ -22,7 +22,7 @@ fixtures = [
 
 # include js, css files in header of desk.html
 app_include_css = ["/assets/prime/css/his.css"]
-app_include_js = ["/assets/prime/js/his.js"]
+app_include_js = ["/assets/prime/js/his.js", "/assets/prime/js/route_guard.js"]
 
 
 # include js, css files in header of web template
