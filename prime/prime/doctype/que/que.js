@@ -467,6 +467,38 @@ frappe.ui.form.on('Que', {
         }
 
         if (!frm.is_new()) {
+            // ── Submit Invoice button (counter Ques only — mobile Ques auto-submit) ──
+            if (
+                frm.doc.sales_invoice &&
+                (frappe.user_roles.includes('Cashier') ||
+                 frappe.user_roles.includes('Main Cashier') ||
+                 frappe.user_roles.includes('System Manager'))
+            ) {
+                frappe.db.get_value('Sales Invoice', frm.doc.sales_invoice, 'docstatus').then(r => {
+                    if (r && r.message && r.message.docstatus === 0) {
+                        let btn = frm.add_custom_button(__('✅ Submit Invoice'), function() {
+                            frappe.confirm(
+                                `Submit invoice <strong>${frm.doc.sales_invoice}</strong> and confirm payment?`,
+                                () => {
+                                    frappe.call({
+                                        method: 'frappe.client.submit',
+                                        args: { doc: { doctype: 'Sales Invoice', name: frm.doc.sales_invoice } },
+                                        freeze: true,
+                                        freeze_message: __('Submitting invoice...'),
+                                        callback: function(r) {
+                                            frappe.show_alert({ message: __('Invoice submitted successfully'), indicator: 'green' }, 4);
+                                            frm.reload_doc();
+                                        }
+                                    });
+                                }
+                            );
+                        });
+                        // Make it visually prominent
+                        btn.removeClass('btn-default').addClass('btn-primary');
+                    }
+                });
+            }
+
             if (frm.doc.status === "Open") {
                 if (frappe.user_roles.includes('Main Cashier') || frappe.user_roles.includes('Cashier')) {
                     frm.add_custom_button(__("Cancel"), function() {

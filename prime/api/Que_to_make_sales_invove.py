@@ -110,8 +110,12 @@ def make_invoice(doc, method=None):
 			
 			})
 			sales_doc.insert(ignore_permissions=1)
-			sales_doc.submit()
-			doc.sales_invoice=sales_doc.name
+			# Mobile: payment already confirmed via Waafi — submit immediately.
+			# Counter (cashier): leave as draft so cashier can review and submit.
+			is_mobile = (doc.reference or "").startswith("MOBILE:")
+			if is_mobile:
+				sales_doc.submit()
+			doc.sales_invoice = sales_doc.name
 			doc.save()
 	
 		
