@@ -1,0 +1,69 @@
+/* ── Shared Hospital Dashboard CSS ── */
+.dash-page { padding: 20px 24px; background: #f4f5f7; min-height: 100vh; }
+.dash-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
+.dash-title { font-size: 20px; font-weight: 700; color: #1a1a2e; margin: 0; }
+.dash-subtitle { font-size: 13px; color: #888; margin-top: 2px; }
+.dash-refresh-info { font-size: 12px; color: #aaa; }
+
+/* KPI Grid */
+.dash-kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 24px; }
+.dash-kpi-card {
+    background: #fff;
+    border-radius: 10px;
+    padding: 18px 20px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    box-shadow: 0 1px 4px rgba(0,0,0,.07);
+    transition: transform .15s, box-shadow .15s;
+}
+.dash-kpi-card:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,.1); }
+.dash-kpi-icon {
+    width: 52px; height: 52px; border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 24px; flex-shrink: 0;
+}
+.dash-kpi-icon.blue   { background: #eff6ff; }
+.dash-kpi-icon.green  { background: #f0fdf4; }
+.dash-kpi-icon.amber  { background: #fffbeb; }
+.dash-kpi-icon.red    { background: #fff5f5; }
+.dash-kpi-icon.purple { background: #f5f3ff; }
+.dash-kpi-icon.teal   { background: #f0fdfa; }
+.dash-kpi-icon.pink   { background: #fdf2f8; }
+.dash-kpi-icon.indigo { background: #eef2ff; }
+.dash-kpi-value { font-size: 26px; font-weight: 700; color: #111; line-height: 1.1; }
+.dash-kpi-label { font-size: 12px; color: #888; margin-top: 3px; }
+.dash-kpi-sub   { font-size: 11px; color: #aaa; margin-top: 2px; }
+
+/* Chart Row */
+.dash-chart-row { display: grid; gap: 16px; margin-bottom: 24px; }
+.dash-chart-row.two-col { grid-template-columns: 2fr 1fr; }
+.dash-chart-row.equal   { grid-template-columns: 1fr 1fr; }
+.dash-chart-row.full    { grid-template-columns: 1fr; }
+.dash-chart-card {
+    background: #fff; border-radius: 10px; padding: 20px 22px;
+    box-shadow: 0 1px 4px rgba(0,0,0,.07);
+}
+.dash-chart-title { font-size: 13px; font-weight: 600; color: #888; text-transform: uppercase; letter-spacing: .5px; margin-bottom: 4px; }
+.dash-chart-heading { font-size: 16px; font-weight: 700; color: #1a1a2e; margin-bottom: 16px; }
+.dash-chart-wrap { min-height: 220px; }
+
+/* Table inside card */
+.dash-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.dash-table th { color: #888; font-weight: 600; padding: 6px 8px; border-bottom: 1px solid #f0f0f0; text-align: left; }
+.dash-table td { padding: 8px 8px; border-bottom: 1px solid #f9f9f9; color: #333; }
+.dash-table tr:last-child td { border-bottom: none; }
+.dash-badge { display: inline-block; padding: 2px 8px; border-radius: 10px; font-size: 11px; font-weight: 600; }
+.dash-badge.green  { background: #dcfce7; color: #15803d; }
+.dash-badge.amber  { background: #fef9c3; color: #92400e; }
+.dash-badge.red    { background: #fee2e2; color: #dc2626; }
+.dash-badge.blue   { background: #dbeafe; color: #1d4ed8; }
+.dash-badge.gray   { background: #f3f4f6; color: #6b7280; }
+
+/* Loading state */
+.dash-loading { text-align: center; padding: 60px 0; color: #bbb; font-size: 14px; }
+.dash-error   { text-align: center; padding: 40px 0; color: #e53e3e; font-size: 14px; }
+
+/* Responsive */
+@media (max-width: 1024px) { .dash-kpi-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 640px)  { .dash-kpi-grid { grid-template-columns: 1fr; } .dash-chart-row.two-col { grid-template-columns: 1fr; } }

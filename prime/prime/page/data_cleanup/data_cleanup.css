@@ -1,0 +1,98 @@
+.cleanup-page {
+	padding: 24px;
+	max-width: 1000px;
+}
+
+.cleanup-warning {
+	background: #fff3cd;
+	border: 1px solid #ffc107;
+	border-radius: 6px;
+	padding: 14px 18px;
+	margin-bottom: 28px;
+	font-size: 14px;
+	color: #856404;
+}
+
+.cleanup-warning-icon {
+	font-size: 18px;
+	margin-right: 8px;
+}
+
+.cleanup-grid {
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	gap: 20px;
+}
+
+.cleanup-card {
+	background: #fff;
+	border: 1px solid #e0e0e0;
+	border-radius: 8px;
+	padding: 20px;
+	display: flex;
+	flex-direction: column;
+	gap: 14px;
+}
+
+.cleanup-card-full {
+	grid-column: 1 / -1;
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-between;
+	background: #fff5f5;
+	border-color: #f5c6cb;
+}
+
+.cleanup-card-header {
+	display: flex;
+	align-items: flex-start;
+	gap: 12px;
+}
+
+.cleanup-card-icon {
+	font-size: 28px;
+	line-height: 1;
+}
+
+.cleanup-card-title {
+	font-size: 15px;
+	font-weight: 600;
+	color: #1a1a2e;
+}
+
+.cleanup-card-subtitle {
+	font-size: 12px;
+	color: #888;
+	margin-top: 2px;
+}
+
+.cleanup-list {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+	flex: 1;
+}
+
+.cleanup-list li {
+	font-size: 13px;
+	color: #555;
+	padding: 3px 0;
+}
+
+.cleanup-list li::before {
+	content: "• ";
+	color: #bbb;
+}
+
+.cleanup-btn {
+	width: 100%;
+	font-weight: 600;
+	font-size: 13px;
+}
+
+.cleanup-card-full .cleanup-btn {
+	width: auto;
+	min-width: 260px;
+	padding: 10px 24px;
+	font-size: 14px;
+}
