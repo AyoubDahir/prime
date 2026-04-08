@@ -45,7 +45,7 @@ frappe.pages["cashier-dashboard"].on_page_load = function (wrapper) {
 	`);
 
 	function fmt(v) {
-		return "SOS " + parseFloat(v || 0).toLocaleString("en-US", { minimumFractionDigits: 0 });
+		return "$ " + parseFloat(v || 0).toLocaleString("en-US", { minimumFractionDigits: 2 });
 	}
 
 	function load() {
