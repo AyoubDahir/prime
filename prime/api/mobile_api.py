@@ -356,33 +356,39 @@ def get_unpaid_sales_invoices_for_mobile(patient, limit=100):
     if limit <= 0:
         limit = 100
 
-    invoices = frappe.get_all(
-        "Sales Invoice",
-        filters={
-            "patient": patient,
-            "docstatus": 1,
-            "outstanding_amount": [">", 0],
-        },
-        fields=[
-            "name",
-            "posting_date",
-            "due_date",
-            "status",
-            "currency",
-            "grand_total",
-            "outstanding_amount",
-        ],
-        order_by="posting_date desc",
-        limit_page_length=limit,
+    # Return two sets of invoices:
+    # 1. Submitted + outstanding (the normal unpaid case)
+    # 2. Draft + is_pos=0 (pharmacy/services invoices from Patient Encounter —
+    #    always created as draft; patient pays via mobile which auto-submits them)
+    # Counter consultation invoices (is_pos=1, draft) are excluded — those are
+    # handled by the cashier, not the patient.
+    rows = frappe.db.sql(
+        """
+        SELECT name, posting_date, due_date, status, currency,
+               grand_total, outstanding_amount, docstatus
+        FROM `tabSales Invoice`
+        WHERE patient = %s
+          AND docstatus != 2
+          AND (
+              (docstatus = 1 AND outstanding_amount > 0)
+              OR
+              (docstatus = 0 AND is_pos = 0)
+          )
+        ORDER BY posting_date DESC, creation DESC
+        LIMIT %s
+        """,
+        (patient, limit),
+        as_dict=True,
     )
-    for inv in invoices:
+
+    for inv in rows:
         inv["items"] = frappe.get_all(
             "Sales Invoice Item",
             filters={"parent": inv["name"]},
             fields=["item_name", "qty", "rate", "amount"],
             order_by="idx",
         )
-    return invoices
+    return rows
 
 
 @frappe.whitelist()
@@ -399,6 +405,17 @@ def mark_sales_invoice_paid_from_mobile(
         frappe.throw(f"Sales Invoice not found: {invoice}")
 
     inv = frappe.get_doc("Sales Invoice", invoice)
+    # Draft invoices from Patient Encounter (pharmacy/services) are created
+    # intentionally as drafts. Auto-submit before collecting payment so the
+    # accounting entries are properly posted.
+    if inv.docstatus == 0:
+        try:
+            inv.flags.ignore_permissions = True
+            inv.submit()
+            inv.reload()
+        except Exception:
+            frappe.log_error(frappe.get_traceback(), "mobile_api: auto-submit draft invoice failed")
+            frappe.throw("Could not submit invoice before payment. Contact support.")
     if inv.docstatus != 1:
         frappe.throw("Only submitted sales invoices can be paid from mobile")
 

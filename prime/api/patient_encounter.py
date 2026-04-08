@@ -131,7 +131,10 @@ def create_sales_orders(doc):
             si.flags.ignore_links = True
             si.flags.ignore_mandatory = True
             si.save()
-            si.submit()
+            # Do NOT submit — leave as draft so cashier/pharmacist can
+            # review and collect payment (counter) or patient pays via
+            # mobile app (Waafi). mark_sales_invoice_paid_from_mobile
+            # will auto-submit before creating the Payment Entry.
         except Exception:
             frappe.log_error(frappe.get_traceback(), "Auto-invoice from Patient Encounter failed")
 
