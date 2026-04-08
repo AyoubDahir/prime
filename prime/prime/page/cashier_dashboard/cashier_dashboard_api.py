@@ -18,8 +18,8 @@ def get_stats():
     collected_today = scalar("SELECT COALESCE(SUM(paid_amount),0) FROM `tabSales Invoice` WHERE DATE(posting_date)=%s AND docstatus=1", (td,))
     pending_count   = scalar("SELECT COUNT(*) FROM `tabSales Invoice` WHERE outstanding_amount>0 AND docstatus=1")
     pending_amount  = scalar("SELECT COALESCE(SUM(outstanding_amount),0) FROM `tabSales Invoice` WHERE outstanding_amount>0 AND docstatus=1")
-    waafi_today     = scalar("SELECT COUNT(*) FROM `tabQue` WHERE date=%s AND mode_of_payment LIKE 'Waafi%%'", (td,))
-    cash_today      = scalar("SELECT COUNT(*) FROM `tabQue` WHERE date=%s AND mode_of_payment LIKE 'Cash%%'", (td,))
+    waafi_today     = scalar("SELECT COUNT(*) FROM `tabQue` WHERE date=%s AND mode_of_payment LIKE %s", (td, 'Waafi%'))
+    cash_today      = scalar("SELECT COUNT(*) FROM `tabQue` WHERE date=%s AND mode_of_payment LIKE %s", (td, 'Cash%'))
     free_today      = scalar("SELECT COUNT(*) FROM `tabQue` WHERE date=%s AND is_free=1", (td,))
 
     hourly = q(
