@@ -18,8 +18,8 @@ def get_stats():
     collected_today = scalar("SELECT COALESCE(SUM(paid_amount),0) FROM `tabSales Invoice` WHERE DATE(posting_date)=%s AND docstatus=1", (td,))
     pending_count   = scalar("SELECT COUNT(*) FROM `tabSales Invoice` WHERE outstanding_amount>0 AND docstatus=1")
     pending_amount  = scalar("SELECT COALESCE(SUM(outstanding_amount),0) FROM `tabSales Invoice` WHERE outstanding_amount>0 AND docstatus=1")
-    waafi_today     = scalar("SELECT COUNT(*) FROM `tabQue` WHERE date=%s AND mode_of_payment LIKE 'Waafi%'", (td,))
-    cash_today      = scalar("SELECT COUNT(*) FROM `tabQue` WHERE date=%s AND mode_of_payment LIKE 'Cash%'", (td,))
+    waafi_today     = scalar("SELECT COUNT(*) FROM `tabQue` WHERE date=%s AND mode_of_payment LIKE 'Waafi%%'", (td,))
+    cash_today      = scalar("SELECT COUNT(*) FROM `tabQue` WHERE date=%s AND mode_of_payment LIKE 'Cash%%'", (td,))
     free_today      = scalar("SELECT COUNT(*) FROM `tabQue` WHERE date=%s AND is_free=1", (td,))
 
     hourly = q(
@@ -42,7 +42,7 @@ def get_stats():
     recent = q(
         "SELECT name, patient_name, grand_total, outstanding_amount,"
         " CASE WHEN outstanding_amount=0 THEN 'Paid' ELSE 'Unpaid' END AS pay_status,"
-        " DATE_FORMAT(posting_time,'%%H:%%i') AS time"
+        " CONCAT(LPAD(HOUR(posting_time),2,'0'),':',LPAD(MINUTE(posting_time),2,'0')) AS time"
         " FROM `tabSales Invoice`"
         " WHERE DATE(posting_date)=%s AND docstatus=1"
         " ORDER BY posting_time DESC LIMIT 12",
