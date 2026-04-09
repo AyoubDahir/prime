@@ -33,6 +33,13 @@ def _sanitize_sales_invoice_defaults():
 
 @frappe.whitelist()
 def make_invoice(doc, method=None):
+	try:
+		_make_invoice(doc)
+	except Exception:
+		frappe.log_error(frappe.get_traceback(), "Que make_invoice failed for " + str(doc.name))
+
+
+def _make_invoice(doc):
 	# Guard: skip if invoice already created
 	current_si = frappe.db.get_value("Que", doc.name, "sales_invoice") if doc.name else None
 	if current_si:
