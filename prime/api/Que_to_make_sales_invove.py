@@ -33,90 +33,110 @@ def _sanitize_sales_invoice_defaults():
 
 @frappe.whitelist()
 def make_invoice(doc, method=None):
-	# Guard against duplicate invoices: reload from DB to get the latest
-	# sales_invoice value (it may have been set by a concurrent call).
+	# Guard: skip if invoice already created
 	current_si = frappe.db.get_value("Que", doc.name, "sales_invoice") if doc.name else None
 	if current_si:
 		return
 
-	is_employee = doc.is_employee
-	employee = doc.employee
+	# Skip for free, follow-up, renew, revisit, refer queues
+	if doc.que_type in ("Refer", "Renew", "Revisit") or doc.follow_up:
+		return
 
+	d = frappe.get_doc("Healthcare Practitioner", doc.practitioner)
+	consulting_item = d.op_consulting_charge_item
+	consulting_rate = d.op_consulting_charge or 0
+
+	if not consulting_item:
+		frappe.log_error(
+			f"No op_consulting_charge_item on practitioner {doc.practitioner}",
+			"Que make_invoice"
+		)
+		return
+
+	customer = doc.bill_to or frappe.db.get_value("Patient", doc.patient, "customer")
+	if not customer:
+		frappe.log_error(f"No customer linked to patient {doc.patient}", "Que make_invoice")
+		return
 
 	pos_profile = get_pos_profile(frappe.defaults.get_user_default("company"))
 	pos_profile_name = pos_profile.name if pos_profile else None
-	d= frappe.get_doc('Healthcare Practitioner', doc.practitioner)
-	pat= frappe.get_doc('Patient', doc.patient)
-	mode_of_payment = doc.mode_of_payment or frappe.db.get_value('POS Payment Method', {"parent": pos_profile_name},  'mode_of_payment') if pos_profile_name else frappe.db.get_value("Mode of Payment", {}, "name")
-	abbr = frappe.db.get_value("Company", frappe.defaults.get_user_default("company"), "abbr")
 	cost_center = frappe.db.get_value("POS Profile", pos_profile_name, "write_off_cost_center") if pos_profile_name else None
-	if doc.que_type != 'Refer' and doc.status != "Closed":
-		if not doc.is_free and  not doc.follow_up and   doc.que_type !="Renew" and doc.que_type !="Revisit":
-			is_insurance = doc.is_insurance
-			paid_amount = doc.paid_amount
-			# frappe.errprint(type(paid_amount))
-			if is_insurance:
-				doc.is_free = 0
-				paid_amount = 0
-			
-			is_pos = 0
-			if paid_amount:
-				is_pos = 1
-			# if doc.is_free:
-			# 	is_pos = 1
-			# 	paid_amount = doc.doctor_amount
-			# 	mode_of_payment = 'Free'
-			customer=''
-			if doc.bill_to:
-				customer= doc.bill_to
-			else:
-				customer= frappe.db.get_value("Patient" , doc.patient, "customer")
 
-			payments = []
-			if paid_amount and mode_of_payment:
-				payments = [{"mode_of_payment": mode_of_payment, "amount": paid_amount}]
+	is_insurance = doc.is_insurance
+	paid_amount = 0 if is_insurance else (doc.paid_amount or 0)
+	mode_of_payment = doc.mode_of_payment or (
+		frappe.db.get_value("POS Payment Method", {"parent": pos_profile_name}, "mode_of_payment")
+		if pos_profile_name else None
+	)
 
-			_sanitize_sales_invoice_defaults()
-			sales_doc = frappe.get_doc({
-				"doctype" : "Sales Invoice",
-				"patient" : doc.patient,
-				"patient_name" : doc.patient_name,
-				"customer" : customer,
-				"ref_practitioner" : doc.practitioner,
-				"bill_to_other_customer": doc.bill_to_other_customer,
-				"other_customer": doc.other_customer,
-				"is_pos" : is_pos,
-				"bill_to_employee" : is_employee,
-				"employee" : employee,
-				"is_insurance" : is_insurance,
-				"is_free" : doc.is_free,
-				"source_order": "OPD",
-				"cost_center": cost_center,
-				"pos_profile" : pos_profile_name,
-				"discount_amount" : doc.discount,
-				# "posting_date" : frappe.utils.getdate(),
-				"posting_date" : frappe.utils.getdate(),
-				"items": [{
-							"item_code": d.op_consulting_charge_item,
-							"item_name": d.op_consulting_charge_item,
-							
-							"qty": 1,
-							"rate": d.op_consulting_charge ,
-							# "amount": 1*d.op_consulting_charge,
-				
-							"doctype": "Sales Invoice Item"
-				}],
-					"payments" : payments,
-			
-			})
-			sales_doc.insert(ignore_permissions=1)
-			# Mobile: payment already confirmed via Waafi — submit immediately.
-			# Counter (cashier): leave as draft so cashier can review and submit.
-			is_mobile = (doc.reference or "").startswith("MOBILE:")
-			if is_mobile:
-				sales_doc.submit()
-			doc.sales_invoice = sales_doc.name
-			doc.save()
+	# ── 1. Sales Order (consultation fee) ─────────────────────────────────
+	so = frappe.new_doc("Sales Order")
+	so.source_order = "OPD"
+	so.ref_practitioner = doc.practitioner
+	so.so_type = "Cashiers"
+	so.customer = customer
+	so.delivery_date = frappe.utils.getdate()
+	so.sales_team = []
+	so.flags.ignore_links = 1
+	so.flags.ignore_permissions = 1
+	so.flags.ignore_mandatory = 1
+	so.append("items", {
+		"item_code": consulting_item,
+		"item_name": consulting_item,
+		"qty": 1,
+		"rate": consulting_rate,
+		"delivery_date": frappe.utils.getdate(),
+	})
+	so.save()
+	so.submit()
+
+	# Mark as "To Bill" — consultation is a service, no delivery note needed
+	frappe.db.sql(
+		"UPDATE `tabSales Order Item` SET delivered_qty = qty WHERE parent = %s",
+		so.name
+	)
+	frappe.db.set_value("Sales Order", so.name, {"status": "To Bill", "per_delivered": 100})
+
+	# ── 2. Sales Invoice from SO ───────────────────────────────────────────
+	_sanitize_sales_invoice_defaults()
+
+	from prime.api.make_invoice import make_sales_invoice as _map_si
+	si = _map_si(so.name)
+
+	si.patient = doc.patient
+	si.patient_name = doc.patient_name
+	si.ref_practitioner = doc.practitioner
+	si.is_pos = 1
+	si.pos_profile = pos_profile_name
+	si.cost_center = cost_center
+	si.bill_to_employee = doc.is_employee
+	si.employee = doc.employee
+	si.is_insurance = is_insurance
+	si.is_free = doc.is_free
+	si.source_order = "OPD"
+	si.posting_date = frappe.utils.getdate()
+	si.bill_to_other_customer = doc.bill_to_other_customer
+	si.other_customer = doc.other_customer
+	si.discount_amount = doc.discount or 0
+	si.sales_team = []
+	si.flags.ignore_permissions = True
+	si.flags.ignore_mandatory = True
+
+	# Payment table — cashier has already collected payment when saving the Que
+	si.payments = []
+	if mode_of_payment:
+		si.append("payments", {
+			"mode_of_payment": mode_of_payment,
+			"amount": paid_amount,
+		})
+
+	si.save()
+	si.submit()
+	# After SI submit, SO per_billed becomes 100 → status = "Completed" automatically
+
+	frappe.db.set_value("Que", doc.name, "sales_invoice", si.name)
+	if frappe.db.has_column("Que", "sales_order"):
+		frappe.db.set_value("Que", doc.name, "sales_order", so.name)
 	
 		
 		# frappe.msgprint('Sales Invoice Created successfully')

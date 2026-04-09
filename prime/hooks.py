@@ -137,6 +137,11 @@ override_doctype_class = {
 
 doc_events = {
     "Que": {
+        "after_insert": [
+            "prime.api.que_token_number.token_numebr",
+            "prime.api.Que_to_fee_validity.make_fee_validity",
+            "prime.api.Que_to_make_sales_invove.make_invoice",
+        ],
         "on_update": "prime.api.queue_display_api.send_called_sms",
     },
     "Lab Test": {
