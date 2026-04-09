@@ -2,8 +2,6 @@ import frappe
 from frappe import _
 from frappe.utils import getdate
 from frappe.model.mapper import map_doc
-from prime.api.make_invoice import make_sales_invoice
-
 
 def set_so_values_from_db(doc, method=None):
     for so_type in ("medication_so", "services_so"):
@@ -31,7 +29,6 @@ def create_sales_orders(doc):
         so_name = doc.get(so_type)
         if so_name:
             sales_order = frappe.get_doc("Sales Order", so_name)
-            frappe.msgprint(sales_order.per_billed)
             if sales_order.per_billed >= 100:
                 # frappe.msgprint("did this")
                 
@@ -103,40 +100,6 @@ def create_sales_orders(doc):
         #     sales_order.status = "To Bill"
         sales_order.save()
         sales_order.submit()
-
-        # Auto-create unpaid Sales Invoice so patient can pay from mobile
-        # or cashier can collect at the counter — whichever comes first.
-        # Guard against duplicates: on_update fires on save (draft) and
-        # on_update_after_submit fires on submit — both call this function,
-        # so we must skip if a non-cancelled SI already exists for this SO.
-        existing_si = frappe.db.sql(
-            """
-            SELECT si.name FROM `tabSales Invoice` si
-            INNER JOIN `tabSales Invoice Item` sii ON sii.parent = si.name
-            WHERE sii.sales_order = %s AND si.docstatus != 2
-            LIMIT 1
-            """,
-            sales_order.name,
-        )
-        if existing_si:
-            continue
-
-        try:
-            si = make_sales_invoice(sales_order.name)
-            si.sales_team = []
-            si.is_pos = 0
-            si.update_stock = 0
-            si.patient = doc.patient
-            si.flags.ignore_permissions = True
-            si.flags.ignore_links = True
-            si.flags.ignore_mandatory = True
-            si.save()
-            # Do NOT submit — leave as draft so cashier/pharmacist can
-            # review and collect payment (counter) or patient pays via
-            # mobile app (Waafi). mark_sales_invoice_paid_from_mobile
-            # will auto-submit before creating the Payment Entry.
-        except Exception:
-            frappe.log_error(frappe.get_traceback(), "Auto-invoice from Patient Encounter failed")
 
         if so_name != sales_order.name:
             doc.db_set(so_type, sales_order.name, update_modified=False, notify=True)
