@@ -533,6 +533,10 @@ frappe.ui.form.on('Que', {
             if (!frm.doc.is_insurance && !frm.doc.is_free) {
                 frm.set_value("paid_amount", frm.doc.doctor_amount);
             }
+            // Default mode of payment to Cashiers when practitioner is selected
+            if (!frm.doc.mode_of_payment) {
+                frm.set_value("mode_of_payment", "Cashiers");
+            }
             render_patient_banner(frm);
         }, 100);
     },

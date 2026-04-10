@@ -37,6 +37,11 @@ def make_invoice(doc, method=None):
 		_make_invoice(doc)
 	except Exception:
 		frappe.log_error(frappe.get_traceback(), "Que make_invoice failed for " + str(doc.name))
+		frappe.msgprint(
+			f"⚠️ Sales Invoice could not be created automatically. Please check the Error Log for details.",
+			indicator="orange",
+			alert=True,
+		)
 
 
 def _make_invoice(doc):
@@ -71,9 +76,10 @@ def _make_invoice(doc):
 
 	is_insurance = doc.is_insurance
 	paid_amount = 0 if is_insurance else (doc.paid_amount or 0)
-	mode_of_payment = doc.mode_of_payment or (
-		frappe.db.get_value("POS Payment Method", {"parent": pos_profile_name}, "mode_of_payment")
-		if pos_profile_name else None
+	mode_of_payment = (
+		doc.mode_of_payment
+		or (frappe.db.get_value("POS Payment Method", {"parent": pos_profile_name}, "mode_of_payment") if pos_profile_name else None)
+		or "Cashiers"  # fallback so SI submission never fails due to missing payment row
 	)
 
 	# ── 1. Sales Order (consultation fee) ─────────────────────────────────

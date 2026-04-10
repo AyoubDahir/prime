@@ -20,12 +20,9 @@ function setup_inline_payments(frm) {
 		$is_pos.after($payments);
 	}
 
-	if (frm.doc.is_pos) {
-		$payments.show();
-		payments_field.grid.refresh();
-	} else {
-		$payments.hide();
-	}
+	// Always show the payments table regardless of is_pos
+	$payments.show();
+	payments_field.grid.refresh();
 }
 
 frappe.ui.form.on('Sales Invoice', {

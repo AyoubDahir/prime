@@ -777,7 +777,23 @@ def create_mobile_pos_profile():
         })
         waafi_mop.insert(ignore_permissions=True)
         print("Created Mode of Payment: Waafi")
-    
+
+    # Ensure Waafi MoP has an account for the company (needed for POS Profile validation)
+    waafi_company = frappe.defaults.get_global_default("company")
+    waafi_abbr = frappe.get_value("Company", waafi_company, "abbr") if waafi_company else None
+    if waafi_company and waafi_abbr:
+        waafi_doc = frappe.get_doc("Mode of Payment", "Waafi")
+        if not any(a.company == waafi_company for a in waafi_doc.accounts):
+            default_cash = "Cashiers - " + waafi_abbr
+            if not frappe.db.exists("Account", default_cash):
+                default_cash = frappe.db.get_value(
+                    "Account", {"company": waafi_company, "account_type": "Cash", "is_group": 0}, "name"
+                )
+            if default_cash:
+                waafi_doc.append("accounts", {"company": waafi_company, "default_account": default_cash})
+                waafi_doc.save(ignore_permissions=True)
+                print(f"Set Waafi account: {default_cash}")
+
     # Create Mobile POS Profile
     if not frappe.db.exists("POS Profile", "Mobile"):
         # Get company settings
