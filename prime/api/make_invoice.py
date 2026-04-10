@@ -133,7 +133,12 @@ def make_sales_invoice(source_name, target_doc=None, ignore_permissions=True):
 @frappe.whitelist()
 def make_draft_invoice(so_name):
 	# If a draft SI already exists for this SO, return it instead of creating a duplicate
-	existing = frappe.db.get_value("Sales Invoice", {"sales_order": so_name, "docstatus": 0}, "name")
+	# Check via Sales Invoice Item (SI header has no sales_order column in ERPNext 14)
+	existing = frappe.db.get_value(
+		"Sales Invoice Item",
+		{"sales_order": so_name, "docstatus": 0},
+		"parent",
+	)
 	if existing:
 		return existing
 

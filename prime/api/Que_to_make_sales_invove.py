@@ -35,11 +35,11 @@ def _sanitize_sales_invoice_defaults():
 def make_invoice(doc, method=None):
 	try:
 		_make_invoice(doc)
-	except Exception:
+	except Exception as e:
 		frappe.log_error(frappe.get_traceback(), "Que make_invoice failed for " + str(doc.name))
 		frappe.msgprint(
-			f"⚠️ Sales Invoice could not be created automatically. Please check the Error Log for details.",
-			indicator="orange",
+			f"⚠️ SI/SO creation failed: {e}",
+			indicator="red",
 			alert=True,
 		)
 
