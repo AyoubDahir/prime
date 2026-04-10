@@ -149,6 +149,9 @@ def make_draft_invoice(so_name):
 		target.run_method("set_po_nos")
 		_apply_default_user_warehouse(target)
 		target.run_method("calculate_taxes_and_totals")
+		# Populate payment row amount from grand total so cashier sees the correct amount
+		for payment in target.get("payments") or []:
+			payment.amount = target.grand_total
 		if source.company_address:
 			target.update({"company_address": source.company_address})
 		else:
