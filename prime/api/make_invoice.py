@@ -132,6 +132,11 @@ def make_sales_invoice(source_name, target_doc=None, ignore_permissions=True):
 
 @frappe.whitelist()
 def make_draft_invoice(so_name):
+	# If a draft SI already exists for this SO, return it instead of creating a duplicate
+	existing = frappe.db.get_value("Sales Invoice", {"sales_order": so_name, "docstatus": 0}, "name")
+	if existing:
+		return existing
+
 	so = frappe.get_doc("Sales Order", so_name)
 
 	# Submit the SO if it is still draft so get_mapped_doc validation passes
@@ -149,7 +154,6 @@ def make_draft_invoice(so_name):
 		target.run_method("set_po_nos")
 		_apply_default_user_warehouse(target)
 		target.run_method("calculate_taxes_and_totals")
-		# Populate payment row amount from grand total so cashier sees the correct amount
 		for payment in target.get("payments") or []:
 			payment.amount = target.grand_total
 		if source.company_address:
