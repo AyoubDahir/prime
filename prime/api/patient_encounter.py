@@ -99,7 +99,6 @@ def create_sales_orders(doc):
         #     frappe.msgprint("To Deleiver")
         #     sales_order.status = "To Bill"
         sales_order.save()
-        sales_order.submit()
 
         if so_name != sales_order.name:
             doc.db_set(so_type, sales_order.name, update_modified=False, notify=True)

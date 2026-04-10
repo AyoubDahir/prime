@@ -131,6 +131,75 @@ def make_sales_invoice(source_name, target_doc=None, ignore_permissions=True):
 
 
 @frappe.whitelist()
+def make_draft_invoice(so_name):
+	so = frappe.get_doc("Sales Order", so_name)
+
+	# Submit the SO if it is still draft so get_mapped_doc validation passes
+	if so.docstatus == 0:
+		so.flags.ignore_permissions = True
+		so.flags.ignore_links = True
+		so.flags.ignore_mandatory = True
+		so.submit()
+
+	def postprocess(source, target):
+		target.is_pos = 1
+		target.ignore_pricing_rule = 1
+		target.flags.ignore_permissions = True
+		target.run_method("set_missing_values")
+		target.run_method("set_po_nos")
+		_apply_default_user_warehouse(target)
+		target.run_method("calculate_taxes_and_totals")
+		if source.company_address:
+			target.update({"company_address": source.company_address})
+		else:
+			target.update(get_company_address(target.company))
+
+	def update_item(source, target, source_parent):
+		target.amount = flt(source.amount) - flt(source.billed_amt)
+		target.base_amount = target.amount * flt(source_parent.conversion_rate)
+		target.qty = (
+			target.amount / flt(source.rate)
+			if (source.rate and source.billed_amt)
+			else source.qty - source.returned_qty
+		)
+
+	doclist = get_mapped_doc(
+		"Sales Order",
+		so_name,
+		{
+			"Sales Order": {
+				"doctype": "Sales Invoice",
+				"field_map": {
+					"party_account_currency": "party_account_currency",
+					"payment_terms_template": "payment_terms_template",
+				},
+				"field_no_map": ["payment_terms_template"],
+				"validation": {"docstatus": ["=", 1]},
+			},
+			"Sales Order Item": {
+				"doctype": "Sales Invoice Item",
+				"field_map": {"name": "so_detail", "parent": "sales_order"},
+				"postprocess": update_item,
+				"condition": lambda doc: doc.qty
+				and (doc.base_amount == 0 or abs(doc.billed_amt) < abs(doc.amount)),
+			},
+			"Sales Taxes and Charges": {
+				"doctype": "Sales Taxes and Charges",
+				"add_if_empty": True,
+			},
+			"Sales Team": {"doctype": "Sales Team", "add_if_empty": True},
+		},
+		None,
+		postprocess,
+		ignore_permissions=True,
+	)
+
+	doclist.flags.ignore_permissions = True
+	doclist.insert()
+	return doclist.name
+
+
+@frappe.whitelist()
 def make_credit_invoice(source_name, target_doc=None, ignore_permissions=False):
 	def postprocess(source, target):
 		set_missing_values(source, target)
