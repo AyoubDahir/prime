@@ -15,6 +15,7 @@ fixtures = [
     {"dt": "Mode of Payment", "filters": [["name", "in", ["Waafi"]]]},
     {"dt": "Sales Type", "filters": [["name", "in", ["Pharmacy", "Cashiers"]]]},
     {"dt": "Workspace", "filters": [["module", "in", ["Prime", "Setup", "Accounts", "HR", "Assets", "Stock", "Quality Management", "CRM", "Support", "Loan Management", "Payroll"]]]},
+    "Website Settings",
 ]
 
 # Includes in <head>

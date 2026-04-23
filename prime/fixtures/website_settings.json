@@ -1,0 +1,17 @@
+[
+  {
+    "doctype": "Website Settings",
+    "name": "Website Settings",
+    "home_page": "login",
+    "website_theme": "Standard",
+    "app_name": "Alihsan Hospital",
+    "brand_html": "Alihsan Medical Center",
+    "banner_image": "/assets/prime/images/logo.jpg",
+    "splash_image": "/assets/prime/images/logo.jpg",
+    "app_logo": "/assets/prime/images/app_logo.png",
+    "disable_signup": 1,
+    "hide_footer_signup": 1,
+    "google_analytics_anonymize_ip": 1,
+    "auto_account_deletion": 72
+  }
+]
