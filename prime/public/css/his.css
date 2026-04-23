@@ -210,7 +210,7 @@ body.st-launchpad-visible .st-lp-footer {
    ============================================================ */
 
 /* --- Tab bar container --- */
-[data-doctype="Patient Encounter"] .form-tabs-list {
+.pe-modern .form-tabs-list {
     display: flex !important;
     flex-wrap: nowrap !important;
     overflow-x: auto !important;
@@ -229,21 +229,21 @@ body.st-launchpad-visible .st-lp-footer {
     box-shadow: 0 2px 8px rgba(99, 102, 241, 0.10) !important;
 }
 
-[data-doctype="Patient Encounter"] .form-tabs-list::-webkit-scrollbar {
+.pe-modern .form-tabs-list::-webkit-scrollbar {
     height: 4px;
 }
-[data-doctype="Patient Encounter"] .form-tabs-list::-webkit-scrollbar-thumb {
+.pe-modern .form-tabs-list::-webkit-scrollbar-thumb {
     background: #c7d2fe;
     border-radius: 4px;
 }
 
 /* --- Individual tab items --- */
-[data-doctype="Patient Encounter"] .form-tabs-list .nav-item {
+.pe-modern .form-tabs-list .nav-item {
     flex-shrink: 0 !important;
     list-style: none !important;
 }
 
-[data-doctype="Patient Encounter"] .form-tabs-list .nav-link {
+.pe-modern .form-tabs-list .nav-link {
     display: inline-block !important;
     padding: 6px 16px !important;
     border-radius: 8px !important;
@@ -258,13 +258,13 @@ body.st-launchpad-visible .st-lp-footer {
     text-decoration: none !important;
 }
 
-[data-doctype="Patient Encounter"] .form-tabs-list .nav-link:hover {
+.pe-modern .form-tabs-list .nav-link:hover {
     background: #e0e7ff !important;
     color: #4338ca !important;
     border-color: #c7d2fe !important;
 }
 
-[data-doctype="Patient Encounter"] .form-tabs-list .nav-link.active {
+.pe-modern .form-tabs-list .nav-link.active {
     background: linear-gradient(135deg, #4f46e5, #6366f1) !important;
     color: #fff !important;
     border-color: transparent !important;
@@ -273,13 +273,13 @@ body.st-launchpad-visible .st-lp-footer {
 }
 
 /* --- Form layout: card sections --- */
-[data-doctype="Patient Encounter"] .layout-main-section {
+.pe-modern .layout-main-section {
     background: #f8faff !important;
     border-radius: 14px !important;
     padding: 16px !important;
 }
 
-[data-doctype="Patient Encounter"] .section-body {
+.pe-modern .section-body {
     background: #ffffff !important;
     border-radius: 10px !important;
     border: 1px solid #e5e7eb !important;
@@ -289,7 +289,7 @@ body.st-launchpad-visible .st-lp-footer {
 }
 
 /* Section heading labels */
-[data-doctype="Patient Encounter"] .section-head {
+.pe-modern .section-head {
     font-size: 13px !important;
     font-weight: 700 !important;
     color: #4f46e5 !important;
@@ -301,7 +301,7 @@ body.st-launchpad-visible .st-lp-footer {
 }
 
 /* --- Field labels --- */
-[data-doctype="Patient Encounter"] .control-label {
+.pe-modern .control-label {
     font-size: 11.5px !important;
     font-weight: 600 !important;
     color: #6b7280 !important;
@@ -310,22 +310,22 @@ body.st-launchpad-visible .st-lp-footer {
 }
 
 /* --- Input fields --- */
-[data-doctype="Patient Encounter"] .form-control,
-[data-doctype="Patient Encounter"] .input-with-feedback {
+.pe-modern .form-control,
+.pe-modern .input-with-feedback {
     border-radius: 7px !important;
     border-color: #d1d5db !important;
     font-size: 13.5px !important;
     transition: border-color 0.15s !important;
 }
-[data-doctype="Patient Encounter"] .form-control:focus,
-[data-doctype="Patient Encounter"] .input-with-feedback:focus {
+.pe-modern .form-control:focus,
+.pe-modern .input-with-feedback:focus {
     border-color: #6366f1 !important;
     box-shadow: 0 0 0 3px rgba(99,102,241,0.12) !important;
 }
 
 /* --- Queue counter badge --- */
-[data-doctype="Patient Encounter"] .que-counter,
-[data-doctype="Patient Encounter"] input[data-fieldname="remain_token"] {
+.pe-modern .que-counter,
+.pe-modern input[data-fieldname="remain_token"] {
     text-align: center !important;
     font-size: 18px !important;
     font-weight: 700 !important;
@@ -336,19 +336,19 @@ body.st-launchpad-visible .st-lp-footer {
 }
 
 /* --- Link fields (patient name in blue) --- */
-[data-doctype="Patient Encounter"] .control-value a {
+.pe-modern .control-value a {
     color: #4f46e5 !important;
     font-weight: 600 !important;
 }
 
 /* --- Page head title --- */
-[data-doctype="Patient Encounter"] .title-text {
+.pe-modern .title-text {
     font-weight: 700 !important;
     font-size: 17px !important;
     color: #1e1b4b !important;
 }
 
 /* --- Mandatory star color --- */
-[data-doctype="Patient Encounter"] .reqd .control-label:after {
+.pe-modern .reqd .control-label:after {
     color: #ef4444 !important;
 }

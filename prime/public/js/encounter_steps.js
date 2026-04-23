@@ -1,5 +1,6 @@
 frappe.ui.form.on('Patient Encounter', {
     refresh: function(frm) {
+        frm.wrapper.addClass('pe-modern');
         setTimeout(function() {
             var active = frm.wrapper[0].querySelector('.form-tabs-list .nav-link.active');
             if (active) { active.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' }); }
