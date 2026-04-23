@@ -1,4 +1,10 @@
 frappe.ui.form.on('Patient Encounter', {
+    refresh: function(frm) {
+        setTimeout(function() {
+            var active = frm.wrapper[0].querySelector('.form-tabs-list .nav-link.active');
+            if (active) { active.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' }); }
+        }, 300);
+    },
     after_save: function(frm){
         // alert()
         window.location.reload();
