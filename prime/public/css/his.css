@@ -673,3 +673,121 @@ body.st-launchpad-visible .st-lp-footer {
     border-radius: 8px !important;
     font-weight: 500 !important;
 }
+
+/* ============================================================
+   PATIENT ENCOUNTER — LAYOUT & FORM POLISH v3.1
+   ============================================================ */
+
+/* ---- FORM BODY BACKGROUND ---- */
+.pe-modern .layout-main-section-wrapper {
+    background: #f0f4f8 !important;
+    padding: 0 !important;
+}
+
+/* ---- FORM GROUP SPACING ---- */
+.pe-modern .form-group {
+    margin-bottom: 20px !important;
+}
+
+/* ---- TWO-COLUMN SEPARATOR ---- */
+.pe-modern .section-body .form-column.col-sm-6:first-child {
+    border-right: 1px solid #e8edf5 !important;
+    padding-right: 28px !important;
+}
+.pe-modern .section-body .form-column.col-sm-6:last-child {
+    padding-left: 28px !important;
+}
+
+/* ---- TABLE MULTISELECT (Diagnosis) ---- */
+.pe-modern .frappe-control[data-fieldtype="Table MultiSelect"] .link-field-input,
+.pe-modern .frappe-control[data-fieldtype="Table MultiSelect"] .tag-input-area,
+.pe-modern .frappe-control[data-fieldtype="Table MultiSelect"] .tags-input {
+    border: 1.5px solid #e2e8f0 !important;
+    border-radius: 10px !important;
+    background: #f8fafc !important;
+    padding: 6px 10px !important;
+    min-height: 40px !important;
+}
+.pe-modern .frappe-control[data-fieldtype="Table MultiSelect"] .link-field-input:focus-within,
+.pe-modern .frappe-control[data-fieldtype="Table MultiSelect"] .tags-input:focus-within {
+    border-color: #6366f1 !important;
+    background: #fff !important;
+    box-shadow: 0 0 0 3px rgba(99,102,241,0.14) !important;
+}
+.pe-modern .frappe-control[data-fieldtype="Table MultiSelect"] .label.label-default {
+    background: rgba(99,102,241,0.12) !important;
+    color: #6366f1 !important;
+    border: 1px solid rgba(99,102,241,0.25) !important;
+    border-radius: 20px !important;
+    padding: 2px 10px !important;
+    font-size: 11px !important;
+    font-weight: 600 !important;
+}
+
+/* ---- SMALL TEXT / TEXTAREA HEIGHT ---- */
+.pe-modern .frappe-control[data-fieldtype="Small Text"] textarea.form-control,
+.pe-modern .frappe-control[data-fieldtype="Text"] textarea.form-control {
+    min-height: 72px !important;
+    resize: vertical;
+}
+
+/* ---- DATA FIELD HEIGHT ---- */
+.pe-modern .frappe-control[data-fieldtype="Data"] .form-control {
+    height: 40px !important;
+    line-height: 40px !important;
+    padding: 0 13px !important;
+}
+
+/* ---- SELECT FIELD ---- */
+.pe-modern select.form-control {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%2394a3b8' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E") !important;
+    background-repeat: no-repeat !important;
+    background-position: right 12px center !important;
+    padding-right: 32px !important;
+    appearance: none !important;
+    -webkit-appearance: none !important;
+}
+
+/* ---- LINK FIELD (autocomplete) ---- */
+.pe-modern .link-btn {
+    color: #94a3b8 !important;
+    opacity: 0.6 !important;
+    transition: opacity 0.15s;
+}
+.pe-modern .link-btn:hover { opacity: 1 !important; }
+
+/* ---- DATE FIELD ---- */
+.pe-modern .frappe-control[data-fieldtype="Date"] .form-control {
+    cursor: pointer !important;
+}
+
+/* ---- SECTION BODY — empty state ---- */
+.pe-modern .section-body.collapsed-section {
+    padding: 12px 24px !important;
+}
+
+/* ---- FORM LAYOUT MAIN — tighter padding ---- */
+.pe-modern .layout-main {
+    padding: 18px 20px !important;
+}
+
+/* ---- FORM ACTIONS (bottom bar) ---- */
+.pe-modern .form-footer {
+    background: #fff !important;
+    border-top: 1px solid #e2e8f0 !important;
+    box-shadow: 0 -2px 12px rgba(15,23,42,0.06) !important;
+}
+
+/* ---- BADGE / WORKFLOW STATE ---- */
+.pe-modern .form-workflow-state {
+    border-radius: 20px !important;
+    font-size: 11px !important;
+    font-weight: 600 !important;
+    padding: 3px 12px !important;
+    letter-spacing: 0.2px;
+}
+
+/* ---- FRAPPE CONTROL FOCUS ANIMATION ---- */
+.pe-modern .frappe-control .form-control {
+    transition: border-color 0.18s ease, box-shadow 0.18s ease, background 0.18s ease !important;
+}
