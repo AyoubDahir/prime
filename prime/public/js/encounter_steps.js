@@ -654,7 +654,14 @@ d.show();
                           '<div class="pe-token-sublabel">Queue Number</div>' +
                           '<div class="pe-token-remain">' + remain + ' patients waiting</div>' +
                       '</div>';
-                      frm.set_df_property("token", "options", token_n);
+                      // Directly inject into DOM — bypasses Frappe's renderer which may delay class rendering
+                      var $ctrl = frm.fields_dict['token'] && frm.fields_dict['token'].$wrapper;
+                      if ($ctrl) {
+                          $ctrl.find('.control-input-wrapper, .control-value').html(token_n);
+                      } else {
+                          frm.set_df_property("token", "options", token_n);
+                          frm.refresh_field("token");
+                      }
                   }
                });
        }
