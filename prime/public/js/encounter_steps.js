@@ -1,10 +1,62 @@
+// ---- Patient Encounter modern UI helpers ----
+
+var PE_TAB_ICONS = {
+    'Details': '&#9673;',
+    'Previous History': '&#9680;',
+    'History': '&#8801;',
+    'Examinations': '&#9741;',
+    'Medications': '&#9684;',
+    'Investigations': '&#9651;',
+    'Imaging': '&#9635;',
+    'Procedures': '&#9854;',
+    'Fallowup': '&#9778;',
+    'Lab Result': '&#9636;'
+};
+
+function pe_inject_tab_icons(wrapper) {
+    setTimeout(function() {
+        wrapper.find('.form-tabs-list .nav-link').each(function() {
+            var $el = $(this);
+            var text = $el.text().trim();
+            var icon = PE_TAB_ICONS[text];
+            if (icon && !$el.data('pe-icon')) {
+                $el.html('<span class="pe-tab-icon" style="opacity:0.85;margin-right:4px">' + icon + '</span>' + text);
+                $el.data('pe-icon', true);
+            }
+        });
+        var active = wrapper[0].querySelector('.form-tabs-list .nav-link.active');
+        if (active) { active.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' }); }
+    }, 280);
+}
+
+function pe_inject_patient_card(frm) {
+    frm.wrapper.find('.pe-patient-card').remove();
+    if (!frm.doc.patient) return;
+    var initial = (frm.doc.patient_name || frm.doc.patient || 'P').charAt(0).toUpperCase();
+    var name = frm.doc.patient_name || frm.doc.patient || '';
+    var pid = frm.doc.patient || '';
+    var date = frm.doc.encounter_date || '';
+    var doc = frm.doc.practitioner_name ? 'Dr. ' + frm.doc.practitioner_name : (frm.doc.practitioner || '');
+    var docBadge = doc ? '<div class="pe-meta-badge pe-doc-badge">' + doc + '</div>' : '';
+    var html = '<div class="pe-patient-card">' +
+        '<div class="pe-patient-avatar">' + initial + '</div>' +
+        '<div class="pe-patient-info">' +
+            '<div class="pe-patient-name">' + name + '</div>' +
+            '<div class="pe-patient-id">' + pid + '</div>' +
+        '</div>' +
+        '<div class="pe-encounter-meta">' +
+            (date ? '<div class="pe-meta-badge pe-date-badge">' + date + '</div>' : '') +
+            docBadge +
+        '</div>' +
+    '</div>';
+    frm.wrapper.find('.form-tabs-list').before(html);
+}
+
 frappe.ui.form.on('Patient Encounter', {
     refresh: function(frm) {
         frm.wrapper.addClass('pe-modern');
-        setTimeout(function() {
-            var active = frm.wrapper[0].querySelector('.form-tabs-list .nav-link.active');
-            if (active) { active.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' }); }
-        }, 300);
+        pe_inject_tab_icons(frm.wrapper);
+        pe_inject_patient_card(frm);
     },
     after_save: function(frm){
         // alert()
@@ -256,6 +308,11 @@ d.show();
       
     },
 	refresh(frm) {
+        // Modern UI
+        frm.wrapper.addClass('pe-modern');
+        pe_inject_tab_icons(frm.wrapper);
+        pe_inject_patient_card(frm);
+
         if(frm.doc.patient){
         frappe.call({
             method: "prime.dashboard_and_history.p_history.get_p_histy", //dotted path to server method
@@ -263,16 +320,9 @@ d.show();
             //  args : {"load_a" : currdate , to_date : to_date},
             callback: function(r) {
                 $('#history').html(r.message)
-                
-                // console.log(window.open.document)
-            // 	var x = window;
-            // 	x.document.open().write(r.message);
-                
-                
-        
             }})
         }
-    
+
         // frm.clear_custom_buttons();
         frm.remove_custom_button('Patient History', 'View');
         frm.remove_custom_button('Vital Signs', 'Create');
@@ -587,19 +637,16 @@ d.show();
                      
                     },
                     callback: function(r) {
-                      
-        let token_n=` <div  style="margin:0 auto;
-        padding: 5px 10px;
-        width:40%;
-        border:2px solid #333; ">
-        
-         <h4 style="color:black;text-align:center;font-size: 20px;">${frm.doc.token_n || 0} Remain ${r.message[0].number}</h4>
-       </div>`
-
-      
-        frm.set_df_property("token","options",token_n);
-    }
-    });
+                      var remain = (r.message && r.message[0]) ? r.message[0].number : 0;
+                      var myNum = frm.doc.token_n || 0;
+                      var token_n = '<div class="pe-token-card">' +
+                          '<div class="pe-token-num">' + myNum + '</div>' +
+                          '<div class="pe-token-sublabel">Queue Number</div>' +
+                          '<div class="pe-token-remain">' + remain + ' patients waiting</div>' +
+                      '</div>';
+                      frm.set_df_property("token", "options", token_n);
+                  }
+               });
        }
 })
 

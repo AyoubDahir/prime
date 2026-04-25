@@ -206,149 +206,463 @@ body.st-launchpad-visible .st-lp-footer {
 }
 
 /* ============================================================
-   Patient Encounter — Modern Redesign
+   FRAPPE DESK — GLOBAL NAVBAR MODERNIZATION
    ============================================================ */
 
-/* --- Tab bar container --- */
+.navbar {
+    background: linear-gradient(90deg, #0f172a 0%, #1e1b4b 100%) !important;
+    border-bottom: 1px solid rgba(99,102,241,0.2) !important;
+    box-shadow: 0 2px 16px rgba(0,0,0,0.35) !important;
+    padding: 0 16px !important;
+    min-height: 48px !important;
+}
+
+.navbar .navbar-brand,
+.navbar .brand-logo {
+    opacity: 0.9;
+}
+
+/* Quick-link shortcuts in navbar */
+.navbar .navbar-nav > li > a,
+.navbar .nav-item > a.nav-link {
+    color: #94a3b8 !important;
+    font-size: 12.5px !important;
+    font-weight: 500;
+    padding: 6px 10px !important;
+    border-radius: 6px;
+    transition: all 0.18s ease;
+    margin: 0 1px;
+}
+.navbar .navbar-nav > li > a:hover,
+.navbar .nav-item > a.nav-link:hover {
+    color: #e2e8f0 !important;
+    background: rgba(255,255,255,0.08) !important;
+    text-decoration: none;
+}
+.navbar .navbar-nav > li.active > a,
+.navbar .nav-item.active > a.nav-link {
+    color: #a5b4fc !important;
+    background: rgba(99,102,241,0.15) !important;
+}
+
+/* Right side: Administrator, Logout, My Profile */
+.navbar .navbar-right > li > a,
+.navbar .navbar-right .nav-link {
+    color: #94a3b8 !important;
+    font-size: 12.5px !important;
+    font-weight: 500;
+    transition: color 0.15s ease;
+}
+.navbar .navbar-right > li > a:hover,
+.navbar .navbar-right .nav-link:hover {
+    color: #e2e8f0 !important;
+}
+
+/* Home icon */
+.navbar .navbar-home .btn {
+    color: #a5b4fc !important;
+    background: rgba(99,102,241,0.12) !important;
+    border-radius: 8px !important;
+    border: none !important;
+    padding: 5px 10px !important;
+}
+
+/* Search bar in navbar */
+.navbar .search-bar input {
+    background: rgba(255,255,255,0.06) !important;
+    border: 1px solid rgba(255,255,255,0.1) !important;
+    color: #e2e8f0 !important;
+    border-radius: 8px !important;
+}
+.navbar .search-bar input::placeholder {
+    color: #64748b !important;
+}
+
+/* ============================================================
+   PATIENT ENCOUNTER — Full Modern Redesign v3.0
+   All PE styles scoped to .pe-modern (added by encounter_steps.js)
+   ============================================================ */
+
+/* ---- PAGE HEAD ---- */
+.pe-modern .page-head {
+    background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%) !important;
+    border-bottom: 1px solid rgba(99,102,241,0.25) !important;
+    padding: 12px 24px !important;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.25) !important;
+}
+
+.pe-modern .title-text {
+    color: #f1f5f9 !important;
+    font-weight: 700 !important;
+    font-size: 17px !important;
+    letter-spacing: -0.3px;
+}
+
+.pe-modern .indicator-pill {
+    background: rgba(99,102,241,0.25) !important;
+    color: #a5b4fc !important;
+    border: 1px solid rgba(99,102,241,0.35) !important;
+    border-radius: 20px !important;
+    padding: 2px 10px !important;
+    font-size: 10px !important;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+}
+
+/* Save button */
+.pe-modern .primary-action {
+    background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%) !important;
+    border: none !important;
+    border-radius: 10px !important;
+    padding: 7px 20px !important;
+    font-weight: 600 !important;
+    box-shadow: 0 4px 14px rgba(99,102,241,0.45) !important;
+    transition: all 0.2s ease !important;
+    color: #fff !important;
+}
+.pe-modern .primary-action:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 22px rgba(99,102,241,0.6) !important;
+}
+
+/* Ellipsis (…) button */
+.pe-modern .page-head .btn-default {
+    background: rgba(255,255,255,0.06) !important;
+    border: 1px solid rgba(255,255,255,0.12) !important;
+    color: #e2e8f0 !important;
+    border-radius: 8px !important;
+    font-size: 12.5px !important;
+    transition: all 0.18s ease;
+}
+.pe-modern .page-head .btn-default:hover {
+    background: rgba(255,255,255,0.12) !important;
+    color: #fff !important;
+}
+
+/* ---- TAB BAR ---- */
 .pe-modern .form-tabs-list {
     display: flex !important;
     flex-wrap: nowrap !important;
     overflow-x: auto !important;
     overflow-y: hidden !important;
-    gap: 4px !important;
-    padding: 8px 12px !important;
-    background: #f0f4ff !important;
-    border-radius: 12px !important;
+    gap: 3px !important;
+    padding: 6px 8px !important;
+    background: #1e293b !important;
+    border-radius: 14px !important;
     border-bottom: none !important;
-    margin-bottom: 16px !important;
-    scrollbar-width: thin !important;
-    scrollbar-color: #c7d2fe transparent !important;
-    position: sticky !important;
-    top: 0 !important;
-    z-index: 10 !important;
-    box-shadow: 0 2px 8px rgba(99, 102, 241, 0.10) !important;
+    margin: 14px 0 18px !important;
+    scrollbar-width: none !important;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.28);
 }
+.pe-modern .form-tabs-list::-webkit-scrollbar { display: none; }
 
-.pe-modern .form-tabs-list::-webkit-scrollbar {
-    height: 4px;
-}
-.pe-modern .form-tabs-list::-webkit-scrollbar-thumb {
-    background: #c7d2fe;
-    border-radius: 4px;
-}
-
-/* --- Individual tab items --- */
 .pe-modern .form-tabs-list .nav-item {
     flex-shrink: 0 !important;
     list-style: none !important;
 }
 
 .pe-modern .form-tabs-list .nav-link {
-    display: inline-block !important;
-    padding: 6px 16px !important;
-    border-radius: 8px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 5px !important;
+    padding: 8px 15px !important;
+    border-radius: 10px !important;
     font-size: 12.5px !important;
     font-weight: 500 !important;
-    color: #4b5563 !important;
+    color: #94a3b8 !important;
     background: transparent !important;
-    border: 1px solid transparent !important;
+    border: none !important;
     white-space: nowrap !important;
     cursor: pointer !important;
-    transition: all 0.18s ease !important;
+    transition: all 0.2s ease !important;
     text-decoration: none !important;
+    letter-spacing: 0.2px;
 }
-
 .pe-modern .form-tabs-list .nav-link:hover {
-    background: #e0e7ff !important;
-    color: #4338ca !important;
-    border-color: #c7d2fe !important;
+    color: #e2e8f0 !important;
+    background: rgba(255,255,255,0.07) !important;
 }
-
 .pe-modern .form-tabs-list .nav-link.active {
-    background: linear-gradient(135deg, #4f46e5, #6366f1) !important;
+    background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%) !important;
     color: #fff !important;
-    border-color: transparent !important;
-    box-shadow: 0 2px 8px rgba(79, 70, 229, 0.35) !important;
+    border: none !important;
+    box-shadow: 0 4px 14px rgba(99,102,241,0.5) !important;
     font-weight: 600 !important;
 }
 
-/* --- Form layout: card sections --- */
+/* ---- PATIENT INFO HERO CARD (injected by JS) ---- */
+.pe-patient-card {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    background: linear-gradient(135deg, #1e293b 0%, #1e1b4b 100%);
+    border-radius: 16px;
+    padding: 16px 22px;
+    margin-bottom: 4px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+}
+.pe-patient-avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #6366f1, #8b5cf6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    font-weight: 700;
+    color: #fff;
+    flex-shrink: 0;
+    box-shadow: 0 4px 12px rgba(99,102,241,0.4);
+}
+.pe-patient-info {
+    flex: 1;
+    min-width: 0;
+}
+.pe-patient-name {
+    font-size: 16px;
+    font-weight: 700;
+    color: #f1f5f9;
+    letter-spacing: -0.2px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.pe-patient-id {
+    font-size: 11.5px;
+    color: #94a3b8;
+    margin-top: 2px;
+    font-weight: 500;
+    letter-spacing: 0.3px;
+}
+.pe-encounter-meta {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 6px;
+    flex-shrink: 0;
+}
+.pe-meta-badge {
+    font-size: 11px;
+    font-weight: 600;
+    padding: 4px 12px;
+    border-radius: 20px;
+    letter-spacing: 0.2px;
+}
+.pe-date-badge {
+    background: rgba(99,102,241,0.2);
+    color: #a5b4fc;
+    border: 1px solid rgba(99,102,241,0.3);
+}
+.pe-doc-badge {
+    background: rgba(16,185,129,0.15);
+    color: #6ee7b7;
+    border: 1px solid rgba(16,185,129,0.25);
+}
+
+/* ---- FORM SECTIONS — CARD STYLE ---- */
 .pe-modern .layout-main-section {
-    background: #f8faff !important;
+    background: #f0f4f8 !important;
     border-radius: 14px !important;
-    padding: 16px !important;
+    padding: 16px 20px !important;
+}
+
+.pe-modern .form-section {
+    margin-bottom: 14px !important;
 }
 
 .pe-modern .section-body {
-    background: #ffffff !important;
-    border-radius: 10px !important;
-    border: 1px solid #e5e7eb !important;
-    padding: 16px 20px !important;
-    margin-bottom: 12px !important;
-    box-shadow: 0 1px 4px rgba(0,0,0,0.04) !important;
+    background: #fff !important;
+    border-radius: 14px !important;
+    border: 1px solid #e2e8f0 !important;
+    padding: 20px 24px !important;
+    box-shadow: 0 2px 12px rgba(15,23,42,0.05) !important;
+    transition: box-shadow 0.2s ease;
+}
+.pe-modern .section-body:hover {
+    box-shadow: 0 4px 24px rgba(15,23,42,0.09) !important;
 }
 
-/* Section heading labels */
 .pe-modern .section-head {
-    font-size: 13px !important;
+    font-size: 10.5px !important;
     font-weight: 700 !important;
-    color: #4f46e5 !important;
+    color: #6366f1 !important;
     text-transform: uppercase !important;
-    letter-spacing: 0.05em !important;
+    letter-spacing: 1px !important;
     border-left: 3px solid #6366f1 !important;
-    padding-left: 8px !important;
-    margin-bottom: 12px !important;
+    padding: 0 0 0 10px !important;
+    margin-bottom: 16px !important;
+    background: none !important;
+    line-height: 1.4 !important;
+}
+.pe-modern .section-head .collapse-indicator {
+    color: #94a3b8 !important;
 }
 
-/* --- Field labels --- */
+/* ---- FIELD LABELS ---- */
 .pe-modern .control-label {
-    font-size: 11.5px !important;
-    font-weight: 600 !important;
-    color: #6b7280 !important;
+    font-size: 10.5px !important;
+    font-weight: 700 !important;
+    color: #64748b !important;
     text-transform: uppercase !important;
-    letter-spacing: 0.04em !important;
+    letter-spacing: 0.6px !important;
+    margin-bottom: 5px !important;
 }
 
-/* --- Input fields --- */
+/* ---- INPUTS ---- */
 .pe-modern .form-control,
 .pe-modern .input-with-feedback {
-    border-radius: 7px !important;
-    border-color: #d1d5db !important;
+    border: 1.5px solid #e2e8f0 !important;
+    border-radius: 10px !important;
+    background: #f8fafc !important;
+    color: #1e293b !important;
     font-size: 13.5px !important;
-    transition: border-color 0.15s !important;
+    padding: 8px 13px !important;
+    height: auto !important;
+    transition: all 0.18s ease !important;
+    box-shadow: none !important;
 }
 .pe-modern .form-control:focus,
 .pe-modern .input-with-feedback:focus {
     border-color: #6366f1 !important;
-    box-shadow: 0 0 0 3px rgba(99,102,241,0.12) !important;
+    background: #fff !important;
+    box-shadow: 0 0 0 3px rgba(99,102,241,0.14) !important;
+    outline: none !important;
 }
-
-/* --- Queue counter badge --- */
-.pe-modern .que-counter,
-.pe-modern input[data-fieldname="remain_token"] {
-    text-align: center !important;
-    font-size: 18px !important;
-    font-weight: 700 !important;
-    color: #4f46e5 !important;
-    background: #eef2ff !important;
-    border: 2px solid #c7d2fe !important;
+.pe-modern textarea.form-control {
+    border: 1.5px solid #e2e8f0 !important;
     border-radius: 10px !important;
+    background: #f8fafc !important;
+    resize: vertical;
+}
+.pe-modern textarea.form-control:focus {
+    border-color: #6366f1 !important;
+    background: #fff !important;
+    box-shadow: 0 0 0 3px rgba(99,102,241,0.14) !important;
 }
 
-/* --- Link fields (patient name in blue) --- */
+/* ---- TOKEN / QUEUE CARD (injected by JS) ---- */
+.pe-token-card {
+    background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+    border-radius: 14px;
+    padding: 18px 20px;
+    text-align: center;
+    box-shadow: 0 8px 24px rgba(79,70,229,0.35);
+    color: #fff;
+}
+.pe-token-num {
+    font-size: 2.4rem;
+    font-weight: 800;
+    letter-spacing: -1px;
+    line-height: 1;
+}
+.pe-token-sublabel {
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    opacity: 0.75;
+    margin-top: 4px;
+}
+.pe-token-remain {
+    margin-top: 10px;
+    display: inline-block;
+    background: rgba(255,255,255,0.15);
+    border-radius: 20px;
+    padding: 3px 14px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+/* ---- CHILD TABLE GRIDS ---- */
+.pe-modern .grid-wrapper {
+    border-radius: 12px !important;
+    overflow: hidden !important;
+    border: 1px solid #e2e8f0 !important;
+    box-shadow: none !important;
+}
+.pe-modern .grid-wrapper .grid-heading-row .grid-col-heading {
+    background: #f1f5f9 !important;
+    color: #475569 !important;
+    font-size: 10px !important;
+    font-weight: 700 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px !important;
+    padding: 10px 8px !important;
+}
+.pe-modern .grid-wrapper .rows .grid-row:nth-child(even) {
+    background: #fafbfe !important;
+}
+.pe-modern .grid-wrapper .rows .grid-row:hover {
+    background: #eef2ff !important;
+}
+.pe-modern .grid-footer .btn-add-row {
+    border-radius: 8px !important;
+    border: 1.5px dashed #6366f1 !important;
+    color: #6366f1 !important;
+    background: transparent !important;
+    font-weight: 600 !important;
+    font-size: 12px !important;
+    margin: 8px 0 !important;
+}
+.pe-modern .grid-footer .btn-add-row:hover {
+    background: rgba(99,102,241,0.06) !important;
+}
+
+/* ---- LINK VALUES ---- */
 .pe-modern .control-value a {
-    color: #4f46e5 !important;
+    color: #6366f1 !important;
     font-weight: 600 !important;
 }
 
-/* --- Page head title --- */
-.pe-modern .title-text {
-    font-weight: 700 !important;
-    font-size: 17px !important;
-    color: #1e1b4b !important;
+/* ---- MANDATORY INDICATOR ---- */
+.pe-modern .reqd .control-label::after {
+    color: #ef4444 !important;
 }
 
-/* --- Mandatory star color --- */
-.pe-modern .reqd .control-label:after {
-    color: #ef4444 !important;
+/* ---- SIDEBAR (if visible) ---- */
+.pe-modern .layout-side-section {
+    background: #fff !important;
+    border-radius: 14px !important;
+    border: 1px solid #e2e8f0 !important;
+    box-shadow: 0 2px 12px rgba(15,23,42,0.05) !important;
+}
+
+/* ---- FRAPPE DIALOG MODERN ---- */
+.pe-modern ~ .modal-backdrop { opacity: 0.6 !important; }
+.pe-modern ~ * .modal-content,
+.modal-content {
+    border-radius: 16px !important;
+    overflow: hidden;
+    border: none !important;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.25) !important;
+}
+.modal-header {
+    background: linear-gradient(135deg, #1e293b 0%, #1e1b4b 100%) !important;
+    border-bottom: 1px solid rgba(99,102,241,0.2) !important;
+    padding: 16px 22px !important;
+}
+.modal-header .modal-title {
+    color: #f1f5f9 !important;
+    font-weight: 700 !important;
+    font-size: 15px !important;
+}
+.modal-header .close {
+    color: #94a3b8 !important;
+    opacity: 1 !important;
+}
+.modal-footer {
+    border-top: 1px solid #e2e8f0 !important;
+    padding: 12px 22px !important;
+}
+.modal-footer .btn-primary {
+    background: linear-gradient(135deg, #6366f1, #8b5cf6) !important;
+    border: none !important;
+    border-radius: 8px !important;
+    font-weight: 600 !important;
+    padding: 7px 20px !important;
+}
+.modal-footer .btn-default {
+    border-radius: 8px !important;
+    font-weight: 500 !important;
 }
