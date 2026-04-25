@@ -16,3 +16,4 @@ jobs:
             https://api.github.com/repos/AyoubDahir/argocd/dispatches \
             -d "{\"event_type\":\"prime-updated\",\"client_payload\":{\"sha\":\"${{ github.sha }}\"}}"
           echo "Dispatched prime-updated event (sha: ${{ github.sha }})"
+# auto-deploy enabled
