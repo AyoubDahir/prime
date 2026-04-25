@@ -15,7 +15,7 @@ var PE_TAB_ICONS = {
 
 function pe_inject_tab_icons(wrapper) {
     setTimeout(function() {
-        wrapper.find('.form-tabs-list .nav-link').each(function() {
+        wrapper.find('.form-tabs-list .nav-link, .form-tabs .nav-link').each(function() {
             var $el = $(this);
             var text = $el.text().trim();
             var icon = PE_TAB_ICONS[text];
@@ -24,7 +24,7 @@ function pe_inject_tab_icons(wrapper) {
                 $el.data('pe-icon', true);
             }
         });
-        var active = wrapper[0].querySelector('.form-tabs-list .nav-link.active');
+        var active = wrapper[0].querySelector('.form-tabs-list .nav-link.active, .form-tabs .nav-link.active');
         if (active) { active.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' }); }
     }, 280);
 }
@@ -49,13 +49,23 @@ function pe_inject_patient_card(frm) {
             docBadge +
         '</div>' +
     '</div>';
-    frm.wrapper.find('.form-tabs-list').before(html);
+    var $tabs = frm.wrapper.find('.form-tabs-list, .form-tabs');
+    if ($tabs.length) { $tabs.first().before(html); }
+}
+
+function pe_get_page(frm) {
+    // frm.wrapper is only the form content; we need the full page (includes page-head + tabs)
+    return $(frm.wrapper).closest('.page-wrapper, .layout-main-section-wrapper').parent()
+        .closest('[class*="page"]').length
+        ? $(frm.wrapper).closest('.page-wrapper, .layout-main-section-wrapper').parent().closest('[class*="page"]')
+        : $(frm.wrapper).closest('.page-wrapper') || frm.page.wrapper;
 }
 
 frappe.ui.form.on('Patient Encounter', {
     refresh: function(frm) {
-        frm.wrapper.addClass('pe-modern');
-        pe_inject_tab_icons(frm.wrapper);
+        var $page = frm.page.wrapper;
+        $page.addClass('pe-modern');
+        pe_inject_tab_icons($page);
         pe_inject_patient_card(frm);
     },
     after_save: function(frm){
@@ -308,9 +318,9 @@ d.show();
       
     },
 	refresh(frm) {
-        // Modern UI
-        frm.wrapper.addClass('pe-modern');
-        pe_inject_tab_icons(frm.wrapper);
+        // Modern UI — frm.page.wrapper covers full page (page-head + tabs + body)
+        frm.page.wrapper.addClass('pe-modern');
+        pe_inject_tab_icons(frm.page.wrapper);
         pe_inject_patient_card(frm);
 
         if(frm.doc.patient){
