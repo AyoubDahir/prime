@@ -791,3 +791,300 @@ body.st-launchpad-visible .st-lp-footer {
 .pe-modern .frappe-control .form-control {
     transition: border-color 0.18s ease, box-shadow 0.18s ease, background 0.18s ease !important;
 }
+
+/* ============================================================
+   SALES INVOICE — Modern Redesign
+   Scoped to .si-modern (added by sales_invoice.js on refresh)
+   ============================================================ */
+
+/* ---- PAGE HEAD ---- */
+.si-modern .page-head {
+    background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%) !important;
+    border-bottom: 1px solid rgba(99,102,241,0.25) !important;
+    padding: 12px 24px !important;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.25) !important;
+}
+.si-modern .title-text {
+    color: #f1f5f9 !important;
+    font-weight: 700 !important;
+    font-size: 17px !important;
+    letter-spacing: -0.3px;
+}
+.si-modern .indicator-pill {
+    background: rgba(99,102,241,0.25) !important;
+    color: #a5b4fc !important;
+    border: 1px solid rgba(99,102,241,0.35) !important;
+    border-radius: 20px !important;
+    padding: 2px 10px !important;
+    font-size: 10px !important;
+    font-weight: 600;
+}
+.si-modern .primary-action {
+    background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%) !important;
+    border: none !important;
+    border-radius: 10px !important;
+    padding: 7px 20px !important;
+    font-weight: 600 !important;
+    color: #fff !important;
+    box-shadow: 0 4px 14px rgba(99,102,241,0.45) !important;
+    transition: all 0.2s ease !important;
+}
+.si-modern .primary-action:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 22px rgba(99,102,241,0.6) !important;
+}
+.si-modern .page-head .btn-default {
+    background: rgba(255,255,255,0.06) !important;
+    border: 1px solid rgba(255,255,255,0.12) !important;
+    color: #e2e8f0 !important;
+    border-radius: 8px !important;
+    font-size: 12.5px !important;
+    transition: all 0.18s ease;
+}
+.si-modern .page-head .btn-default:hover {
+    background: rgba(255,255,255,0.12) !important;
+    color: #fff !important;
+}
+
+/* ---- LAYOUT — force 2-column (override ERPNext 3-col col-sm-4) ---- */
+.si-modern .form-column.col-sm-4 {
+    width: 50% !important;
+    flex: 0 0 50% !important;
+    max-width: 50% !important;
+}
+/* Keep full-width and wide columns as-is */
+.si-modern .form-column.col-sm-12 {
+    width: 100% !important;
+    flex: 0 0 100% !important;
+    max-width: 100% !important;
+}
+.si-modern .form-column.col-sm-8 {
+    width: 66.66% !important;
+    flex: 0 0 66.66% !important;
+    max-width: 66.66% !important;
+}
+
+/* Column separator between the two columns */
+.si-modern .section-body .form-column.col-sm-4:nth-child(odd),
+.si-modern .section-body .form-column.col-sm-6:first-child {
+    border-right: 1px solid #e8edf5 !important;
+    padding-right: 28px !important;
+}
+.si-modern .section-body .form-column.col-sm-4:nth-child(even),
+.si-modern .section-body .form-column.col-sm-6:last-child {
+    padding-left: 28px !important;
+}
+
+/* ---- FORM BODY BACKGROUND ---- */
+.si-modern .layout-main-section-wrapper {
+    background: #f0f4f8 !important;
+    padding: 0 !important;
+}
+.si-modern .layout-main-section {
+    background: #f0f4f8 !important;
+    border-radius: 14px !important;
+    padding: 16px 20px !important;
+}
+.si-modern .layout-main {
+    padding: 18px 20px !important;
+}
+
+/* ---- SECTION CARDS ---- */
+.si-modern .form-section {
+    margin-bottom: 14px !important;
+}
+.si-modern .section-body {
+    background: #fff !important;
+    border-radius: 14px !important;
+    border: 1px solid #e2e8f0 !important;
+    padding: 20px 24px !important;
+    box-shadow: 0 2px 12px rgba(15,23,42,0.05) !important;
+    transition: box-shadow 0.2s ease;
+}
+.si-modern .section-body:hover {
+    box-shadow: 0 4px 24px rgba(15,23,42,0.09) !important;
+}
+.si-modern .section-head {
+    font-size: 10.5px !important;
+    font-weight: 700 !important;
+    color: #6366f1 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 1px !important;
+    border-left: 3px solid #6366f1 !important;
+    padding: 0 0 0 10px !important;
+    margin-bottom: 16px !important;
+    background: none !important;
+    line-height: 1.4 !important;
+}
+
+/* ---- FIELD LABELS ---- */
+.si-modern .control-label {
+    font-size: 10.5px !important;
+    font-weight: 700 !important;
+    color: #64748b !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.6px !important;
+    margin-bottom: 5px !important;
+}
+
+/* ---- INPUTS ---- */
+.si-modern .form-control,
+.si-modern .input-with-feedback {
+    border: 1.5px solid #e2e8f0 !important;
+    border-radius: 10px !important;
+    background: #f8fafc !important;
+    color: #1e293b !important;
+    font-size: 13.5px !important;
+    padding: 8px 13px !important;
+    height: auto !important;
+    transition: all 0.18s ease !important;
+    box-shadow: none !important;
+}
+.si-modern .form-control:focus,
+.si-modern .input-with-feedback:focus {
+    border-color: #6366f1 !important;
+    background: #fff !important;
+    box-shadow: 0 0 0 3px rgba(99,102,241,0.14) !important;
+    outline: none !important;
+}
+.si-modern .frappe-control[data-fieldtype="Data"] .form-control {
+    height: 40px !important;
+    line-height: 40px !important;
+    padding: 0 13px !important;
+}
+.si-modern select.form-control {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%2394a3b8' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E") !important;
+    background-repeat: no-repeat !important;
+    background-position: right 12px center !important;
+    padding-right: 32px !important;
+    appearance: none !important;
+    -webkit-appearance: none !important;
+}
+.si-modern textarea.form-control {
+    border-radius: 10px !important;
+    resize: vertical;
+}
+
+/* ---- CHECKBOXES ---- */
+.si-modern .input-with-feedback[type="checkbox"],
+.si-modern input[type="checkbox"] {
+    width: 16px !important;
+    height: 16px !important;
+    border-radius: 4px !important;
+    accent-color: #6366f1;
+}
+.si-modern .frappe-control[data-fieldtype="Check"] label {
+    font-size: 13px !important;
+    color: #374151 !important;
+    font-weight: 500 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    cursor: pointer !important;
+}
+
+/* ---- FORM GROUP SPACING ---- */
+.si-modern .form-group {
+    margin-bottom: 18px !important;
+}
+
+/* ---- LINK FIELDS ---- */
+.si-modern .link-btn {
+    color: #94a3b8 !important;
+    opacity: 0.6 !important;
+    transition: opacity 0.15s;
+}
+.si-modern .link-btn:hover { opacity: 1 !important; }
+.si-modern .control-value a {
+    color: #6366f1 !important;
+    font-weight: 600 !important;
+}
+
+/* ---- ITEMS GRID (main table) ---- */
+.si-modern .grid-wrapper {
+    border-radius: 12px !important;
+    overflow: hidden !important;
+    border: 1px solid #e2e8f0 !important;
+    box-shadow: none !important;
+}
+.si-modern .grid-wrapper .grid-heading-row .grid-col-heading {
+    background: #f1f5f9 !important;
+    color: #475569 !important;
+    font-size: 10px !important;
+    font-weight: 700 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px !important;
+    padding: 10px 8px !important;
+}
+.si-modern .grid-wrapper .rows .grid-row:nth-child(even) {
+    background: #fafbfe !important;
+}
+.si-modern .grid-wrapper .rows .grid-row:hover {
+    background: #eef2ff !important;
+}
+.si-modern .grid-footer .btn-add-row {
+    border-radius: 8px !important;
+    border: 1.5px dashed #6366f1 !important;
+    color: #6366f1 !important;
+    background: transparent !important;
+    font-weight: 600 !important;
+    font-size: 12px !important;
+    margin: 8px 0 !important;
+}
+.si-modern .grid-footer .btn-add-row:hover {
+    background: rgba(99,102,241,0.06) !important;
+}
+
+/* ---- PAYMENTS TABLE (inline, below is_pos) ---- */
+.si-modern .payments-section,
+.si-modern [data-fieldname="payments"] .grid-wrapper {
+    border-radius: 12px !important;
+    border: 1px solid #e2e8f0 !important;
+    overflow: hidden;
+}
+.si-modern [data-fieldname="payments"] .grid-heading-row .grid-col-heading {
+    background: linear-gradient(135deg, #f1f5f9, #e8edf5) !important;
+    color: #475569 !important;
+    font-size: 10px !important;
+    font-weight: 700 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px !important;
+}
+
+/* ---- MANDATORY INDICATOR ---- */
+.si-modern .reqd .control-label::after {
+    color: #ef4444 !important;
+}
+
+/* ---- SIDEBAR ---- */
+.si-modern .layout-side-section {
+    background: #fff !important;
+    border-radius: 14px !important;
+    border: 1px solid #e2e8f0 !important;
+    box-shadow: 0 2px 12px rgba(15,23,42,0.05) !important;
+}
+
+/* ---- FORM FOOTER ---- */
+.si-modern .form-footer {
+    background: #fff !important;
+    border-top: 1px solid #e2e8f0 !important;
+    box-shadow: 0 -2px 12px rgba(15,23,42,0.06) !important;
+}
+
+/* ---- WORKFLOW BADGE ---- */
+.si-modern .form-workflow-state {
+    border-radius: 20px !important;
+    font-size: 11px !important;
+    font-weight: 600 !important;
+    padding: 3px 12px !important;
+}
+
+/* ---- FOCUS TRANSITION ---- */
+.si-modern .frappe-control .form-control {
+    transition: border-color 0.18s ease, box-shadow 0.18s ease, background 0.18s ease !important;
+}
+
+/* ---- COLLAPSED SECTION ---- */
+.si-modern .section-body.collapsed-section {
+    padding: 12px 24px !important;
+}

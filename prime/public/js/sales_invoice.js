@@ -27,6 +27,7 @@ function setup_inline_payments(frm) {
 
 frappe.ui.form.on('Sales Invoice', {
   refresh(frm) {
+		frm.page.wrapper.addClass('si-modern');
 		setup_inline_payments(frm);
 		fix_primary_btn_color(frm);
 
