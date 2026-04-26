@@ -9,12 +9,17 @@ function fix_primary_btn_color(frm) {
 
 function merge_si_sections(frm) {
 	setTimeout(function() {
-		$(frm.wrapper).find('.section-head').each(function() {
-			var t = $(this).text().trim().toUpperCase();
-			if (t === 'TOTALS')               $(this).closest('.form-section').addClass('si-merge-top');
-			if (t === 'ADDITIONAL DISCOUNT')  $(this).closest('.form-section').addClass('si-merge-bottom');
+		var $sections = $(frm.wrapper).find('.form-section');
+		var totals_idx = -1;
+		$sections.each(function(i) {
+			var t = $(this).find('.section-head').first().text().trim().toUpperCase();
+			if (t.indexOf('TOTAL') !== -1) { totals_idx = i; }
 		});
-	}, 350);
+		if (totals_idx >= 0 && totals_idx + 1 < $sections.length) {
+			$sections.eq(totals_idx).addClass('si-merge-top');
+			$sections.eq(totals_idx + 1).addClass('si-merge-bottom');
+		}
+	}, 700);
 }
 
 function reorder_si_fields(frm) {
