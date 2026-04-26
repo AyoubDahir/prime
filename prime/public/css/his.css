@@ -897,6 +897,31 @@ body.st-launchpad-visible .st-lp-footer {
     line-height: 1.4 !important;
 }
 
+/* ---- MERGED SECTIONS (Totals + Additional Discount stitched as one card) ---- */
+.si-modern .si-merge-top {
+    margin-bottom: 0 !important;
+}
+.si-modern .si-merge-top .section-body {
+    border-bottom-left-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
+    border-bottom: none !important;
+    box-shadow: 0 2px 12px rgba(15,23,42,0.05) !important;
+    padding-bottom: 16px !important;
+}
+.si-modern .si-merge-bottom {
+    margin-top: 0 !important;
+}
+.si-modern .si-merge-bottom .section-body {
+    border-top-left-radius: 0 !important;
+    border-top-right-radius: 0 !important;
+    border-top: 1px dashed #e2e8f0 !important;
+    box-shadow: 0 4px 12px rgba(15,23,42,0.05) !important;
+    padding-top: 16px !important;
+}
+.si-modern .si-merge-bottom .section-head {
+    display: none !important;
+}
+
 /* ---- FIELD LABELS ---- */
 .si-modern .control-label {
     font-size: 10.5px !important;

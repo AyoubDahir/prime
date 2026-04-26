@@ -7,6 +7,16 @@ function fix_primary_btn_color(frm) {
 	}, 500);
 }
 
+function merge_si_sections(frm) {
+	setTimeout(function() {
+		$(frm.wrapper).find('.section-head').each(function() {
+			var t = $(this).text().trim().toUpperCase();
+			if (t === 'TOTALS')               $(this).closest('.form-section').addClass('si-merge-top');
+			if (t === 'ADDITIONAL DISCOUNT')  $(this).closest('.form-section').addClass('si-merge-bottom');
+		});
+	}, 350);
+}
+
 function reorder_si_fields(frm) {
 	var fd = frm.fields_dict;
 	var $posting_time = fd.posting_time    && fd.posting_time.$wrapper;
@@ -66,6 +76,7 @@ frappe.ui.form.on('Sales Invoice', {
   refresh(frm) {
 		frm.page.wrapper.addClass('si-modern');
 		reorder_si_fields(frm);
+		merge_si_sections(frm);
 		hide_irrelevant_si_buttons(frm);
 		update_si_visibility(frm);
 		setup_inline_payments(frm);
