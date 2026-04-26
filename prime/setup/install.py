@@ -630,17 +630,17 @@ def create_stores():
             warehouse.insert()
             print("Done")
             frappe.db.commit()
-def create_doctor_type(): 
+def create_doctor_type():
     print("Creating Doctor Types ")
-    for i in ['GP' , 'Specialist']:
+    for i in ['Doctor', 'GP', 'Specialist']:
         if not frappe.db.exists("Doctor Type" ,i):
             do_type = frappe.get_doc({
                 "doctype" :  "Doctor Type",
                 "do_type": i,
-                
+
             })
             do_type.insert()
-            frappe.db.commit() 
+            frappe.db.commit()
             print("Done ")
 def roles_creations():
     for i in ["Tafaariiq"]:
@@ -672,9 +672,19 @@ def after_migrate():
     cleanup_problematic_property_setters()
     fix_source_order_field()
     enable_sales_invoice_workflow()
+    ensure_doctor_types()
     create_mobile_pos_profile()
     ensure_is_dispensed_field()
     ensure_pharmacy_dispense_page()
+
+
+def ensure_doctor_types():
+    """Ensure Doctor, GP, Specialist Doctor Type records always exist."""
+    for name in ("Doctor", "GP", "Specialist"):
+        if frappe.db.exists("Doctor Type", name):
+            continue
+        frappe.get_doc({"doctype": "Doctor Type", "do_type": name}).insert(ignore_permissions=True)
+    frappe.db.commit()
 
 
 def ensure_is_dispensed_field():
