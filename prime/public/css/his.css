@@ -1089,6 +1089,20 @@ body.st-launchpad-visible .st-lp-footer {
     transition: border-color 0.18s ease, box-shadow 0.18s ease, background 0.18s ease !important;
 }
 
+/* ---- SAMPLE COLLECTION — reference fields 3-column grid ---- */
+.si-modern .sc-full-col {
+    flex: 0 0 100% !important;
+    max-width: 100% !important;
+    width: 100% !important;
+}
+
+.si-modern .sc-ref-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 0 20px;
+    width: 100%;
+}
+
 /* ---- COLLAPSED SECTION ---- */
 .si-modern .section-body.collapsed-section {
     padding: 12px 24px !important;
