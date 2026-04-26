@@ -9,14 +9,18 @@ function fix_primary_btn_color(frm) {
 
 function reorder_si_fields(frm) {
 	var fd = frm.fields_dict;
-	var $posting_time = fd.posting_time && fd.posting_time.$wrapper;
-	var $employee     = fd.employee     && fd.employee.$wrapper;
-	var $debtor       = fd.debtor       && fd.debtor.$wrapper;
+	var $posting_time = fd.posting_time    && fd.posting_time.$wrapper;
+	var $employee     = fd.employee        && fd.employee.$wrapper;
+	var $debtor       = fd.debtor          && fd.debtor.$wrapper;
+	var $service_unit = fd.service_unit    && fd.service_unit.$wrapper;
 	if (!$posting_time || !$posting_time.length) return;
 	if ($employee && $employee.length) $posting_time.after($employee);
 	if ($debtor && $debtor.length) {
 		var $anchor = ($employee && $employee.length) ? $employee : $posting_time;
 		$anchor.after($debtor);
+	}
+	if ($service_unit && $service_unit.length && $debtor && $debtor.length) {
+		$debtor.after($service_unit);
 	}
 }
 
