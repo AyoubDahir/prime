@@ -42,7 +42,8 @@ app_include_js = ["/assets/prime/js/his.js", "/assets/prime/js/route_guard.js"]
 
 # include js in doctype views
 doctype_js = {
-    "Sales Invoice" : "public/js/sales_invoice.js" , 
+    "Sales Invoice" : "public/js/sales_invoice.js" ,
+    "Sales Order"   : "public/js/sales_order.js" ,
     "Patient" : "public/js/patient.js" ,  
     "Patient Appointment" : "public/js/patient_encounter.js" , 
     "Patient Encounter" : "public/js/encounter_steps.js",
