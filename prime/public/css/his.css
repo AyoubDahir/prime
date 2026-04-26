@@ -846,33 +846,13 @@ body.st-launchpad-visible .st-lp-footer {
     color: #fff !important;
 }
 
-/* ---- LAYOUT — force 2-column (override ERPNext 3-col col-sm-4) ---- */
-.si-modern .form-column.col-sm-4 {
-    width: 50% !important;
-    flex: 0 0 50% !important;
-    max-width: 50% !important;
+/* ---- LAYOUT — even column padding & separators ---- */
+.si-modern .section-body .form-column {
+    padding-left: 20px !important;
+    padding-right: 20px !important;
 }
-/* Keep full-width and wide columns as-is */
-.si-modern .form-column.col-sm-12 {
-    width: 100% !important;
-    flex: 0 0 100% !important;
-    max-width: 100% !important;
-}
-.si-modern .form-column.col-sm-8 {
-    width: 66.66% !important;
-    flex: 0 0 66.66% !important;
-    max-width: 66.66% !important;
-}
-
-/* Column separator between the two columns */
-.si-modern .section-body .form-column.col-sm-4:nth-child(odd),
-.si-modern .section-body .form-column.col-sm-6:first-child {
+.si-modern .section-body .form-column:not(:last-child) {
     border-right: 1px solid #e8edf5 !important;
-    padding-right: 28px !important;
-}
-.si-modern .section-body .form-column.col-sm-4:nth-child(even),
-.si-modern .section-body .form-column.col-sm-6:last-child {
-    padding-left: 28px !important;
 }
 
 /* ---- FORM BODY BACKGROUND ---- */

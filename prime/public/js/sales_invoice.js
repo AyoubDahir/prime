@@ -7,6 +7,19 @@ function fix_primary_btn_color(frm) {
 	}, 500);
 }
 
+function reorder_si_fields(frm) {
+	var fd = frm.fields_dict;
+	var $posting_time = fd.posting_time && fd.posting_time.$wrapper;
+	var $employee     = fd.employee     && fd.employee.$wrapper;
+	var $debtor       = fd.debtor       && fd.debtor.$wrapper;
+	if (!$posting_time || !$posting_time.length) return;
+	if ($employee && $employee.length) $posting_time.after($employee);
+	if ($debtor && $debtor.length) {
+		var $anchor = ($employee && $employee.length) ? $employee : $posting_time;
+		$anchor.after($debtor);
+	}
+}
+
 function setup_inline_payments(frm) {
 	var payments_field = frm.fields_dict.payments;
 	var is_pos_field = frm.fields_dict.is_pos;
@@ -28,6 +41,7 @@ function setup_inline_payments(frm) {
 frappe.ui.form.on('Sales Invoice', {
   refresh(frm) {
 		frm.page.wrapper.addClass('si-modern');
+		reorder_si_fields(frm);
 		setup_inline_payments(frm);
 		fix_primary_btn_color(frm);
 
