@@ -801,7 +801,9 @@ def create_mobile_pos_profile():
         if company:
             warehouse = frappe.db.get_single_value('Stock Settings', 'default_warehouse')
             price_list = frappe.db.get_value("Price List", {"selling": 1}, "name")
-            
+            write_off_account = frappe.db.get_value("Company", company, "write_off_account")
+            write_off_cost_center = frappe.db.get_value("Company", company, "round_off_cost_center")
+
             mobile_pos = frappe.get_doc({
                 "doctype": "POS Profile",
                 "name": "Mobile",
@@ -809,6 +811,8 @@ def create_mobile_pos_profile():
                 "warehouse": warehouse,
                 "selling_price_list": price_list,
                 "currency": frappe.db.get_value("Company", company, "default_currency") or "USD",
+                "write_off_account": write_off_account,
+                "write_off_cost_center": write_off_cost_center,
                 "payments": [{
                     "mode_of_payment": "Waafi",
                     "default": 1
