@@ -24,6 +24,26 @@ function reorder_si_fields(frm) {
 	}
 }
 
+function hide_irrelevant_si_buttons(frm) {
+	setTimeout(function() {
+		// Hide Fetch Timesheet standalone button
+		frm.page.inner_toolbar.find('button').filter(function() {
+			return $(this).text().trim() === 'Fetch Timesheet';
+		}).hide();
+		// Hide Get Items From button group (has a dropdown caret)
+		frm.page.inner_toolbar.find('.btn-group, .custom-btn-group').filter(function() {
+			return $(this).text().indexOf('Get Items From') !== -1;
+		}).hide();
+	}, 400);
+}
+
+function update_si_visibility(frm) {
+	// Urgent is never relevant on a billing form
+	frm.toggle_display('urgent', false);
+	// Ref Patient only matters when billing to insurance
+	frm.toggle_display('ref_patient', !!frm.doc.is_insurance);
+}
+
 function setup_inline_payments(frm) {
 	var payments_field = frm.fields_dict.payments;
 	var is_pos_field = frm.fields_dict.is_pos;
@@ -46,6 +66,8 @@ frappe.ui.form.on('Sales Invoice', {
   refresh(frm) {
 		frm.page.wrapper.addClass('si-modern');
 		reorder_si_fields(frm);
+		hide_irrelevant_si_buttons(frm);
+		update_si_visibility(frm);
 		setup_inline_payments(frm);
 		fix_primary_btn_color(frm);
 
@@ -60,6 +82,9 @@ frappe.ui.form.on('Sales Invoice', {
 	},
   is_pos(frm) {
 		setup_inline_payments(frm);
+	},
+  is_insurance(frm) {
+		update_si_visibility(frm);
 	},
     on_submit: function(frm) {
        
