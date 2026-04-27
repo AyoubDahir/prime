@@ -717,3 +717,93 @@ def get_practitioner_encounters_for_mobile(practitioner=None, limit=50):
         order_by="encounter_date desc, modified desc",
         limit_page_length=limit,
     )
+
+
+# Text fields allowed for mobile encounter edit (must exist on Patient Encounter meta).
+_MOBILE_ENCOUNTER_WRITABLE = frozenset(
+    {
+        "chief_complaint",
+        "history_of_present_illness",
+        "past_medical_history",
+        "drug_history",
+        "social_history",
+        "family_history",
+        "physical_examinations",
+        "general_examination",
+        "systemic_examination",
+        "abdominal_examination",
+        "musculoskeletal_examination_",
+        "neurological_examination",
+        "physical_examinationzzzzzzzzzzzs",
+        "social_history_aaa",
+    }
+)
+
+
+def _assert_encounter_owned_by_practitioner(encounter, practitioner):
+    if not encounter or not practitioner:
+        frappe.throw("encounter and practitioner are required")
+    if not frappe.db.exists("Patient Encounter", encounter):
+        frappe.throw("Encounter not found")
+    owner = frappe.db.get_value("Patient Encounter", encounter, "practitioner")
+    if not owner or owner != practitioner:
+        frappe.throw("Encounter not found")
+
+
+def _normalize_notes_payload(notes):
+    if notes is None:
+        return {}
+    if isinstance(notes, str):
+        try:
+            notes = frappe.parse_json(notes)
+        except Exception:
+            return {}
+    if not isinstance(notes, dict):
+        return {}
+    return notes
+
+
+@frappe.whitelist()
+def get_patient_encounter_for_mobile(encounter=None, practitioner=None):
+    """Return one Patient Encounter header + whitelisted text fields for mobile (read)."""
+    _assert_encounter_owned_by_practitioner(encounter, practitioner)
+    doc = frappe.get_doc("Patient Encounter", encounter)
+    meta = frappe.get_meta("Patient Encounter")
+    notes = {}
+    for fn in sorted(_MOBILE_ENCOUNTER_WRITABLE):
+        if not meta.has_field(fn):
+            continue
+        v = doc.get(fn)
+        notes[fn] = v if v is not None else ""
+    return {
+        "name": doc.name,
+        "patient": doc.patient,
+        "patient_name": doc.get("patient_name") or "",
+        "encounter_date": str(doc.encounter_date) if doc.get("encounter_date") else None,
+        "docstatus": doc.docstatus,
+        "practitioner": doc.practitioner,
+        "practitioner_name": doc.get("practitioner_name") or "",
+        "notes": notes,
+    }
+
+
+@frappe.whitelist()
+def save_patient_encounter_for_mobile(encounter=None, practitioner=None, notes=None):
+    """Update whitelisted text fields on a draft Patient Encounter (mobile doctor)."""
+    _assert_encounter_owned_by_practitioner(encounter, practitioner)
+    doc = frappe.get_doc("Patient Encounter", encounter)
+    if doc.docstatus != 0:
+        frappe.throw("Only draft encounters can be edited from the mobile app.")
+
+    meta = frappe.get_meta("Patient Encounter")
+    payload = _normalize_notes_payload(notes)
+    for k, v in payload.items():
+        if k not in _MOBILE_ENCOUNTER_WRITABLE:
+            continue
+        if not meta.has_field(k):
+            continue
+        doc.set(k, v if v is not None else "")
+
+    doc.flags.ignore_permissions = True
+    doc.save()
+    return get_patient_encounter_for_mobile(encounter=encounter, practitioner=practitioner)
