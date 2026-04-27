@@ -629,3 +629,91 @@ def get_lab_reports_for_mobile(patient, limit=50):
         )
 
     return response
+
+
+@frappe.whitelist()
+def find_practitioner_by_mobile(mobile=None):
+    """Resolve Healthcare Practitioner by mobile_phone (same normalization as patient mobile)."""
+    mobile = _normalize_mobile(mobile)
+    if not mobile:
+        return None
+    candidates = _mobile_candidates(mobile)
+    if not candidates:
+        return None
+    rows = frappe.get_all(
+        "Healthcare Practitioner",
+        filters={"mobile_phone": ["in", candidates]},
+        fields=["name", "practitioner_name", "department", "status"],
+        limit_page_length=1,
+    )
+    if not rows:
+        return None
+    r = rows[0]
+    return {
+        "id": r["name"],
+        "name": r.get("practitioner_name") or r["name"],
+        "department": r.get("department"),
+        "status": r.get("status"),
+    }
+
+
+@frappe.whitelist()
+def get_practitioner_queues_for_mobile(practitioner=None, queue_date=None, limit=100):
+    """Today's (or given date) Que rows for a practitioner — mobile doctor dashboard."""
+    if not practitioner:
+        frappe.throw("practitioner is required")
+    if not frappe.db.exists("Healthcare Practitioner", practitioner):
+        frappe.throw(f"Practitioner not found: {practitioner}")
+    try:
+        limit = int(limit)
+    except Exception:
+        limit = 100
+    if limit <= 0:
+        limit = 100
+    qdate = queue_date or frappe.utils.today()
+    rows = frappe.get_all(
+        "Que",
+        filters={"practitioner": practitioner, "date": qdate},
+        fields=[
+            "name",
+            "patient",
+            "patient_name",
+            "date",
+            "time",
+            "status",
+            "department",
+            "token_no",
+        ],
+        order_by="time asc, creation asc",
+        limit_page_length=limit,
+    )
+    return rows
+
+
+@frappe.whitelist()
+def get_practitioner_encounters_for_mobile(practitioner=None, limit=50):
+    """Recent Patient Encounters for a practitioner (mobile doctor workflow)."""
+    if not practitioner:
+        frappe.throw("practitioner is required")
+    if not frappe.db.exists("Healthcare Practitioner", practitioner):
+        frappe.throw(f"Practitioner not found: {practitioner}")
+    try:
+        limit = int(limit)
+    except Exception:
+        limit = 50
+    if limit <= 0:
+        limit = 50
+    return frappe.get_all(
+        "Patient Encounter",
+        filters={"practitioner": practitioner, "docstatus": ["!=", 2]},
+        fields=[
+            "name",
+            "patient",
+            "patient_name",
+            "encounter_date",
+            "practitioner_name",
+            "docstatus",
+        ],
+        order_by="encounter_date desc, modified desc",
+        limit_page_length=limit,
+    )
